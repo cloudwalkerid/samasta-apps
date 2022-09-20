@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SAMASTA - Desa Mandiri Statistik</title>
+  <link rel="icon" href="assets/images/icon/logosamasta_01_OdJ_2.ico">
+
+  <!-- Bootstrap core CSS -->
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="node_modules/@coreui/coreui/dist/css/coreui.min.css" rel="stylesheet">
+  <!-- Icons-->
+  <link href="node_modules/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+  <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="node_modules/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="assets/css/samasta.css" rel="stylesheet">
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script>require('popper.js');</script>
+  <script>require('bootstrap');</script>
+
+  <script src="assets/js/sammy.min.js" type="text/javascript"></script>
+  <script src="assets/js/sammy.template.js" type="text/javascript"></script>
+  <script src="app.js"></script>
+  <script src="node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
+  <script src="assets/js/database.js"> // konfigurasi database </script>
+  <script src="assets/js/fcLogin.js"> // fungsi untuk login </script>
+  <script src="assets/js/function.js"></script>
+  <script src="assets/js/validasi_samasta1.js"></script>
+  <script src="assets/js/validasi_samasta2.js"></script>
+  <script src="assets/js/validasi_samasta3.js"></script>
+  <script>require('datatables.net-bs4')();</script>
+  <script>
+    const prompt = require('electron-prompt');
+    const { dialog } = require('electron');
+    //const { dialog } = require("electron").remote;
+    //const remote = require('electron').remote;
+    //const app = remote.app;
+  </script>
+  <script>
+    getLoginData();
+    var error_samasta1;
+    var error_samasta2;
+    var error_samasta3;
+  </script>
+
+  <link href="chosen/chosen.css" rel="stylesheet" />
+  <script src="chosen/chosen.jquery.js"></script>
+  <script src="assets/js/jquery.dataTables.min.js"></script>
+  <script src="assets/js/dataTables.bootstrap4.min.js"></script>
+  <link href="assets/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body
+  class="d-flex flex-column h-100 app header-fixed aside-menu-fixed pace-done sidebar-minimized brand-minimized sidebar-lg-show">
+  <header class="app-header navbar" id="appHeader">
+    <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">
+      <img class="navbar-brand-full" src="assets/images/logosamastatext.jpg" height="30" alt="Samasta Logo">
+      <img class="navbar-brand-minimized" src="assets/images/logosamasta.jpeg" width="30" alt="Samasta Logo">
+    </a>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" id="btn-sidebar"
+      data-toggle="sidebar-lg-show">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item dropdown text-secondary" id="welcomeUser">
+        <script>
+          document.getElementById('welcomeUser').innerHTML = "Welcome, " + dlNamaUser;
+        </script>
+      </li>
+      <li class="nav-item dropdown" id="btn-user-logout">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <img class="img-avatar" src="assets/images/avatars/alluser.png" alt="admin@bootstrapmaster.com">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#" onclick="logout();">
+            <i class="fa fa-lock"></i> Logout</a>
+        </div>
+      </li>
+    </ul>
+  </header>
+
+  <div class="app-body">
+    <div class="sidebar" id="sidebar">
+      <nav class="sidebar-nav">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#/">
+              <i class="nav-icon icon-speedometer"></i> Dashboard
+              <!--<span class="badge badge-primary">NEW</span>-->
+            </a>
+          </li>
+
+          <li class="nav-item nav-dropdown" id="navInputData">
+            <a class="nav-link nav-dropdown-toggle" href="#">
+              <i class="nav-icon icon-screen-desktop"></i> Input Data</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="#/samasta1/">
+                  <i class="nav-icon icon-arrow-right"></i> Samasta-1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/samasta2/">
+                  <i class="nav-icon icon-arrow-right"></i> Samasta-2</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="#/samasta3/">
+                  <i class="nav-icon icon-arrow-right"></i> Samasta-3</a>
+              </li> -->
+            </ul>
+          </li>
+
+          <li class="nav-item nav-dropdown">
+            <a class="nav-link nav-dropdown-toggle" href="#">
+              <i class="nav-icon icon-grid"></i> Masters</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="#/wilayah/">
+                  <i class="nav-icon icon-arrow-right"></i> Wilayah
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/operator/">
+                  <i class="nav-icon icon-arrow-right"></i> Operator</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="#/petugas/">
+                  <i class="nav-icon icon-arrow-right"></i> Petugas
+                </a>
+              </li> -->
+            </ul>
+          </li>
+
+          <li class="nav-item nav-dropdown">
+            <a class="nav-link nav-dropdown-toggle" href="#">
+              <i class="nav-icon icon-layers"></i> Reports</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="#/progress/">
+                  <i class="nav-icon icon-arrow-right"></i> Progress</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/tabulasi/">
+                  <i class="nav-icon icon-arrow-right"></i> Tabulasi</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item nav-dropdown" id="navUtilities" style="display: none">
+            <a class="nav-link nav-dropdown-toggle" href="#">
+              <i class="nav-icon icon-wrench"></i> Utilities</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="#/revalidasi/">
+                  <i class="nav-icon icon-arrow-right"></i> Revalidasi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/export-data/">
+                  <i class="nav-icon icon-arrow-right"></i> Export Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/backup-data/">
+                  <i class="nav-icon icon-arrow-right"></i> Backup Data</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#/gabung-data/">
+                  <i class="nav-icon icon-arrow-right"></i> Gabung Data</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="divider"></li>
+          <li class="nav-item" id="navSetting" style="display: none">
+            <a class="nav-link nav-link-success" href="#/settings/">
+              <i class="nav-icon icon-settings"></i> Settings
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+
+    <main class="main">
+
+      <!-- di sini yang ganti-ganti content -->
+      <div id="app"></div>
+      <div id="loader" style="display: none"></div>
+      <div class="overlay overlay-bg"></div>
+      <div class="overlay" id="loading-img"></div>
+
+    </main>
+    <aside class="aside-menu" style="margin-top: 60px">
+      <div class="tab-content">
+        <div class="tab-pane active" id="timeline" role="tabpanel">
+          <div class="list-group list-group-accent" id="daftarError">
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="app-footer">
+    <div style="padding-left: 50px">
+      <a href="https://sulbar.bps.go.id">BPS Provinsi Sulawesi Barat</a>
+      <span>&copy; 2019 </span>
+      <span>All rights reserved</span>
+    </div>
+    <div class="ml-auto groupSaveButton" id="app-info">
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+    if (dlLevelUser == 1 || dlLevelUser == 2) {
+      document.getElementById('navUtilities').style.display = 'block';
+      document.getElementById('navSetting').style.display = 'block';
+    }
+    if (dlLevelUser == 4) {
+      document.getElementById('navInputData').style.display = 'none';
+    }
+  </script>
+
+  <script>
+    document.getElementById('app-info').innerHTML = "<b>Path database: </b>" + pathdb;
+  </script>
+
+  <script src="node_modules/pace-js/pace.min.js"></script>
+  <script src="node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <script src="node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+</body>
+
+</html>

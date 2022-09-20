@@ -1,0 +1,392 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,2)" tabindex="-1">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,3)" tabindex="-1">3</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,5)" tabindex="-1">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,6)" tabindex="-1">6</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,7)" tabindex="-1">7</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,8)" tabindex="-1">8</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrian()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal4Blok4" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="10">BLOK IV. KETERANGAN ANGGOTA RUMAH TANGGA </th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">No urut ART</th>
+                      <th colspan="3">Apakah status sekolah <em>(nama)</em>?<br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th rowspan="2">Jenjang Pendidikan terakhir yang sedang/ terakhir dijalani<br>
+                        <br><strong>(Kode)</strong>
+                      </th>
+                      <th rowspan="2">Ijazah tertinggi yang dimiliki<br>
+                        <br><strong>(Kode)</strong>
+                      </th>
+                      <th rowspan="2">Apakah dapat membaca aksara dan huruf/ angka latin?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th rowspan="2">Apakah <em>(nama)</em> bekerja?
+                        <br><br>
+                        ya= √
+                        tidak=-
+                      </th>
+                      <th rowspan="2" style="width: 300px">Apakah pekerjaan utama <em>(nama)</em>?
+                        <br><br>
+                        <strong>Tuliskan selengkap-lengkapnya</strong>
+                      </th>
+                      <th rowspan="2">Lapangan pekerjaan utama <em>(nama)</em>
+                        <br><br>
+                        <strong>(Kode)</strong>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>tidak/ belum pernah sekolah</th>
+                      <th>masih bersekolah</th>
+                      <th>tidak bersekolah lagi</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(401)</th>
+                      <th>(428)</th>
+                      <th>(429)</th>
+                      <th>(430)</th>
+                      <th>(431)</th>
+                      <th>(432)</th>
+                      <th>(433)</th>
+                      <th>(434)</th>
+                      <th>(435)</th>
+                      <th>(436)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisART">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 d-none d-md-block">
+                <br>
+                <b>Kode Kolom 431: Jenjang Pendidikan Terakhir</b>
+              </div>
+              <div class="col-sm-6 d-none d-md-block">
+                <br>
+                <b>Kode Kolom 432: Ijazah tertinggi yang dimiliki</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3 d-none d-md-block">
+                <ol start="0">
+                  <li>Belum/tidak pernah sekolah</li>
+                  <li>TK/playgroup</li>
+                  <li>SD</li>
+                  <li>SLTP</li>
+                  <li>SLTA</li>
+                  <li>D1</li>
+                  <li>D2</li>
+                </ol>
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+                <ol start="7">
+                  <li>D3</li>
+                  <li>S1</li>
+                  <li>S2</li>
+                  <li>S3</li>
+                  <li>SLB A</li>
+                  <li>SLB B</li>
+                  <li>SLB C</li>
+                </ol>
+              </div>
+              <div class="col-sm-1 d-none d-md-block">
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+                <ul style="list-style-type: none">
+                  <li>0. Tidak punya ijazah</li>
+                  <li>2. SD</li>
+                  <li>3. SLTP</li>
+                  <li>4. SLTA</li>
+                  <li>5. D1</li>
+                  <li>6. D2</li>
+                  <li>7. D3</li>
+                </ul>
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+                <ul style="list-style-type: none">
+                  <li>8. S1</li>
+                  <li>9. S2</li>
+                  <li>10. S3</li>
+                  <li>11. SLB A</li>
+                  <li>12. SLB B</li>
+                  <li>13. SLB C</li>
+                </ul>
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <b>Kode Kolom 436: Lapangan pekerjaan utama</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3 d-none d-md-block">
+                <ol>
+                  <li>Pertanian tanaman padi dan palawija</li>
+                  <li>Hortikultura</li>
+                  <li>Perkebunan</li>
+                  <li>Perikanan</li>
+                  <li>Peternakan</li>
+                  <li>Kehutanan dan pertanian lainnya</li>
+                  <li>Pertambangan dan penggalian</li>
+                  <li>Industri pengolahan</li>
+                  <li>Pengadaan listrik, gas, uap/air panas, dan udara dingin</li>
+                </ol>
+              </div>
+              <div class="col-sm-3 d-none d-md-block">
+                <ol start="10">
+                  <li>Pengelolaan air, pengelolaan air limbah, pengelolaan dan daur ulang sampah, dan aktivitas
+                    remediasi</li>
+                  <li>Konstruksi</li>
+                  <li>Perdagangan besar dan eceran, reparasi dan perawatan mobil dan sepeda motor</li>
+                  <li>Pengangkutan dan pergudangan</li>
+                  <li>Penyediaan akomodasi dan penyediaan makan minum</li>
+                </ol>
+              </div>
+              <div class="col-sm-3 d-none d-md-block">
+                <ol start="15">
+                  <li>Informasi dan komunikasi</li>
+                  <li>Aktivitas keuangan dan asuransi</li>
+                  <li>Real estate</li>
+                  <li>Aktivitas professional, ilmiah, dan teknis</li>
+                  <li>Aktivitas penyewaan dan sewa guna tanpa hak opsi, ketenagakerjaan, agen perjalanan, dan penunjang
+                    usaha lainnya</li>
+                  <li>Administrasi pemerintahan, pertanahan, dan jaminan social wajib</li>
+                </ol>
+              </div>
+              <div class="col-sm-3 d-none d-md-block">
+                <ol start="21">
+                  <li>Pendidikan</li>
+                  <li>Aktivitas kesehatan manusia dan aktivitas social</li>
+                  <li>kesenian, hiburan, dan rekreasi</li>
+                  <li>Aktivitas jasa lainnya</li>
+                  <li>Aktivitas rumah tangga sebagai pemberi kerja</li>
+                  <li>Aktivitas badan internasional dan badan ekstra internasional lainnya</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.row-->
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+  </div>
+  <!-- /.row-->
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutupEntrian('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupEntrian('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var RTdata;
+
+  function loadEntrian() {
+    getEntriSessionData();
+    bacaIsiJsonRT();
+
+    for (var i = 0; i < artPage2.length; i++) {
+      $('#tbodyBarisART').append(`<tr class='barisART'>`
+        + `<td><span class='d-inline-block myPopover' data-toggle='myPopover'>
+            <input class='form-control text-center text-middle nuArt' value='${i + 1}' id='nuArt[${i}]' disabled>
+            </span></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k428 nolSatu' id='k428[${i}]' value='${artPage4[i].k428}' tabindex='${9 * (i) + 1}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k429 nolSatu' id='k429[${i}]' value='${artPage4[i].k429}' tabindex='${9 * (i) + 2}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k430 nolSatu' id='k430[${i}]' value='${artPage4[i].k430}' tabindex='${9 * (i) + 3}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k431' id='k431[${i}]' value='${artPage4[i].k431}' tabindex='${9 * (i) + 4}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k432' id='k432[${i}]' value='${artPage4[i].k432}' tabindex='${9 * (i) + 5}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k433 nolSatu' id='k433[${i}]' value='${artPage4[i].k433}' tabindex='${9 * (i) + 6}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k434 nolSatu' id='k434[${i}]' value='${artPage4[i].k434}' tabindex='${9 * (i) + 7}' maxlength='1' onfocus='this.select();' onkeypress='changeK434(${i}, event)'></input></td>`
+        + `<td><input class='form-control form-kuesioner k435' id='k435[${i}]' value='${artPage4[i].k435}' tabindex='${9 * (i) + 8}' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k436' id='k436[${i}]' value='${artPage4[i].k436}' tabindex='${9 * (i) + 9}' maxlength='2' onfocus='this.select();' onkeypress='nextPage(${i}, event)'></input></td>`
+        + `</tr>`);
+      if (artPage4[i].k434 == 0) {
+        document.getElementsByClassName('k435')[i].disabled = true;
+        document.getElementsByClassName('k436')[i].disabled = true;
+      }
+    }
+    document.getElementsByClassName("k428")[0].focus();
+    tabindexFix();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 4) {
+      updateIsiJsonRT();
+    }
+    location.href = `#/samasta-2/${to}/`;
+  }
+</script>
+
+<script>
+  // =====================================================================================================//
+  function updateIsiJsonRT() {
+    // artPage2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisART = document.getElementsByClassName('barisART');
+    artPage4 = [];
+    for (i = 0; i < barisART.length; i++) {
+      artPage4.push({
+        'k428': document.getElementsByClassName('k428')[i].value,
+        'k429': document.getElementsByClassName('k429')[i].value,
+        'k430': document.getElementsByClassName('k430')[i].value,
+        'k431': document.getElementsByClassName('k431')[i].value,
+        'k432': document.getElementsByClassName('k432')[i].value,
+        'k433': document.getElementsByClassName('k433')[i].value,
+        'k434': document.getElementsByClassName('k434')[i].value,
+        'k435': document.getElementsByClassName('k435')[i].value,
+        'k436': document.getElementsByClassName('k436')[i].value
+      });
+    }
+
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    RTdata.kkPage7 = kkPage7;
+    RTdata.kkPage8 = kkPage8;
+    RTdata.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+  }
+</script>
+
+<script>
+  function changeK434(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k434')[i].value == 1) {
+        document.getElementsByClassName('k435')[i].disabled = false;
+        document.getElementsByClassName('k436')[i].disabled = false;
+      }
+      if (document.getElementsByClassName('k434')[i].value == 0) {
+        document.getElementsByClassName('k435')[i].value = "";
+        document.getElementsByClassName('k436')[i].value = "";
+        document.getElementsByClassName('k435')[i].disabled = true;
+        document.getElementsByClassName('k436')[i].disabled = true;
+        if (i == artPage2.length - 1) {
+          updateIsiJsonRT();
+          location.href = `#/samasta-2/5/`;
+        } else {
+          document.getElementsByClassName('k428')[i + 1].focus();
+        }
+      }
+    }
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = 9 * (artPage2.length - 1) + 9;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k436')[i].tabIndex == maxTabIndex) {
+        updateIsiJsonRT();
+        location.href = `#/samasta-2/5/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+    $(".k431").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 13);
+    });
+    $(".k432").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 13);
+    });
+    $(".k435").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+    $(".k436").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 27);
+    });
+  });
+</script>

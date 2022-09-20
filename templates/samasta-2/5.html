@@ -1,0 +1,250 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,2)" tabindex="-1">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,3)" tabindex="-1">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,4)" tabindex="-1">4</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,6)" tabindex="-1">6</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,7)" tabindex="-1">7</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,8)" tabindex="-1">8</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrian()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal5Blok4" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="14">BLOK IV. KETERANGAN ANGGOTA RUMAH TANGGA </th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">No urut ART</th>
+                      <th colspan="3">Apakah memiliki jaminan kesehatan BPJS Kesehatan?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th rowspan="2">Untuk ibu yang punya Balita 0-4 tahun, apakah ikut posyandu?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th colspan="9">Apakah <em>(nama)</em> memiliki kecacacatan?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Penerima Bantuan (PBI)</th>
+                      <th>Non PBI</th>
+                      <th>Tidak punya</th>
+                      <th>Tuna rungu</th>
+                      <th>Tuna wicara</th>
+                      <th>Tuna netra</th>
+                      <th>Lumpuh</th>
+                      <th>Sumbing</th>
+                      <th>Cacat kulit</th>
+                      <th>Cacat fisik/ daksa</th>
+                      <th>Cacat mental/ gila/ stress</th>
+                      <th>Autis</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(401)</th>
+                      <th>(437)</th>
+                      <th>(438)</th>
+                      <th>(439)</th>
+                      <th>(440)</th>
+                      <th>(441)</th>
+                      <th>(442)</th>
+                      <th>(443)</th>
+                      <th>(444)</th>
+                      <th>(445)</th>
+                      <th>(446)</th>
+                      <th>(447)</th>
+                      <th>(448)</th>
+                      <th>(449)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisART">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutupEntrian('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupEntrian('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var RTdata;
+
+  function loadEntrian() {
+    getEntriSessionData();
+    bacaIsiJsonRT();
+
+    for (var i = 0; i < artPage2.length; i++) {
+      $('#tbodyBarisART').append(`<tr class='barisART'>`
+        + `<td><span class='d-inline-block myPopover' data-toggle='myPopover'>
+            <input class='form-control text-center text-middle nuArt' value='${i + 1}' id='nuArt[${i}]' disabled>
+            </span></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k437 nolSatu' id='k437[${i}]' value='${artPage5[i].k437}' tabindex='${13 * (i) + 1}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k438 nolSatu' id='k438[${i}]' value='${artPage5[i].k438}' tabindex='${13 * (i) + 2}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k439 nolSatu' id='k439[${i}]' value='${artPage5[i].k439}' tabindex='${13 * (i) + 3}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k440 nolSatu' id='k440[${i}]' value='${artPage5[i].k440}' tabindex='${13 * (i) + 4}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k441 nolSatu' id='k441[${i}]' value='${artPage5[i].k441}' tabindex='${13 * (i) + 5}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k442 nolSatu' id='k442[${i}]' value='${artPage5[i].k442}' tabindex='${13 * (i) + 6}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k443 nolSatu' id='k443[${i}]' value='${artPage5[i].k443}' tabindex='${13 * (i) + 7}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k444 nolSatu' id='k444[${i}]' value='${artPage5[i].k444}' tabindex='${13 * (i) + 8}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k445 nolSatu' id='k445[${i}]' value='${artPage5[i].k445}' tabindex='${13 * (i) + 9}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k446 nolSatu' id='k446[${i}]' value='${artPage5[i].k446}' tabindex='${13 * (i) + 10}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k447 nolSatu' id='k447[${i}]' value='${artPage5[i].k447}' tabindex='${13 * (i) + 11}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k448 nolSatu' id='k448[${i}]' value='${artPage5[i].k448}' tabindex='${13 * (i) + 12}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k449 nolSatu' id='k449[${i}]' value='${artPage5[i].k449}' tabindex='${13 * (i) + 13}' maxlength='1' onfocus='this.select();' onkeypress='nextPage(${i}, event)'></input></td>`
+        + `</tr>`);
+    }
+    document.getElementsByClassName("k437")[0].focus();
+    tabindexFix();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 5) {
+      updateIsiJsonRT();
+    }
+    location.href = `#/samasta-2/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = 13 * (artPage2.length - 1) + 13;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k449')[i].tabIndex == maxTabIndex) {
+        updateIsiJsonRT();
+        location.href = `#/samasta-2/6/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  // =====================================================================================================//
+  function updateIsiJsonRT() {
+    // artPage2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisART = document.getElementsByClassName('barisART');
+    artPage5 = [];
+    for (i = 0; i < barisART.length; i++) {
+      artPage5.push({
+        'k437': document.getElementsByClassName('k437')[i].value,
+        'k438': document.getElementsByClassName('k438')[i].value,
+        'k439': document.getElementsByClassName('k439')[i].value,
+        'k440': document.getElementsByClassName('k440')[i].value,
+        'k441': document.getElementsByClassName('k441')[i].value,
+        'k442': document.getElementsByClassName('k442')[i].value,
+        'k443': document.getElementsByClassName('k443')[i].value,
+        'k444': document.getElementsByClassName('k444')[i].value,
+        'k445': document.getElementsByClassName('k445')[i].value,
+        'k446': document.getElementsByClassName('k446')[i].value,
+        'k447': document.getElementsByClassName('k447')[i].value,
+        'k448': document.getElementsByClassName('k448')[i].value,
+        'k449': document.getElementsByClassName('k449')[i].value
+      });
+    }
+
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    RTdata.kkPage7 = kkPage7;
+    RTdata.kkPage8 = kkPage8;
+    RTdata.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+  });
+</script>

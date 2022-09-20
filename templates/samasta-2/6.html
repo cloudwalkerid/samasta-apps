@@ -1,0 +1,260 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,2)" tabindex="-1">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,3)" tabindex="-1">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,4)" tabindex="-1">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,5)" tabindex="-1">5</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">6</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,7)" tabindex="-1">7</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(6,8)" tabindex="-1">8</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrian()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal6Blok4" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="15">BLOK IV. KETERANGAN ANGGOTA RUMAH TANGGA </th>
+                    </tr>
+                    <tr>
+                      <th colspan="15"><strong>Untuk Pasangan Usia Subur (PUS) wanita usia 10-54 tahun</strong></th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">No urut ART</th>
+                      <th rowspan="2">Apakah <em>(nama)</em> akseptor KB?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th rowspan="2">Apabila mulai KB di tahun 2019, bulan berapakah (nama) mulai masuk KB?</th>
+                      <th colspan="8">Apakah alat kontrasepsi utama yang digunakan (nama) setahun terakhir?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th colspan="4">Jika tidak KB
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Pil</th>
+                      <th>IUD/ AKDR/ spriral</th>
+                      <th>Suntikan</th>
+                      <th>MOP (sterilisasi pria/ vasektomi)</th>
+                      <th>MOW (sterilisasi wanita/ tubektomi)</th>
+                      <th>Kondom</th>
+                      <th>Implant/ susuk KB</th>
+                      <th>KB Mandiri (tradisional)</th>
+                      <th>Hamil</th>
+                      <th>IAS (Ingin Anak Segera)</th>
+                      <th>IAT (Ingin Anak Tunda)</th>
+                      <th>TIAL (Tidak Ingin Anak Lagi)</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(401)</th>
+                      <th>(450)</th>
+                      <th>(451)</th>
+                      <th>(452)</th>
+                      <th>(453)</th>
+                      <th>(454)</th>
+                      <th>(455)</th>
+                      <th>(456)</th>
+                      <th>(457)</th>
+                      <th>(458)</th>
+                      <th>(459)</th>
+                      <th>(460)</th>
+                      <th>(461)</th>
+                      <th>(462)</th>
+                      <th>(463)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisART">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutupEntrian('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupEntrian('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var RTdata;
+
+  function loadEntrian() {
+    getEntriSessionData();
+    bacaIsiJsonRT();
+
+    for (var i = 0; i < artPage2.length; i++) {
+      $('#tbodyBarisART').append(`<tr class='barisART'>`
+        + `<td><span class='d-inline-block myPopover' data-toggle='myPopover'>
+            <input class='form-control text-center text-middle nuArt' value='${i + 1}' id='nuArt[${i}]' disabled>
+            </span></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k450 nolSatu' id='k450[${i}]' value='${artPage6[i].k450}' tabindex='${14 * (i) + 1}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k451' id='k451[${i}]' value='${artPage6[i].k451}' tabindex='${14 * (i) + 2}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k452 nolSatu' id='k452[${i}]' value='${artPage6[i].k452}' tabindex='${14 * (i) + 3}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k453 nolSatu' id='k453[${i}]' value='${artPage6[i].k453}' tabindex='${14 * (i) + 4}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k454 nolSatu' id='k454[${i}]' value='${artPage6[i].k454}' tabindex='${14 * (i) + 5}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k455 nolSatu' id='k455[${i}]' value='${artPage6[i].k455}' tabindex='${14 * (i) + 6}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k456 nolSatu' id='k456[${i}]' value='${artPage6[i].k456}' tabindex='${14 * (i) + 7}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k457 nolSatu' id='k457[${i}]' value='${artPage6[i].k457}' tabindex='${14 * (i) + 8}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k458 nolSatu' id='k458[${i}]' value='${artPage6[i].k458}' tabindex='${14 * (i) + 9}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k459 nolSatu' id='k459[${i}]' value='${artPage6[i].k459}' tabindex='${14 * (i) + 10}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k460 nolSatu' id='k460[${i}]' value='${artPage6[i].k460}' tabindex='${14 * (i) + 11}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k461 nolSatu' id='k461[${i}]' value='${artPage6[i].k461}' tabindex='${14 * (i) + 12}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k462 nolSatu' id='k462[${i}]' value='${artPage6[i].k462}' tabindex='${14 * (i) + 13}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k463 nolSatu' id='k463[${i}]' value='${artPage6[i].k463}' tabindex='${14 * (i) + 14}' maxlength='1' onfocus='this.select();' onkeypress='nextPage(${i}, event)'></input></td>`
+        + `</tr>`);
+    }
+    document.getElementsByClassName("k450")[0].focus();
+    tabindexFix();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 6) {
+      updateIsiJsonRT();
+    }
+    location.href = `#/samasta-2/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = 14 * (artPage2.length - 1) + 14;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k463')[i].tabIndex == maxTabIndex) {
+        updateIsiJsonRT();
+        location.href = `#/samasta-2/7/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  // =====================================================================================================//
+  function updateIsiJsonRT() {
+    // artPage2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisART = document.getElementsByClassName('barisART');
+    artPage6 = [];
+    for (i = 0; i < barisART.length; i++) {
+      artPage6.push({
+        'k450': document.getElementsByClassName('k450')[i].value,
+        'k451': document.getElementsByClassName('k451')[i].value,
+        'k452': document.getElementsByClassName('k452')[i].value,
+        'k453': document.getElementsByClassName('k453')[i].value,
+        'k454': document.getElementsByClassName('k454')[i].value,
+        'k455': document.getElementsByClassName('k455')[i].value,
+        'k456': document.getElementsByClassName('k456')[i].value,
+        'k457': document.getElementsByClassName('k457')[i].value,
+        'k458': document.getElementsByClassName('k458')[i].value,
+        'k459': document.getElementsByClassName('k459')[i].value,
+        'k460': document.getElementsByClassName('k460')[i].value,
+        'k461': document.getElementsByClassName('k461')[i].value,
+        'k462': document.getElementsByClassName('k462')[i].value,
+        'k463': document.getElementsByClassName('k463')[i].value
+      });
+    }
+
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    RTdata.kkPage7 = kkPage7;
+    RTdata.kkPage8 = kkPage8;
+    RTdata.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+    $(".k451").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12);
+    });
+  });
+</script>

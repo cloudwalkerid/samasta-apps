@@ -1,0 +1,871 @@
+<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,1)">1</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,3)">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,4)">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,5)">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,6)">6</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrianSamasta1()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="dtHorizontalVerticalExample"
+                  class="table table-responsive-sm table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="3">IV. KETERANGAN UMUM DESA/KELURAHAN</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyOperator">
+                    <tr>
+                      <td class="text-center">401</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">Status pemerintahan:</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Desa – 1</div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Kelurahan – 2</div>
+                          <div class="col-sm-4 d-none d-md-block text-right">UPT/SPT – 3</div>
+                          <div class="col-sm-2 d-none d-md-block text-right"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="1" autofocus
+                          onfocus='this.select();' id="b4r401" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center" rowspan="3" style="width: 50px">402</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">a. Badan Permusyawaratan Desa/Lembaga Musyawarah
+                            Kelurahan:</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-4 d-none d-md-block"><b>(Lanjut ke R403)</b></div>
+                          <div class="col-sm-2 d-none d-md-block text-right"></div>
+                        </div>
+                      </td>
+                      <td style="width: 100px"><input class="form-control form-kuesioner text-center" tabindex="2"
+                          onfocus='this.select();' id="b4r402a" maxlength="1"
+                          onkeypress='changeB4R402a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>b. Jumlah anggota Badan Permusyawaratan Desa (BPD)/Lembaga Musyawarah Kelurahan (LMK):</td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="3" onfocus='this.select();'
+                          id="b4r402b" maxlength="2"></input></td>
+                    </tr>
+                    <tr>
+                      <td>c. Jumlah kegiatan musyawarah desa/kelurahan yang dilakukan selama tahun 2018:</td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="4" onfocus='this.select();'
+                          id="b4r402c" maxlength="2"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">403</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block">Peta desa/kelurahan yang ditetapkan dalam Peraturan
+                            Bupati/Walikota atau Gubernur:</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-1 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="5" onfocus='this.select();'
+                          id="b4r403" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="4">404</td>
+                      <td>Wilayah administrasi di bawah desa/kelurahan: </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>a. Jumlah dusun/lingkungan: </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="6" onfocus='this.select();'
+                          id="b4r404a" maxlength="2"></input></td>
+                    </tr>
+                    <tr>
+                      <td>b. Jumlah RW: </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="7" onfocus='this.select();'
+                          id="b4r404b" maxlength="2"></input></td>
+                    </tr>
+                    <tr>
+                      <td>c. Jumlah RT: </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="8" onfocus='this.select();'
+                          id="b4r404c" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="5">405</td>
+                      <td>Keberadaan, status, kondisi, dan lokasi kantor kepala desa/lurah:</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-4 d-none d-md-block">a. Keberadaan kantor kepala desa/lurah:</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R406)</b></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="9" onfocus='this.select();'
+                          id="b4r405a" maxlength="1" onkeypress='changeB4R405a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-4 d-none d-md-block">b. Status kantor kepala desa/lurah:</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Aset desa/kelurahan – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Bukan aset desa/kelurahan – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="10" onfocus='this.select();'
+                          id="b4r405b" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-4 d-none d-md-block">c. Kondisi kantor kepala desa/lurah:</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Layak – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak layak – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="11" onfocus='this.select();'
+                          id="b4r405c" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">d. Lokasi kantor kepala desa/lurah:</div>
+                          <div class="col-sm-6 d-none d-md-block text-right">Di dalam wilayah desa/kelurahan – 1</div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Di luar wilayah desa/kelurahan – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="12" onfocus='this.select();'
+                          id="b4r405d" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center">406</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">Kegiatan pemerintahan desa/kelurahan utamanya
+                            dilaksanakan di:</div>
+                          <div class="col-sm-6 d-none d-md-block text-right">Kantor kepala desa/lurah – 1</div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Bukan kantor kepala desa/lurah – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="13" onfocus='this.select();'
+                          id="b4r406" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="8">407</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">a. Apakah ada wilayah desa/kelurahan yang berbatasan
+                            langsung dengan laut:</div>
+                          <div class="col-sm-7 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R408)</b></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="14" onfocus='this.select();'
+                          id="b4r407a" maxlength="1" onkeypress='changeB4R407a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>b. Pemanfaatan laut untuk: </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-5 d-none d-md-block" style="padding-left: 30px">
+                            a) Perikanan tangkap (mencakup seluruh biota laut)
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="15" onfocus='this.select();'
+                          id="b4r407b_a" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-5 d-none d-md-block" style="padding-left: 30px">
+                            b) Perikanan budidaya (mencakup seluruh biota laut)
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="16" onfocus='this.select();'
+                          id="b4r407b_b" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-5 d-none d-md-block" style="padding-left: 30px">
+                            c) Tambak garam
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="17" onfocus='this.select();'
+                          id="b4r407b_c" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-5 d-none d-md-block" style="padding-left: 30px">
+                            d) Wisata bahari
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="18" onfocus='this.select();'
+                          id="b4r407b_d" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-5 d-none d-md-block" style="padding-left: 30px">
+                            e) Transportasi umum
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada – 1 </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="19" onfocus='this.select();'
+                          id="b4r407b_e" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">c. Keberadaan dan kondisi tanaman mangrove (misalnya:
+                            bakau, api–api, pedada, tanjang, dll.) di desa/kelurahan: </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Ada, baik – 1</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada, sebagian rusak – 2</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Ada, rusak – 3</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Tidak ada – 4</div>
+                          <div class="col-sm-2 d-none d-md-block text-right"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="20" onfocus='this.select();'
+                          id="b4r407c" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="3">408</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">a. Lokasi wilayah desa/kelurahan terhadap kawasan
+                            hutan: </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Di dalam kawasan hutan – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Di tepi/sekitar kawasan hutan – 2</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Di luar kawasan hutan – 3</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R501)</b></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="21" onfocus='this.select();'
+                          id="b4r408a" maxlength="1" onkeypress='changeB4R408a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">b. Fungsi kawasan hutan/hutan: </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Konservasi – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Lindung – 2</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Produksi – 3</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="22" onfocus='this.select();'
+                          id="b4r408b" maxlength="1"></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">c. Ketergantungan penduduk terhadap kawasan
+                            hutan/hutan: </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Tinggi – 1</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Sedang – 2</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Rendah – 3</div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Tidak tergantung – 4</div>
+                          <div class="col-sm-2 d-none d-md-block text-right"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="23" onfocus='this.select();'
+                          id="b4r408c" maxlength="1"></input></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="3">V. PERUMAHAN DAN LINGKUNGAN HIDUP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center" rowspan="2" style="width: 50px">501</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">a. Penerangan di jalan utama desa/kelurahan: </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Ada, sebagian besar – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Ada, sebagian kecil – 2</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 3</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R502)</b></div>
+                        </div>
+                      </td>
+                      <td style="width: 100px"><input class="form-control form-kuesioner text-center" tabindex="24"
+                          onfocus='this.select();' id="b5r501a" maxlength="1"
+                          onkeypress='changeB5R501a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">b. Jenis penerangan di jalan utama desa/kelurahan:
+                          </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Listrik diusahakan oleh pemerintah – 1
+                          </div>
+                          <div class="col-sm-4 d-none d-md-block text-right">Listrik diusahakan oleh non pemerintah – 2
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block text-right">Non listrik – 3</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="25" onfocus='this.select();'
+                          id="b5r501b" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="6">502</td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">a. Wilayah desa/kelurahan dilalui Saluran Udara
+                            Tegangan Ekstra Tinggi (SUTET)/Saluran Udara
+                            Tegangan Tinggi (SUTT)/Saluran Udara Tegangan Tinggi Arus Searah (SUTTAS):</div>
+                          <div class="col-sm-7 d-none d-md-block text-right">Ya – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R503)</b></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="26" onfocus='this.select();'
+                          id="b5r502a" maxlength="1" onkeypress='changeB5R502a(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">b. Keberadaan permukiman di bawah SUTET/SUTT/SUTTAS
+                          </div>
+                          <div class="col-sm-7 d-none d-md-block text-right">Ya – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"><b>(Lanjut ke R503)</b></div>
+                        </div>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="27" onfocus='this.select();'
+                          id="b5r502b" maxlength="1" onkeypress='changeB5R502b(this.tabIndex, event)'></input></td>
+                    </tr>
+                    <tr>
+                      <td>c. Jika ada permukiman di bawah SUTET/SUTT/SUTTAS: </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: 20px">1. Jumlah lokasi </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="28" onfocus='this.select();'
+                          id="b5r502c_1" maxlength="2"></input></td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: 20px">2. Jumlah bangunan rumah </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="29" onfocus='this.select();'
+                          id="b5r502c_2" maxlength="3"></input></td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: 20px">3. Jumlah keluarga </td>
+                      <td><input class="form-control form-kuesioner text-center" tabindex="30" onfocus='this.select();'
+                          id="b5r502c_3" maxlength="3" onkeypress='nextPage(this.tabIndex, event)'></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  async function loadEntrian() {
+    // jika statusEntrian new, load dari json
+    await getEntriSessionDataSamasta1();
+    //if (statusEntrian == 'new') {
+    await bacaIsiJsonSamasta1();
+    document.getElementById('b4r401').value = desaPage2[0].b4r401;
+    document.getElementById('b4r402a').value = desaPage2[0].b4r402a;
+    document.getElementById('b4r402b').value = desaPage2[0].b4r402b;
+    document.getElementById('b4r402c').value = desaPage2[0].b4r402c;
+    document.getElementById('b4r403').value = desaPage2[0].b4r403;
+    document.getElementById('b4r404a').value = desaPage2[0].b4r404a;
+    document.getElementById('b4r404b').value = desaPage2[0].b4r404b;
+    document.getElementById('b4r404c').value = desaPage2[0].b4r404c;
+    document.getElementById('b4r405a').value = desaPage2[0].b4r405a;
+    document.getElementById('b4r405b').value = desaPage2[0].b4r405b;
+    document.getElementById('b4r405c').value = desaPage2[0].b4r405c;
+    document.getElementById('b4r405d').value = desaPage2[0].b4r405d;
+    document.getElementById('b4r406').value = desaPage2[0].b4r406;
+    document.getElementById('b4r407a').value = desaPage2[0].b4r407a;
+    document.getElementById('b4r407b_a').value = desaPage2[0].b4r407b_a;
+    document.getElementById('b4r407b_b').value = desaPage2[0].b4r407b_b;
+    document.getElementById('b4r407b_c').value = desaPage2[0].b4r407b_c;
+    document.getElementById('b4r407b_d').value = desaPage2[0].b4r407b_d;
+    document.getElementById('b4r407b_e').value = desaPage2[0].b4r407b_e;
+    document.getElementById('b4r407c').value = desaPage2[0].b4r407c;
+    document.getElementById('b4r408a').value = desaPage2[0].b4r408a;
+    document.getElementById('b4r408b').value = desaPage2[0].b4r408b;
+    document.getElementById('b4r408c').value = desaPage2[0].b4r408c;
+    document.getElementById('b5r501a').value = desaPage2[0].b5r501a;
+    document.getElementById('b5r501b').value = desaPage2[0].b5r501b;
+    document.getElementById('b5r502a').value = desaPage2[0].b5r502a;
+    document.getElementById('b5r502b').value = desaPage2[0].b5r502b;
+    document.getElementById('b5r502c_1').value = desaPage2[0].b5r502c_1;
+    document.getElementById('b5r502c_2').value = desaPage2[0].b5r502c_2;
+    document.getElementById('b5r502c_3').value = desaPage2[0].b5r502c_3;
+
+    document.getElementById("b4r401").focus();
+    if (desaPage2[0].b4r402a == 2) {
+      document.getElementById("b4r402b").disabled = true;
+      document.getElementById("b4r402c").disabled = true;
+    }
+    if (desaPage2[0].b4r405a == 2) {
+      document.getElementById("b4r405b").disabled = true;
+      document.getElementById("b4r405c").disabled = true;
+      document.getElementById("b4r405d").disabled = true;
+    }
+    if (desaPage2[0].b4r407a == 2) {
+      document.getElementById("b4r407b_a").disabled = true;
+      document.getElementById("b4r407b_b").disabled = true;
+      document.getElementById("b4r407b_c").disabled = true;
+      document.getElementById("b4r407b_d").disabled = true;
+      document.getElementById("b4r407b_e").disabled = true;
+      document.getElementById("b4r407c").disabled = true;
+    }
+    if (desaPage2[0].b4r408a == 3) {
+      document.getElementById("b4r408b").disabled = true;
+      document.getElementById("b4r408c").disabled = true;
+    }
+    if (desaPage2[0].b5r501a == 3) {
+      document.getElementById("b5r501b").disabled = true;
+    }
+    if (desaPage2[0].b5r502a == 2) {
+      document.getElementById("b5r502b").disabled = true;
+      document.getElementById("b5r502c_1").disabled = true;
+      document.getElementById("b5r502c_2").disabled = true;
+      document.getElementById("b5r502c_3").disabled = true;
+    }
+    if (desaPage2[0].b5r502b == 2) {
+      document.getElementById("b5r502c_1").disabled = true;
+      document.getElementById("b5r502c_2").disabled = true;
+      document.getElementById("b5r502c_3").disabled = true;
+    }
+  }
+
+  function updateIsiJsonSamasta1() {
+    desaPage2 = [];
+    desaPage2.push({
+      'b4r401': document.getElementById('b4r401').value,
+      'b4r402a': document.getElementById('b4r402a').value,
+      'b4r402b': document.getElementById('b4r402b').value,
+      'b4r402c': document.getElementById('b4r402c').value,
+      'b4r403': document.getElementById('b4r403').value,
+      'b4r404a': document.getElementById('b4r404a').value,
+      'b4r404b': document.getElementById('b4r404b').value,
+      'b4r404c': document.getElementById('b4r404c').value,
+      'b4r405a': document.getElementById('b4r405a').value,
+      'b4r405b': document.getElementById('b4r405b').value,
+      'b4r405c': document.getElementById('b4r405c').value,
+      'b4r405d': document.getElementById('b4r405d').value,
+      'b4r406': document.getElementById('b4r406').value,
+      'b4r407a': document.getElementById('b4r407a').value,
+      'b4r407b_a': document.getElementById('b4r407b_a').value,
+      'b4r407b_b': document.getElementById('b4r407b_b').value,
+      'b4r407b_c': document.getElementById('b4r407b_c').value,
+      'b4r407b_d': document.getElementById('b4r407b_d').value,
+      'b4r407b_e': document.getElementById('b4r407b_e').value,
+      'b4r407c': document.getElementById('b4r407c').value,
+      'b4r408a': document.getElementById('b4r408a').value,
+      'b4r408b': document.getElementById('b4r408b').value,
+      'b4r408c': document.getElementById('b4r408c').value,
+      'b5r501a': document.getElementById('b5r501a').value,
+      'b5r501b': document.getElementById('b5r501b').value,
+      'b5r502a': document.getElementById('b5r502a').value,
+      'b5r502b': document.getElementById('b5r502b').value,
+      'b5r502c_1': document.getElementById('b5r502c_1').value,
+      'b5r502c_2': document.getElementById('b5r502c_2').value,
+      'b5r502c_3': document.getElementById('b5r502c_3').value
+    });
+
+    dataDesa.desaPage2 = desaPage2;
+    dataDesa.desaPage3 = desaPage3;
+    dataDesa.desaPage4 = desaPage4;
+    dataDesa.desaPage5 = desaPage5;
+    dataDesa.desaPage6 = desaPage6;
+    dataDesa.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta1/${namaFile}.json`, JSON.stringify(dataDesa));
+  }
+</script>
+
+<script> // function skip-skip gan
+  function changeB4R402a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b4r402a').value == 1) {
+        document.getElementById('b4r402b').disabled = false;
+        document.getElementById('b4r402c').disabled = false;
+        document.getElementById('b4r402b').focus();
+      }
+      if (document.getElementById('b4r402a').value == 2) {
+        document.getElementById('b4r402b').value = "";
+        document.getElementById('b4r402c').value = "";
+        document.getElementById('b4r402b').disabled = true;
+        document.getElementById('b4r402c').disabled = true;
+        document.getElementById('b4r403').focus();
+      }
+    }
+  }
+  function changeB4R405a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b4r405a').value == 1) {
+        document.getElementById('b4r405b').disabled = false;
+        document.getElementById('b4r405c').disabled = false;
+        document.getElementById('b4r405d').disabled = false;
+        document.getElementById('b4r405b').focus();
+      }
+      if (document.getElementById('b4r405a').value == 2) {
+        document.getElementById('b4r405b').value = "";
+        document.getElementById('b4r405c').value = "";
+        document.getElementById('b4r405d').value = "";
+        document.getElementById('b4r405b').disabled = true;
+        document.getElementById('b4r405c').disabled = true;
+        document.getElementById('b4r405d').disabled = true;
+        document.getElementById('b4r406').focus();
+      }
+    }
+  }
+  function changeB4R407a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b4r407a').value == 1) {
+        document.getElementById('b4r407b_a').disabled = false;
+        document.getElementById('b4r407b_b').disabled = false;
+        document.getElementById('b4r407b_c').disabled = false;
+        document.getElementById('b4r407b_d').disabled = false;
+        document.getElementById('b4r407b_e').disabled = false;
+        document.getElementById('b4r407c').disabled = false;
+        document.getElementById('b4r407b_a').focus();
+      }
+      if (document.getElementById('b4r407a').value == 2) {
+        document.getElementById('b4r407b_a').value = "";
+        document.getElementById('b4r407b_b').value = "";
+        document.getElementById('b4r407b_c').value = "";
+        document.getElementById('b4r407b_d').value = "";
+        document.getElementById('b4r407b_e').value = "";
+        document.getElementById('b4r407c').value = "";
+        document.getElementById('b4r407b_a').disabled = true;
+        document.getElementById('b4r407b_b').disabled = true;
+        document.getElementById('b4r407b_c').disabled = true;
+        document.getElementById('b4r407b_d').disabled = true;
+        document.getElementById('b4r407b_e').disabled = true;
+        document.getElementById('b4r407c').disabled = true;
+        document.getElementById('b4r408a').focus();
+      }
+    }
+  }
+  function changeB4R408a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b4r408a').value == 1 || document.getElementById('b4r408a').value == 2) {
+        document.getElementById('b4r408b').disabled = false;
+        document.getElementById('b4r408c').disabled = false;
+        document.getElementById('b4r408b').focus();
+      }
+      if (document.getElementById('b4r408a').value == 3) {
+        document.getElementById('b4r408b').value = "";
+        document.getElementById('b4r408c').value = "";
+        document.getElementById('b4r408b').disabled = true;
+        document.getElementById('b4r408c').disabled = true;
+        document.getElementById('b5r501a').focus();
+      }
+    }
+  }
+  function changeB5R501a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b5r501a').value == 1 || document.getElementById('b5r501a').value == 2) {
+        document.getElementById('b5r501b').disabled = false;
+        document.getElementById('b5r501b').focus();
+      }
+      if (document.getElementById('b5r501a').value == 3) {
+        document.getElementById('b5r501b').value = "";
+        document.getElementById('b5r501b').disabled = true;
+        document.getElementById('b5r502a').focus();
+      }
+    }
+  }
+  function changeB5R502a(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b5r502a').value == 1) {
+        document.getElementById('b5r502b').disabled = false;
+        document.getElementById('b5r502c_1').disabled = false;
+        document.getElementById('b5r502c_2').disabled = false;
+        document.getElementById('b5r502c_3').disabled = false;
+        document.getElementById('b5r502b').focus();
+      }
+      if (document.getElementById('b5r502a').value == 2) {
+        document.getElementById('b5r502b').value = "";
+        document.getElementById('b5r502c_1').value = "";
+        document.getElementById('b5r502c_2').value = "";
+        document.getElementById('b5r502c_3').value = "";
+        document.getElementById('b5r502b').disabled = true;
+        document.getElementById('b5r502c_1').disabled = true;
+        document.getElementById('b5r502c_2').disabled = true;
+        document.getElementById('b5r502c_3').disabled = true;
+        updateIsiJsonSamasta1();
+        location.href = `#/samasta-1/3/`;
+      }
+    }
+  }
+  function changeB5R502b(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b5r502b').value == 1) {
+        document.getElementById('b5r502c_1').disabled = false;
+        document.getElementById('b5r502c_2').disabled = false;
+        document.getElementById('b5r502c_3').disabled = false;
+        document.getElementById('b5r502c_1').focus();
+      }
+      if (document.getElementById('b5r502b').value == 2) {
+        document.getElementById('b5r502c_1').value = "";
+        document.getElementById('b5r502c_2').value = "";
+        document.getElementById('b5r502c_3').value = "";
+        document.getElementById('b5r502c_1').disabled = true;
+        document.getElementById('b5r502c_2').disabled = true;
+        document.getElementById('b5r502c_3').disabled = true;
+        updateIsiJsonSamasta1();
+        location.href = `#/samasta-1/3/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  function pindahHalaman(from, to) {
+    if (from == 2) {
+      updateIsiJsonSamasta1();
+    }
+    location.href = `#/samasta-1/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = i;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b5r502c_3').tabIndex == maxTabIndex) {
+        updateIsiJsonSamasta1();
+        location.href = `#/samasta-1/3/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  tabindexFix();
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $("#b4r401").inputFilter(function (value) {
+      return /^[1-3]*$/i.test(value);
+    });
+    $("#b4r402a").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r402b").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b4r402c").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b4r403").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r404a").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b4r404b").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b4r404c").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b4r405a").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r405b").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r405c").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r405d").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r406").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407a").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407b_a").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407b_b").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407b_c").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407b_d").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407b_e").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b4r407c").inputFilter(function (value) {
+      return /^[1-4]*$/i.test(value);
+    });
+    $("#b4r408a").inputFilter(function (value) {
+      return /^[1-3]*$/i.test(value);
+    });
+    $("#b4r408b").inputFilter(function (value) {
+      return /^[1-3]*$/i.test(value);
+    });
+    $("#b4r408c").inputFilter(function (value) {
+      return /^[1-4]*$/i.test(value);
+    });
+
+    $("#b5r501a").inputFilter(function (value) {
+      return /^[1-3]*$/i.test(value);
+    });
+    $("#b5r501b").inputFilter(function (value) {
+      return /^[1-3]*$/i.test(value);
+    });
+    $("#b5r502a").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b5r502b").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b5r502c_1").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b5r502c_2").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $("#b5r502c_3").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+  });
+</script>

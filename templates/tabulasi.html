@@ -1,0 +1,1821 @@
+<script>
+    getLoginData();
+</script><!-- Breadcrumb-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Reports</li>
+    <li class="breadcrumb-item">Tabulasi</li>
+</ol>
+
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        <!-- /.row-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Provinsi:</td>
+                                            <td>
+                                                <select class="form-control" id="selProvinsi" name="selProvinsi"
+                                                    onchange="populate(this.id,'selKabupaten','prov2kab')">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kabupaten/Kota:</td>
+                                            <td>
+                                                <select class="form-control" id="selKabupaten" name="selKabupaten"
+                                                    onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Kecamatan:</td>
+                                            <td>
+                                                <select class="form-control" id="selKecamatan" name="selKecamatan"
+                                                    onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Desa/Kelurahan:</td>
+                                            <td>
+                                                <select class="form-control" id="selDesa" name="selDesa"
+                                                    onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Dusun/Lingkungan:</td>
+                                            <td>
+                                                <select class="form-control" id="selDusun" name="selDusun">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <button id="btnTampil" class="btn btn-primary btn-block" type="button"
+                                                    onclick="setFilter()">Set</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 d-none d-md-block bg-light">
+                                <input type="checkbox" name="cbNonART" id="cbNonART" value="0" checked>
+                                termasuk ART yang biasanya tidak tinggal di rumah tangga ini
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 d-none d-md-block">
+
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="profil-tab" data-toggle="tab" href="#profil"
+                                            role="tab" aria-controls="profil" aria-selected="true">Profil dan
+                                            Monografi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="kampungKB-tab" data-toggle="tab" href="#kampungKB"
+                                            role="tab" aria-controls="kampungKB" aria-selected="false">Kampung KB</a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact"
+                                            role="tab" aria-controls="contact" aria-selected="false">...</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact"
+                                            role="tab" aria-controls="contact" aria-selected="false">...</a>
+                                    </li> -->
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="profil" role="tabpanel"
+                                        aria-labelledby="profil-tab">
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" style="padding-bottom: 5px">
+                                                <select class="form-control border-info" id="selectProfil"
+                                                    onchange="tampilProfil(this.options[this.selectedIndex].value)">
+                                                    <optgroup label="I. Umum">
+                                                        <option value="1-1" selected>1.1. Jumlah Rumah Tangga dan
+                                                            Keluarga Menurut Dusun/Lingkungan</option>
+                                                    </optgroup>
+                                                    <optgroup label="II. Kependudukan">
+                                                        <option value="2-1">2.1. Jumlah Penduduk Menurut
+                                                            Dusun/Lingkungan, Status Kewarganegaraan dan Jenis Kelamin
+                                                        </option>
+                                                        <option value="2-2">2.2. Jumlah Penduduk Menurut Umur dan Jenis
+                                                            Kelamin</option>
+                                                        <option value="2-3">2.3. Jumlah Penduduk Menurut Tingkat
+                                                            Pendidikan dan Jenis Kelamin</option>
+                                                        <option value="2-4">2.4. Jumlah Mutasi Penduduk Menurut
+                                                            Dusun/Lingkungan</option>
+                                                        <option value="2-5">2.5. Jumlah Penduduk Menurut Lapangan
+                                                            Pekerjaan Utama dan Jenis Kelamin</option>
+                                                    </optgroup>
+                                                    <optgroup label="III. Kesehatan">
+                                                        <option value="3-1">3.1. Jumlah Penyandang Cacat Menurut Jenis
+                                                            Cacat dan Jenis Kelamin</option>
+                                                        <option value="3-2">3.2. Jumlah Pasangan Usia Subur dan Akseptor
+                                                            KB Menurut Jenis Alat Kontrasepsi Utama</option>
+                                                    </optgroup>
+                                                    <optgroup label="IV. Komunikasi">
+                                                        <option value="4-1">4.1. Jumlah Keluarga Menurut Jenis Alat
+                                                            Komunikasi yang Dimiliki</option>
+                                                    </optgroup>
+                                                    <optgroup label="V. Alat Transportasi">
+                                                        <option value="5-1">5.1. Jumlah Kendaraan yang Dimiliki Menurut
+                                                            Jenis Alat Transportasi</option>
+                                                    </optgroup>
+                                                    <optgroup label="VI. Nikah, Talak, Cerai dan Rujuk">
+                                                        <option value="6-1">6.1. Jumlah Kejadian Nikah, Talak, Cerai dan
+                                                            Rujuk Menurut Dusun/Lingkungan
+                                                        </option>
+                                                    </optgroup>
+                                                    <optgroup label="VII. Perumahan">
+                                                        <option value="7-1">7.1. Jumlah Keluarga Menurut Jenis Perumahan
+                                                            dan Dusun/Lingkungan</option>
+                                                    </optgroup>
+                                                    <optgroup label="VIII. Kepemilikan Lahan">
+                                                        <option value="8-1">8.1. Jumlah Keluarga Menurut Kepemilikan
+                                                            Lahan</option>
+                                                    </optgroup>
+                                                    <optgroup label="IX. Tenaga Kerja">
+                                                        <option value="9-1">9.1. Jumlah Tenaga Kerja Menurut Jenis
+                                                            Kelamin</option>
+                                                    </optgroup>
+                                                    <optgroup label="X. Kualitas Angkatan Kerja">
+                                                        <option value="10-1">10.1. Jumlah Angkatan Kerja Menurut
+                                                            Kualitas Angkatan Kerja dan Jenis Kelamin</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" id="profil-tabel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="kampungKB" role="tabpanel"
+                                        aria-labelledby="kampungKB-tab">
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" style="padding-bottom: 5px">
+                                                <select class="form-control border-info" id="selectKampungKB"
+                                                    onchange="tampilKampungKB(this.options[this.selectedIndex].value)">
+                                                    <option value="tabel-1" selected>1. Jumlah Penduduk Menurut Kelompok
+                                                        Umur dan Jenis Kelamin</option>
+                                                    <option value="tabel-2">2. Jumlah Kepala Keluarga Menurut
+                                                        Dusun/Lingkungan dan
+                                                        Tingkat Pendidikan</option>
+                                                    <option value="tabel-3">3. Jumlah Kepala Keluarga Laki-Laki
+                                                        Menurut Dusun/Lingkungan dan Kelompok Umur</option>
+                                                    <option value="tabel-4">4. Jumlah Kepala Keluarga Perempuan
+                                                        Menurut Dusun/Lingkungan dan Kelompok Umur</option>
+                                                    <option value="tabel-5">5. Jumlah Jiwa dalam Keluarga
+                                                        Menurut Dusun/Lingkungan dan Tingkat Pendidikan</option>
+                                                    <option value="tabel-6">6. Jumlah Anak Usia Sekolah 7-15 Tahun
+                                                        Menurut Dusun/Lingkungan dan Jenis Kelamin
+                                                    </option>
+                                                    <option value="tabel-7">7. Jumlah Anak Usia Sekolah 16-18
+                                                        Tahun Menurut Dusun/Lingkungan dan Jenis Kelamin</option>
+                                                    <option value="tabel-8">8. Jumlah Jiwa dalam Keluarga
+                                                        Menurut Dusun/Lingkungan dan Lapangan Pekerjaan Utama</option>
+                                                    <option value="tabel-9">9. Jumlah Kepala Keluarga Menurut
+                                                        Dusun/Lingkungan dan Lapangan Pekerjaan Utama</option>
+                                                    <option value="tabel-10">10. Jumlah Kepala Keluarga yang
+                                                        Memiliki Akta Nikah dan Belum Memiliki Menurut Dusun/Lingkungan
+                                                    </option>
+                                                    <option value="tabel-11">11. Jumlah Jiwa dalam Kepesertaan JKN
+                                                        Menurut Dusun/Lingkungan
+                                                    </option>
+                                                    <option value="tabel-12">12. Jumlah PUS Ber-KB dan Tidak KB Menurut
+                                                        Dusun/Lingkungan
+                                                    </option>
+                                                    <option value="tabel-13">13. Jumlah Keluarga Berdasarkan
+                                                        Indikator Pembangunan Keluarga Menurut Dusun/Lingkungan</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" id="kampungKB-tabel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel"
+                                        aria-labelledby="contact-tab">.c..</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.row-->
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+        </div>
+        <!-- /.row-->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loadPage();
+        $(this).scrollTop(0);
+        document.getElementById("loader").style.display = "none";
+    });
+</script>
+
+<!-- onload filter wilayah, sesuai wilayah user didaftarkan -->
+<script>
+    var lastArea;
+
+    if (lastArea) {
+        kodeProv = lastArea.kodeProv;
+        kodeKab = lastArea.kodeKab;
+        kodeKec = lastArea.kodeKec;
+        kodeDesa = lastArea.kodeDesa;
+        kodeSLS = lastArea.kodeSLS;
+    } else {
+        kodeProv = dlKodeProv;
+        kodeKab = dlKodeKab;
+        kodeKec = dlKodeKec;
+        kodeDesa = dlKodeDesa;
+        kodeSLS = dlKodeSLS;
+    }
+
+    async function loadPage() {
+        // dl=data login user. 
+        if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+        if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+        if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+        if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+        if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+        // wilayah provinsi
+        sql = `SELECT * FROM m_prov ORDER BY kodeProv ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeProv == lastArea.kodeProv) selected = "selected";
+            } else if (row.kodeProv == dlKodeProv) selected = "selected";
+            $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+        });
+
+        // wilayah kabupaten
+        $('#selKabupaten').append(`<option value='00'>00 - SEMUA KABUPATEN</option>`);
+        sql = `SELECT * FROM m_kab WHERE kodeProv='${kodeProv}' ORDER BY kodeKab ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeKab == lastArea.kodeKab) selected = "selected";
+            } else if (row.kodeKab == dlKodeKab) selected = "selected";
+            $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+        });
+
+        // wilayah kecamatan
+        $('#selKecamatan').append(`<option value='000'>000 - SEMUA KECAMATAN</option>`);
+        sql = `SELECT * FROM m_kec WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' ORDER BY kodeKec ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeKec == lastArea.kodeKec) selected = "selected";
+            } else if (row.kodeKec == dlKodeKec) selected = "selected";
+            $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+        });
+
+        // wilayah desa/kelurahan
+        $('#selDesa').append(`<option value='000'>000 - SEMUA DESA/KELURAHAN</option>`);
+        sql = `SELECT * FROM m_desa WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' ORDER BY kodeDesa ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeDesa == lastArea.kodeDesa) selected = "selected";
+            } else if (row.kodeDesa == dlKodeDesa) selected = "selected";
+            $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+        });
+
+        // wilayah dusun/lingkungan
+        $('#selDusun').append(`<option value='00'>00 - SEMUA DUSUN/LINGKUNGAN</option>`);
+        sql = `SELECT * FROM m_sls WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' AND kodeDesa='${kodeDesa}' ORDER BY kodeSLS ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeSLS == lastArea.kodeSLS) selected = "selected";
+            } else if (row.kodeSLS == dlKodeSLS) selected = "selected";
+            $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+        });
+        tampilProfil("1-1");
+        tampilKampungKB("tabel-1");
+    }
+
+    async function areaFilter() {
+        // membuat string areaFilter untuk fetching data selanjutnya
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        var sDesa = document.getElementById("selDesa");
+        var sDusun = document.getElementById("selDusun");
+
+        strAreaFilter = `a.kodeProv = '${sProv.value}'`;
+        if (sKab.value != "00") {
+            strAreaFilter += ` AND a.kodeKab = '${sKab.value}'`;
+            if (sKec.value != "000") {
+                strAreaFilter += ` AND a.kodeKec = '${sKec.value}'`;
+                if (sDesa.value != "000") {
+                    strAreaFilter += ` AND a.kodeDesa = '${sDesa.value}'`;
+                    if (sDusun.value != "00") {
+                        strAreaFilter += ` AND a.kodeSLS = '${sDusun.value}'`;
+                    }
+                }
+            }
+        }
+        return strAreaFilter;
+    }
+
+    async function areaFilterS() {
+        // membuat string areaFilter untuk fetching data selanjutnya
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        var sDesa = document.getElementById("selDesa");
+        var sDusun = document.getElementById("selDusun");
+
+        strAreaFilter = `s.kodeProv = '${sProv.value}'`;
+        if (sKab.value != "00") {
+            strAreaFilter += ` AND s.kodeKab = '${sKab.value}'`;
+            if (sKec.value != "000") {
+                strAreaFilter += ` AND s.kodeKec = '${sKec.value}'`;
+                if (sDesa.value != "000") {
+                    strAreaFilter += ` AND s.kodeDesa = '${sDesa.value}'`;
+                    if (sDusun.value != "00") {
+                        strAreaFilter += ` AND s.kodeSLS = '${sDusun.value}'`;
+                    }
+                }
+            }
+        }
+        return strAreaFilter;
+    }
+
+    async function areaFilterX() {
+        // membuat string areaFilter untuk fetching data selanjutnya
+        var nonART = document.getElementById("cbNonART");
+
+        strAreaFilterX = ``;
+        if (nonART.checked == true) {
+            strAreaFilterX = strAreaFilterX;
+        } else {
+            strAreaFilterX += `AND a.k406 = 1`;
+        }
+        return strAreaFilterX;
+    }
+</script>
+
+<script>
+    async function setFilter() {
+        var target = $("ul#myTab a.active").attr('href');
+
+        if (target == "#profil") {
+            var e = document.getElementById("selectProfil");
+            var optSelected = e.options[e.selectedIndex].value;
+            tampilProfil(optSelected);
+        }
+        if (target == "#kampungKB") {
+            var e = document.getElementById("selectKampungKB");
+            var optSelected = e.options[e.selectedIndex].value;
+            tampilKampungKB(optSelected);
+        }
+    }
+</script>
+
+<!-- TAMPIL _menampilkan ruta dengan mengklik tombol Tampil -->
+<script>
+    async function tampilProfil(optSelected) {
+        // menampilkan ruta dari database sesuai onload filter wilayah    
+        var aF = await areaFilter();
+        var aFx = await areaFilterX();
+        var aFs = await areaFilterS();
+        document.getElementById('profil-tabel').innerHTML = ``;
+        $('#profil-tabel').append(`<div class="btn-group pull-right mb-1" role="group" aria-label="Basic example">
+            <button class="btn text-white" style="background-color: #0b633a !important;"><i class="icon icon-cloud-download"></i></button>
+            <button class="btn btn-success" onclick="exportTableToExcel('table${optSelected}', 'Profil dan Monografi_${optSelected}')"> Excel</button>
+            </div>`);
+
+        if (optSelected == "1-1") {
+            sql = `SELECT s.*,
+            (SELECT kepalaSLS FROM t_samasta3 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS kepalaSLS,
+            (SELECT count(*) FROM t_rt a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jumlahRT,
+            (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = '${dlTahunSamasta2}') AS jumlahKK
+            FROM m_sls s
+            WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#profil-tabel').append(`<table id="table1-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="5">Tabel 1.1 Jumlah Rumah Tangga dan Keluarga Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th>No</th><th>Dusun/Lingkungan</th><th>Nama Kepala SLS</th><th>Jumlah Rumah Tangga</th><th>Jumlah Kepala Keluarga</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                if (row.kepalaSLS == null) {
+                    kepalaSLS = "";
+                } else {
+                    kepalaSLS = row.kepalaSLS.toUpperCase();
+                }
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td>${kepalaSLS}</td>`
+                    + `<td class="text-center">${row.jumlahRT}</td>`
+                    + `<td class="text-center">${row.jumlahKK}</td>`
+                    + `</tr>`);
+            });
+
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-1") {
+            sql = `SELECT s.*,
+            (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = '${dlTahunSamasta2}' AND a.k410='1' AND a.k422='1') AS wni_lk,
+            (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = '${dlTahunSamasta2}' AND a.k411='1' AND a.k422='1') AS wni_pr,
+            (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = '${dlTahunSamasta2}' AND a.k410='1' AND a.k422='2') AS wna_lk,
+            (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = '${dlTahunSamasta2}' AND a.k411='1' AND a.k422='2') AS wna_pr
+            FROM m_sls s
+            WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#profil-tabel').append(`<table id="table2-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="11">Tabel 2.1 Jumlah Penduduk Menurut Dusun/Lingkungan, Status Kewarganegaraan dan Jenis Kelamin</th></tr>`
+                + `<tr><th rowspan="2">No</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="3">WNI</th><th colspan="3">WNA</th><th colspan="3">Total</th></tr>`
+                + `<tr><th>Laki-Laki</th><th>Perempuan</th><th>Jumlah</th><th>Laki-Laki</th><th>Perempuan</th><th>Jumlah</th><th>Laki-Laki</th><th>Perempuan</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.wni_lk}</td>`
+                    + `<td class="text-center">${row.wni_pr}</td>`
+                    + `<td class="text-center">${row.wni_lk + row.wni_pr}</td>`
+                    + `<td class="text-center">${row.wna_lk}</td>`
+                    + `<td class="text-center">${row.wna_pr}</td>`
+                    + `<td class="text-center">${row.wna_lk + row.wna_pr}</td>`
+                    + `<td class="text-center">${row.wni_lk + row.wna_lk}</td>`
+                    + `<td class="text-center">${row.wni_pr + row.wna_pr}</td>`
+                    + `<td class="text-center">${row.wni_lk + row.wni_pr + row.wna_lk + row.wna_pr}</td>`
+                    + `</tr>`);
+            });
+
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-2") {
+            $('#profil-tabel').append(`<table id="table2-2" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 2.2 Jumlah Penduduk Menurut Umur dan Jenis Kelamin</th></tr>`
+                + `<tr><th>Usian (tahun)</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            var total_lk = 0;
+            var total_pr = 0;
+            for (i = 0; i <= 75; i++) {
+                sql = `SELECT ifnull(sum(k410),0) AS sum_lk, ifnull(sum(k411),0) AS sum_pr
+                FROM t_art a
+                WHERE ${aF} ${aFx} AND k413 = '${i}' AND a.tahun = '${dlTahunSamasta2}'
+                ORDER BY a.kodeProv ASC, a.kodeKab ASC, a.kodeKec ASC, a.kodeDesa ASC, a.kodeSLS ASC`;
+                r = await sqlite.each(sql, [], function (row) {
+                    $('#profil-tabel-tbody').append(
+                        `<tr>`
+                        + `<td class="text-center">${i}</td>`
+                        + `<td class="text-center">${row.sum_lk}</td>`
+                        + `<td class="text-center">${row.sum_pr}</td>`
+                        + `<td class="text-center">${row.sum_lk + row.sum_pr}</td>`
+                        + `</tr>`);
+                    total_lk += row.sum_lk;
+                    total_pr += row.sum_pr;
+                });
+            }
+
+            sql = `SELECT ifnull(sum(k410),0) AS sum_lk, ifnull(sum(k411),0) AS sum_pr
+                FROM t_art a
+                WHERE ${aF} ${aFx} AND nullif(k413, '') > 75 AND a.tahun = '${dlTahunSamasta2}'
+                ORDER BY a.kodeProv ASC, a.kodeKab ASC, a.kodeKec ASC, a.kodeDesa ASC, a.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">75+</td>`
+                    + `<td class="text-center">${row.sum_lk}</td>`
+                    + `<td class="text-center">${row.sum_pr}</td>`
+                    + `<td class="text-center">${row.sum_lk + row.sum_pr}</td>`
+                    + `</tr>`);
+                total_lk += row.sum_lk;
+                total_pr += row.sum_pr;
+            });
+
+            $('#profil-tabel-tbody').append(
+                `<tr>`
+                + `<td class="text-center font-weight-bold">Total</td>`
+                + `<td class="text-center font-weight-bold">${total_lk}</td>`
+                + `<td class="text-center font-weight-bold">${total_pr}</td>`
+                + `<td class="text-center font-weight-bold">${total_lk + total_pr}</td>`
+                + `</tr>`);
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+        if (optSelected == "2-3") {
+            $('#profil-tabel').append(`<table id="table2-3" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 2.3 Jumlah Penduduk Menurut Tingkat Pendidikan dan Jenis Kelamin</th></tr>`
+                + `<tr><th>TIngkat Pendidikan</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 3 AND nullif(a.k413,"") <= 6) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b1_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 3 AND nullif(a.k413,"") <= 6) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b1_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 3 AND nullif(a.k413,"") <= 6) AND a.k429 = 1 AND a.k431 = 1 THEN 1 ELSE 0 END) AS b2_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 3 AND nullif(a.k413,"") <= 6) AND a.k429 = 1 AND a.k431 = 1 THEN 1 ELSE 0 END) AS b2_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 18) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b3_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 18) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b3_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 18) AND a.k429 = 1 THEN 1 ELSE 0 END) AS b4_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 18) AND a.k429 = 1 THEN 1 ELSE 0 END) AS b4_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b5_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k428 = 1 THEN 1 ELSE 0 END) AS b5_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k431 = 2 AND a.k432 = 0 THEN 1 ELSE 0 END) AS b6_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k431 = 2 AND a.k432 = 0 THEN 1 ELSE 0 END) AS b6_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 2 THEN 1 ELSE 0 END) AS b7_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 2 THEN 1 ELSE 0 END) AS b7_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 12 AND nullif(a.k413,"") <= 56) AND a.k431 = 3 AND a.k432 = 2 THEN 1 ELSE 0 END) AS b8_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 12 AND nullif(a.k413,"") <= 56) AND a.k431 = 3 AND a.k432 = 2 THEN 1 ELSE 0 END) AS b8_pr,
+                    sum(case when a.k410 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k431 = 4 AND a.k432 = 3 THEN 1 ELSE 0 END) AS b9_lk,
+                    sum(case when a.k411 = 1 AND (nullif(a.k413,"") >= 18 AND nullif(a.k413,"") <= 56) AND a.k431 = 4 AND a.k432 = 3 THEN 1 ELSE 0 END) AS b9_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 3 THEN 1 ELSE 0 END) AS b10_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 3 THEN 1 ELSE 0 END) AS b10_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 4 THEN 1 ELSE 0 END) AS b11_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 4 THEN 1 ELSE 0 END) AS b11_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 5 THEN 1 ELSE 0 END) AS b12_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 5 THEN 1 ELSE 0 END) AS b12_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 6 THEN 1 ELSE 0 END) AS b13_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 6 THEN 1 ELSE 0 END) AS b13_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 7 THEN 1 ELSE 0 END) AS b14_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 7 THEN 1 ELSE 0 END) AS b14_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 8 THEN 1 ELSE 0 END) AS b15_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 8 THEN 1 ELSE 0 END) AS b15_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 9 THEN 1 ELSE 0 END) AS b16_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 9 THEN 1 ELSE 0 END) AS b16_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 10 THEN 1 ELSE 0 END) AS b17_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 10 THEN 1 ELSE 0 END) AS b17_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 11 THEN 1 ELSE 0 END) AS b18_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 11 THEN 1 ELSE 0 END) AS b18_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 12 THEN 1 ELSE 0 END) AS b19_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 12 THEN 1 ELSE 0 END) AS b19_pr,
+                    sum(case when a.k410 = 1 AND a.k432 = 13 THEN 1 ELSE 0 END) AS b20_lk,
+                    sum(case when a.k411 = 1 AND a.k432 = 13 THEN 1 ELSE 0 END) AS b20_pr
+                    FROM t_art a WHERE ${aF} ${aFx} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+
+            $('#profil-tabel-tbody').append(`<tr>`
+                + `<td>Usia 3-6 tahun yang belum masuk TK</td><td class="text-center">${r.b1_lk}</td><td class="text-center">${r.b1_pr}</td><td class="text-center">${r.b1_lk + r.b1_pr}</td></tr>`
+                + `<td>Usia 3-6 tahun yang sedang TK/playgroup</td><td class="text-center">${r.b2_lk}</td><td class="text-center">${r.b2_pr}</td><td class="text-center">${r.b2_lk + r.b2_pr}</td></tr>`
+                + `<td>Usia 7-18 tahun yang tidak pernah sekolah</td><td class="text-center">${r.b3_lk}</td><td class="text-center">${r.b3_pr}</td><td class="text-center">${r.b3_lk + r.b3_pr}</td></tr>`
+                + `<td>Usia 7-18 tahun yang sedang sekolah</td><td class="text-center">${r.b4_lk}</td><td class="text-center">${r.b4_pr}</td><td class="text-center">${r.b4_lk + r.b4_pr}</td></tr>`
+                + `<td>Usia 18-56 tahun yang tidak pernah sekolah</td><td class="text-center">${r.b5_lk}</td><td class="text-center">${r.b5_pr}</td><td class="text-center">${r.b5_lk + r.b5_pr}</td></tr>`
+                + `<td>Usia 18-56 tahun pernah SD tetapi tidak tamat</td><td class="text-center">${r.b6_lk}</td><td class="text-center">${r.b6_pr}</td><td class="text-center">${r.b6_lk + r.b6_pr}</td></tr>`
+                + `<td>Tamat SD/sederajat</td><td class="text-center">${r.b7_lk}</td><td class="text-center">${r.b7_pr}</td><td class="text-center">${r.b7_lk + r.b7_pr}</td></tr>`
+                + `<td>Usia 12-56 tahun tidak tamat SLTP</td><td class="text-center">${r.b8_lk}</td><td class="text-center">${r.b8_pr}</td><td class="text-center">${r.b8_lk + r.b8_pr}</td></tr>`
+                + `<td>Usia 18-56 tahun tidak tamat SLTA</td><td class="text-center">${r.b9_lk}</td><td class="text-center">${r.b9_pr}</td><td class="text-center">${r.b9_lk + r.b9_pr}</td></tr>`
+                + `<td>Tamat SMP/sederajat</td><td class="text-center">${r.b10_lk}</td><td class="text-center">${r.b10_pr}</td><td class="text-center">${r.b10_lk + r.b10_pr}</td></tr>`
+                + `<td>Tamat SMA/sederajat</td><td class="text-center">${r.b11_lk}</td><td class="text-center">${r.b11_pr}</td><td class="text-center">${r.b11_lk + r.b11_pr}</td></tr>`
+                + `<td>Tamat D-1/sederajat</td><td class="text-center">${r.b12_lk}</td><td class="text-center">${r.b12_pr}</td><td class="text-center">${r.b12_lk + r.b12_pr}</td></tr>`
+                + `<td>Tamat D-2/sederajat</td><td class="text-center">${r.b13_lk}</td><td class="text-center">${r.b13_pr}</td><td class="text-center">${r.b13_lk + r.b13_pr}</td></tr>`
+                + `<td>Tamat D-3/sederajat</td><td class="text-center">${r.b14_lk}</td><td class="text-center">${r.b14_pr}</td><td class="text-center">${r.b14_lk + r.b14_pr}</td></tr>`
+                + `<td>Tamat S-1/sederajat</td><td class="text-center">${r.b15_lk}</td><td class="text-center">${r.b15_pr}</td><td class="text-center">${r.b15_lk + r.b15_pr}</td></tr>`
+                + `<td>Tamat S-2/sederajat</td><td class="text-center">${r.b16_lk}</td><td class="text-center">${r.b16_pr}</td><td class="text-center">${r.b16_lk + r.b16_pr}</td></tr>`
+                + `<td>Tamat S-3/sederajat</td><td class="text-center">${r.b17_lk}</td><td class="text-center">${r.b17_pr}</td><td class="text-center">${r.b17_lk + r.b17_pr}</td></tr>`
+                + `<td>Tamat SLB A</td><td class="text-center">${r.b18_lk}</td><td class="text-center">${r.b18_pr}</td><td class="text-center">${r.b18_lk + r.b18_pr}</td></tr>`
+                + `<td>Tamat SLB B</td><td class="text-center">${r.b19_lk}</td><td class="text-center">${r.b19_pr}</td><td class="text-center">${r.b19_lk + r.b19_pr}</td></tr>`
+                + `<td>Tamat SLB C</td><td class="text-center">${r.b20_lk}</td><td class="text-center">${r.b20_pr}</td><td class="text-center">${r.b20_lk + r.b20_pr}</td></tr>`);
+
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+        if (optSelected == "2-4") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(sum(a.k503), 0) FROM t_kk a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_lahir,
+            (SELECT ifnull(sum(a.k504), 0) FROM t_kk a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_mati,
+            (SELECT ifnull(sum(a.k505), 0) FROM t_kk a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_datang,
+            (SELECT ifnull(sum(a.k506), 0) FROM t_kk a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_pindah
+            FROM m_sls s
+            WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#profil-tabel').append(`<table id="table2-4" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="6">Tabel 2.4 Jumlah Mutasi Penduduk Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th>No</th><th>Dusun/Lingkungan</th><th>Lahir (orang)</th><th>Mati (orang)</th><th>Datang (orang)</th><th>Pindah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+            var total_lahir = 0;
+            var total_mati = 0;
+            var total_datang = 0;
+            var total_pindah = 0;
+            r = await sqlite.each(sql, [], function (row) {
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_lahir}</td>`
+                    + `<td class="text-center">${row.jml_mati}</td>`
+                    + `<td class="text-center">${row.jml_datang}</td>`
+                    + `<td class="text-center">${row.jml_pindah}</td>`
+                    + `</tr>`);
+                total_lahir += row.jml_lahir;
+                total_mati += row.jml_mati;
+                total_datang += row.jml_datang;
+                total_pindah += row.jml_pindah;
+            });
+            $('#profil-tabel-tbody').append(
+                `<tr>`
+                + `<td class="text-center font-weight-bold" colspan="2">Total</td>`
+                + `<td class="text-center font-weight-bold">${total_lahir}</td>`
+                + `<td class="text-center font-weight-bold">${total_mati}</td>`
+                + `<td class="text-center font-weight-bold">${total_datang}</td>`
+                + `<td class="text-center font-weight-bold">${total_pindah}</td>`
+                + `</tr>`);
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-5") {
+            var kode_k436 = {
+                1: "Pertanian tanaman padi dan palawija",
+                2: "Hortikultura",
+                3: "Perkebunan",
+                4: "Perikanan",
+                5: "Peternakan",
+                6: "Kehutanan dan pertanian lainnya",
+                7: "Pertambangan dan penggalian",
+                8: "Industri pengolahan",
+                9: "Pengadaan listrik, gas, uap/air panas, dan udara dingin",
+                10: "Pengelolaan air, pengelolaan air limbah, pengelolaan dan daur ulang sampah, dan aktivitas remediasi",
+                11: "Konstruksi",
+                12: "Perdagangan besar dan eceran, reparasi dan perawatan mobil dan sepeda motor",
+                13: "Pengangkutan dan pergudangan",
+                14: "Penyediaan akomodasi dan penyediaan makan minum",
+                15: "Informasi dan komunikasi",
+                16: "Aktivitas keuangan dan asuransi",
+                17: "Real estate",
+                18: "Aktivitas professional, ilmiah, dan teknis",
+                19: "Aktivitas penyewaan dan sewa guna tanpa hak opsi, ketenagakerjaan, agen perjalanan, dan penunjang usaha lainnya",
+                20: "Administrasi pemerintahan, pertanahan, dan jaminan social wajib",
+                21: "Pendidikan",
+                22: "Aktivitas kesehatan manusia dan aktivitas social",
+                23: "Kesenian, hiburan, dan rekreasi",
+                24: "Aktivitas jasa lainnya",
+                25: "Aktivitas rumah tangga sebagai pemberi kerja",
+                26: "Aktivitas badan internasional dan badan ekstra internasional lainnya"
+            };
+            $('#profil-tabel').append(`<table id="table2-5" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="5">Tabel 2.5 Jumlah Penduduk Menurut Lapangan Pekerjaan Utama dan Jenis Kelamin</th></tr>`
+                + `<tr><th>Kode</th><th>Lapangan Pekerjaan Utama</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            for (i = 1; i <= 26; i++) {
+                sql = `SELECT ifnull(sum(k410),0) AS jml_lk, ifnull(sum(k411),0) AS jml_pr FROM t_art a WHERE ${aF} ${aFx} AND a.k436 = '${i}' AND a.tahun = '${dlTahunSamasta2}'`;
+                r = await sqlite.get(sql);
+
+                if (r) {
+                    $('#profil-tabel-tbody').append(
+                        `<tr>`
+                        + `<td class="text-center">${i}</td>`
+                        + `<td>${kode_k436[i]}</td>`
+                        + `<td class="text-center">${r.jml_lk}</td>`
+                        + `<td class="text-center">${r.jml_pr}</td>`
+                        + `<td class="text-center">${r.jml_lk + r.jml_pr}</td>`
+                        + `</tr>`);
+                }
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "3-1") {
+            var jeniscacat = {
+                1: "Tuna rungu",
+                2: "Tuna wicara",
+                3: "Tuna netra",
+                4: "Lumpuh",
+                5: "Sumbing",
+                6: "Cacat kulit",
+                7: "Cacat fisik/daksa",
+                8: "Cacat mental/gila",
+                9: "Autis"
+            }
+            $('#profil-tabel').append(`<table id="table3-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 3.1 Jumlah Penyandang Cacat Menurut Jenis Cacat dan Jenis Kelamin</th></tr>`
+                + `<tr><th>Jenis Cacat</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT
+                    ifnull(sum(case when a.k410 = 1 AND a.k441 = 1 THEN 1 ELSE 0 END),0) AS tunarungu_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k441 = 1 THEN 1 ELSE 0 END),0) AS tunarungu_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k442 = 1 THEN 1 ELSE 0 END),0) AS tunawicara_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k442 = 1 THEN 1 ELSE 0 END),0) AS tunawicara_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k443 = 1 THEN 1 ELSE 0 END),0) AS tunanetra_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k443 = 1 THEN 1 ELSE 0 END),0) AS tunanetra_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k444 = 1 THEN 1 ELSE 0 END),0) AS lumpuh_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k444 = 1 THEN 1 ELSE 0 END),0) AS lumpuh_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k445 = 1 THEN 1 ELSE 0 END),0) AS sumbing_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k445 = 1 THEN 1 ELSE 0 END),0) AS sumbing_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k446 = 1 THEN 1 ELSE 0 END),0) AS cacatkulit_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k446 = 1 THEN 1 ELSE 0 END),0) AS cacatkulit_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k447 = 1 THEN 1 ELSE 0 END),0) AS cacatfisik_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k447 = 1 THEN 1 ELSE 0 END),0) AS cacatfisik_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k448 = 1 THEN 1 ELSE 0 END),0) AS cacatmental_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k448 = 1 THEN 1 ELSE 0 END),0) AS cacatmental_pr,
+                    ifnull(sum(case when a.k410 = 1 AND a.k449 = 1 THEN 1 ELSE 0 END),0) AS autis_lk,
+                    ifnull(sum(case when a.k411 = 1 AND a.k449 = 1 THEN 1 ELSE 0 END),0) AS autis_pr
+                    FROM t_art a WHERE ${aF} ${aFx} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td>${jeniscacat[1]}</td><td class="text-center">${r.tunarungu_lk}</td><td class="text-center">${r.tunarungu_pr}</td><td class="text-center">${r.tunarungu_lk + r.tunarungu_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[2]}</td><td class="text-center">${r.tunawicara_lk}</td><td class="text-center">${r.tunawicara_pr}</td><td class="text-center">${r.tunawicara_lk + r.tunawicara_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[3]}</td><td class="text-center">${r.tunanetra_lk}</td><td class="text-center">${r.tunanetra_pr}</td><td class="text-center">${r.tunanetra_lk + r.tunanetra_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[4]}</td><td class="text-center">${r.lumpuh_lk}</td><td class="text-center">${r.lumpuh_pr}</td><td class="text-center">${r.lumpuh_lk + r.lumpuh_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[5]}</td><td class="text-center">${r.sumbing_lk}</td><td class="text-center">${r.sumbing_pr}</td><td class="text-center">${r.sumbing_lk + r.sumbing_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[6]}</td><td class="text-center">${r.cacatkulit_lk}</td><td class="text-center">${r.cacatkulit_pr}</td><td class="text-center">${r.cacatkulit_lk + r.cacatkulit_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[7]}</td><td class="text-center">${r.cacatfisik_lk}</td><td class="text-center">${r.cacatfisik_pr}</td><td class="text-center">${r.cacatfisik_lk + r.cacatfisik_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[8]}</td><td class="text-center">${r.cacatmental_lk}</td><td class="text-center">${r.cacatmental_pr}</td><td class="text-center">${r.cacatmental_lk + r.cacatmental_pr}</td></tr>`
+                    + `<tr><td>${jeniscacat[9]}</td><td class="text-center">${r.autis_lk}</td><td class="text-center">${r.autis_pr}</td><td class="text-center">${r.autis_lk + r.autis_pr}</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "3-2") {
+            $('#profil-tabel').append(`<table id="table3-2" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="2">Tabel 3.2 Jumlah Pasangan Usia Subur dan Akseptor KB Menurut Jenis Alat Kontrasepsi Utama</th></tr></thead>`
+                + `<tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT 
+                count(*) AS jml, ifnull(sum(k452),0) AS jml_pil, ifnull(sum(k453),0) AS jml_iud, ifnull(sum(k454),0) AS jml_suntikan, ifnull(sum(k455),0) AS jml_mop, ifnull(sum(k456),0) AS jml_mow, ifnull(sum(k457),0) AS jml_kondom, ifnull(sum(k458),0) AS jml_implant, ifnull(sum(k459),0) AS jml_mandiri
+                FROM t_art a 
+                WHERE ${aF} ${aFx} AND a.k411 = 1 AND (nullif(a.k413, '') >= 10 AND nullif(a.k413, '') <= 54) AND a.k415 = 1 AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%"><b>Jumlah Pasangan Usia Subur tahun ${dlTahunSamasta2}</b></td><td class="text-center">${r.jml}</td></tr>`
+                    + `<tr><td colspan="2"><b>Jumlah Akseptor KB menurut Alat Kontrasepsi Utama</b></td></tr>`
+                    + `<tr><td>Pil</td><td class="text-center">${r.jml_pil}</td></tr>`
+                    + `<tr><td>IUD/AKDR/spriral</td><td class="text-center">${r.jml_iud}</td></tr>`
+                    + `<tr><td>Suntikan</td><td class="text-center">${r.jml_suntikan}</td></tr>`
+                    + `<tr><td>MOP (sterilisasi pria/vasektomi)</td><td class="text-center">${r.jml_mop}</td></tr>`
+                    + `<tr><td>MOW (sterilisasi wanita/tubektomi)</td><td class="text-center">${r.jml_mow}</td></tr>`
+                    + `<tr><td>Kondom</td><td class="text-center">${r.jml_kondom}</td></tr>`
+                    + `<tr><td>Implant/susuk KB</td><td class="text-center">${r.jml_implant}</td></tr>`
+                    + `<tr><td>KB Mandiri (tradisional)</td><td class="text-center">${r.jml_mandiri}</td></tr>`
+                );
+            }
+
+            $('#profil-tabel-tbody').append(
+                `<tr><td colspan="2"><b>Jumlah Pasangan Usia Subur Masuk KB menurut Bulan</b></td></tr>`);
+
+            for (i = 1; i <= 12; i++) {
+                sql2 = `SELECT count(*) AS jml FROM t_art a 
+                WHERE ${aF} ${aFx} AND a.k411 = 1 AND (nullif(a.k413, '') >= 10 AND nullif(a.k413, '') <= 54) AND a.k415 = 1 AND a.k451 = '${i}' AND a.tahun = '${dlTahunSamasta2}'`;
+
+                r2 = await sqlite.get(sql2);
+                if (r) {
+                    $('#profil-tabel-tbody').append(
+                        `<tr><td class="text-center">${i}</td><td class="text-center">${r2.jml}</td></tr>`);
+                }
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "4-1") {
+            $('#profil-tabel').append(`<table id="table4-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="2">Tabel 4.1 Jumlah Keluarga Menurut Jenis Alat Komunikasi yang Dimiliki</th></tr>`
+                + `<tr><th>Jenis</th><th>Jumlah Keluarga yang Memiliki</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT ifnull(sum(k541),0) AS jml_orari, ifnull(sum(k542),0) AS jml_telepon, ifnull(sum(k543),0) AS jml_tv, ifnull(sum(k544),0) AS jml_radio, ifnull(sum(k545),0) AS jml_tvkabel, ifnull(sum(k546),0) AS jml_parabola
+                FROM t_kk a WHERE ${aF} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%">ORARI</td><td class="text-center">${r.jml_orari}</td></tr>`
+                    + `<tr><td style="width: 50%">Telepon</td><td class="text-center">${r.jml_telepon}</td></tr>`
+                    + `<tr><td style="width: 50%">TV</td><td class="text-center">${r.jml_tv}</td></tr>`
+                    + `<tr><td style="width: 50%">Radio</td><td class="text-center">${r.jml_radio}</td></tr>`
+                    + `<tr><td style="width: 50%">TV Kabel</td><td class="text-center">${r.jml_tvkabel}</td></tr>`
+                    + `<tr><td style="width: 50%">Parabola</td><td class="text-center">${r.jml_parabola}</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "5-1") {
+            $('#profil-tabel').append(`<table id="table5-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="2">Tabel 5.1 Jumlah Kendaraan yang Dimiliki Menurut Jenis Alat Transportasi</th></tr>`
+                + `<tr><th>Jenis</th><th>Jumlah Kendaraan yang Dimiliki</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT ifnull(sum(k511),0) AS jml_sepeda, ifnull(sum(k512),0) AS jml_gerobak, 
+                ifnull(sum(k513),0) AS jml_rodatiga, ifnull(sum(k514),0) AS jml_becak, 
+                ifnull(sum(k515),0) AS jml_becakmotor, ifnull(sum(k516),0) AS jml_sepedamotor,
+                ifnull(sum(k517),0) AS jml_oplet, ifnull(sum(k518),0) AS jml_colt,
+                ifnull(sum(k519),0) AS jml_taksi, ifnull(sum(k520),0) AS jml_dinas,
+                ifnull(sum(k521),0) AS jml_mobil, ifnull(sum(k522),0) AS jml_truk,
+                ifnull(sum(k523),0) AS jml_perahu, ifnull(sum(k524),0) AS jml_lainnya
+                FROM t_kk a WHERE ${aF} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%">Sepeda</td><td class="text-center">${r.jml_sepeda}</td></tr>`
+                    + `<tr><td style="width: 50%">Gerobak</td><td class="text-center">${r.jml_gerobak}</td></tr>`
+                    + `<tr><td style="width: 50%">Kendaraan roda tiga (tosa)</td><td class="text-center">${r.jml_rodatiga}</td></tr>`
+                    + `<tr><td style="width: 50%">Becak</td><td class="text-center">${r.jml_becak}</td></tr>`
+                    + `<tr><td style="width: 50%">Becak motor</td><td class="text-center">${r.jml_becakmotor}</td></tr>`
+                    + `<tr><td style="width: 50%">Sepeda motor</td><td class="text-center">${r.jml_sepedamotor}</td></tr>`
+                    + `<tr><td style="width: 50%">Oplet/mikrolet</td><td class="text-center">${r.jml_oplet}</td></tr>`
+                    + `<tr><td style="width: 50%">Colt bak</td><td class="text-center">${r.jml_colt}</td></tr>`
+                    + `<tr><td style="width: 50%">Taksi</td><td class="text-center">${r.jml_taksi}</td></tr>`
+                    + `<tr><td style="width: 50%">Mobil/sepeda motor dinas</td><td class="text-center">${r.jml_dinas}</td></tr>`
+                    + `<tr><td style="width: 50%">Mobil pribadi</td><td class="text-center">${r.jml_mobil}</td></tr>`
+                    + `<tr><td style="width: 50%">Truk</td><td class="text-center">${r.jml_truk}</td></tr>`
+                    + `<tr><td style="width: 50%">Perahu</td><td class="text-center">${r.jml_perahu}</td></tr>`
+                    + `<tr><td style="width: 50%">Lainnya</td><td class="text-center">${r.jml_lainnya}</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "6-1") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(sum(b.k507), 0) FROM t_kk b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_nikah,
+            (SELECT ifnull(sum(b.k508), 0) FROM t_kk b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_talak,
+            (SELECT ifnull(sum(b.k509), 0) FROM t_kk b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_cerai,
+            (SELECT ifnull(sum(b.k510), 0) FROM t_kk b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_rujuk
+            FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#profil-tabel').append(`<table id="table6-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="6">Tabel 6.1 Jumlah Kejadian Nikah, Talak, Cerai dan Rujuk Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th>No</th><th>Dusun/Lingkungan</th><th>Nikah</th><th>Talak</th><th>Cerai</th><th>Rujuk</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_nikah}</td>`
+                    + `<td class="text-center">${row.jml_talak}</td>`
+                    + `<td class="text-center">${row.jml_cerai}</td>`
+                    + `<td class="text-center">${row.jml_rujuk}</td>`
+                    + `</tr>`);
+            });
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "7-1") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(sum(b.k538), 0) FROM (SELECT * FROM t_kk GROUP BY kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt) b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_permanen,
+            (SELECT ifnull(sum(b.k539), 0) FROM (SELECT * FROM t_kk GROUP BY kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt) b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_semipermanen,
+            (SELECT ifnull(sum(b.k540), 0) FROM (SELECT * FROM t_kk GROUP BY kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt) b WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jml_nonpermanen
+            FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#profil-tabel').append(`<table id="table7-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="5">Tabel 7.1 Jumlah Keluarga Menurut Jenis Perumahan dan Dusun/Lingkungan</th></tr>`
+                + `<tr><th>No</th><th>Dusun/Lingkungan</th><th>Permanen</th><th>Semi Permanen</th><th>Non Permanen</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#profil-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_permanen}</td>`
+                    + `<td class="text-center">${row.jml_semipermanen}</td>`
+                    + `<td class="text-center">${row.jml_nonpermanen}</td>`
+                    + `</tr>`);
+            });
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "8-1") {
+            $('#profil-tabel').append(`<table id="table8-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="2">Tabel 8.1 Jumlah Keluarga Menurut Kepemilikan Lahan</th></tr></thead>`
+                + `<tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT 
+                sum(case WHEN (k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) < 100*14.0625 THEN 1 ELSE 0 END) AS luas1,
+                sum(case WHEN ((k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) >= 100*14.0625 AND (k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) < 10000) THEN 1 ELSE 0 END) AS luas2,
+                sum(case WHEN ((k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) >= 10000 AND (k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) < 50000) THEN 1 ELSE 0 END) AS luas3,
+                sum(case WHEN (k525+k526+k527+k528+k529+k530+k531+k532+k533+k534+k535+k536) >= 50000 THEN 1 ELSE 0 END) AS luas4,
+                sum(case WHEN nullif(k526, "") > 0 THEN 1 ELSE 0 END) AS kk_tegal,
+                sum(case WHEN nullif(k530, "") > 0 THEN 1 ELSE 0 END) AS kk_tambak,
+                ifnull(sum(k537), 0) AS kk_bengkok
+                FROM t_kk a WHERE ${aF} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%">Memiliki lahan < 100 RU</td><td class="text-center">${r.luas1} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Memiliki lahan 100 RU - 1 Ha</td><td class="text-center">${r.luas2} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Memiliki lahan 1 Ha - 5 Ha</td><td class="text-center">${r.luas3} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Memiliki lahan >= 5 Ha</td><td class="text-center">${r.luas4} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Keluarga memiliki tegal</td><td class="text-center">${r.kk_tegal} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Keluarga memiliki tambak</td><td class="text-center">${r.kk_tambak} KK</td></tr>`
+                    + `<tr><td style="width: 50%">Keluarga menggarap bonorowo/lahan bengkok</td><td class="text-center">${r.kk_bengkok} KK</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "9-1") {
+            $('#profil-tabel').append(`<table id="table9-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 9.1 Jumlah Tenaga Kerja Menurut Jenis Kelamin</th></tr>`
+                + `<tr><th>Tenaga Kerja</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT 
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) THEN 1 ELSE 0 END) AS a_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) THEN 1 ELSE 0 END) AS a_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k434 = 1 THEN 1 ELSE 0 END) AS b_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k434 = 1 THEN 1 ELSE 0 END) AS b_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k434 = 0 THEN 1 ELSE 0 END) AS c_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k434 = 0 THEN 1 ELSE 0 END) AS c_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=0 AND nullif(k413,"") <=6) THEN 1 ELSE 0 END) AS d_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=0 AND nullif(k413,"") <=6) THEN 1 ELSE 0 END) AS d_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=7 AND nullif(k413,"") <=18) AND k429=1 THEN 1 ELSE 0 END) AS e_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=7 AND nullif(k413,"") <=18) AND k429=1 THEN 1 ELSE 0 END) AS e_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>56) THEN 1 ELSE 0 END) AS f_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>56) THEN 1 ELSE 0 END) AS f_pr
+                FROM t_art a WHERE ${aF} ${aFx} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%">Penduduk usia 18-56 tahun</td><td class="text-center">${r.a_lk}</td><td class="text-center">${r.a_pr}</td><td class="text-center">${r.a_lk + r.a_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang bekerja</td><td class="text-center">${r.b_lk}</td><td class="text-center">${r.b_pr}</td><td class="text-center">${r.b_lk + r.b_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang belum atau tidak bekerja</td><td class="text-center">${r.c_lk}</td><td class="text-center">${r.c_pr}</td><td class="text-center">${r.c_lk + r.c_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 0-6 tahun</td><td class="text-center">${r.d_lk}</td><td class="text-center">${r.d_pr}</td><td class="text-center">${r.d_lk + r.d_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk masih sekolah 7-18 tahun</td><td class="text-center">${r.e_lk}</td><td class="text-center">${r.e_pr}</td><td class="text-center">${r.e_lk + r.e_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia lebih dari 56 tahun</td><td class="text-center">${r.f_lk}</td><td class="text-center">${r.f_pr}</td><td class="text-center">${r.f_lk + r.f_pr}</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "10-1") {
+            $('#profil-tabel').append(`<table id="table10-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 10.1 Jumlah Angkatan Kerja Menurut Kualitas Angkatan Kerja dan Jenis Kelamin</th></tr>`
+                + `<tr><th>Kualitas Angkatan Kerja</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="profil-tabel-tbody">`);
+
+            sql = `SELECT 
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k433 = 0 THEN 1 ELSE 0 END) AS a_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k433 = 0 THEN 1 ELSE 0 END) AS a_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 0 THEN 1 ELSE 0 END) AS b_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 0 THEN 1 ELSE 0 END) AS b_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 2 THEN 1 ELSE 0 END) AS c_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 2 THEN 1 ELSE 0 END) AS c_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 3 THEN 1 ELSE 0 END) AS d_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 3 THEN 1 ELSE 0 END) AS d_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 4 THEN 1 ELSE 0 END) AS e_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND k432 = 4 THEN 1 ELSE 0 END) AS e_pr,
+                sum(case WHEN k410=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND (nullif(k432,"")>=5 AND nullif(k432,"")<=10) THEN 1 ELSE 0 END) AS f_lk,
+                sum(case WHEN k411=1 AND (nullif(k413,"")>=18 AND nullif(k413,"") <=56) AND (nullif(k432,"")>=5 AND nullif(k432,"")<=10) THEN 1 ELSE 0 END) AS f_pr
+                FROM t_art a WHERE ${aF} ${aFx} AND a.tahun = '${dlTahunSamasta2}'`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#profil-tabel-tbody').append(
+                    `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang buta aksara dan huruf/angka latin</td><td class="text-center">${r.a_lk}</td><td class="text-center">${r.a_pr}</td><td class="text-center">${r.a_lk + r.a_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang tidak tamat SD</td><td class="text-center">${r.b_lk}</td><td class="text-center">${r.b_pr}</td><td class="text-center">${r.b_lk + r.b_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang tamat SD</td><td class="text-center">${r.c_lk}</td><td class="text-center">${r.c_pr}</td><td class="text-center">${r.c_lk + r.c_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang tamat SLTP</td><td class="text-center">${r.d_lk}</td><td class="text-center">${r.d_pr}</td><td class="text-center">${r.d_lk + r.d_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang tamat SLTA</td><td class="text-center">${r.e_lk}</td><td class="text-center">${r.e_pr}</td><td class="text-center">${r.e_lk + r.e_pr}</td></tr>`
+                    + `<tr><td style="width: 50%">Penduduk usia 18-56 tahun yang tamat Perguruan Tinggi</td><td class="text-center">${r.f_lk}</td><td class="text-center">${r.f_pr}</td><td class="text-center">${r.f_lk + r.f_pr}</td></tr>`
+                );
+            }
+            $('#profil-tabel').append(`</tbody></table>`);
+        }
+    }
+</script>
+
+<script>
+    async function tampilKampungKB(optSelected) {
+        var aF = await areaFilter();
+        var aFx = await areaFilterX();
+        var aFs = await areaFilterS();
+        document.getElementById('kampungKB-tabel').innerHTML = ``;
+        $('#kampungKB-tabel').append(`<div class="btn-group pull-right mb-1" role="group" aria-label="Basic example">
+            <button class="btn text-white" style="background-color: #0b633a !important;"><i class="icon icon-cloud-download"></i></button>
+            <button class="btn btn-success" onclick="exportTableToExcel('${optSelected}', 'Kampung KB_${optSelected}')"> Excel</button>
+            </div>`);
+
+        if (optSelected == "tabel-1") {
+            $('#kampungKB-tabel').append(`<table id="tabel-1" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="4">Tabel 1 Jumlah Penduduk Menurut Kelompok Umur dan Jenis Kelamin</th></tr>`
+                + `<tr><th>Kelompok Umur</th><th>Laki-Laki (orang)</th><th>Perempuan (orang)</th><th>Jumlah (orang)</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=0 AND nullif(a.k413,"")<=4) THEN 1 ELSE 0 END),0) AS lk_0_4,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=0 AND nullif(a.k413,"")<=4) THEN 1 ELSE 0 END),0) AS pr_0_4,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=5 AND nullif(a.k413,"")<=9) THEN 1 ELSE 0 END),0) AS lk_5_9,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=5 AND nullif(a.k413,"")<=9) THEN 1 ELSE 0 END),0) AS pr_5_9,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=10 AND nullif(a.k413,"")<=14) THEN 1 ELSE 0 END),0) AS lk_10_14,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=10 AND nullif(a.k413,"")<=14) THEN 1 ELSE 0 END),0) AS pr_10_14,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=15 AND nullif(a.k413,"")<=19) THEN 1 ELSE 0 END),0) AS lk_15_19,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=15 AND nullif(a.k413,"")<=19) THEN 1 ELSE 0 END),0) AS pr_15_19,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=20 AND nullif(a.k413,"")<=24) THEN 1 ELSE 0 END),0) AS lk_20_24,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=20 AND nullif(a.k413,"")<=24) THEN 1 ELSE 0 END),0) AS pr_20_24,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=25 AND nullif(a.k413,"")<=29) THEN 1 ELSE 0 END),0) AS lk_25_29,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=25 AND nullif(a.k413,"")<=29) THEN 1 ELSE 0 END),0) AS pr_25_29,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=30 AND nullif(a.k413,"")<=34) THEN 1 ELSE 0 END),0) AS lk_30_34,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=30 AND nullif(a.k413,"")<=34) THEN 1 ELSE 0 END),0) AS pr_30_34,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=35 AND nullif(a.k413,"")<=39) THEN 1 ELSE 0 END),0) AS lk_35_39,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=35 AND nullif(a.k413,"")<=39) THEN 1 ELSE 0 END),0) AS pr_35_39,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=40 AND nullif(a.k413,"")<=44) THEN 1 ELSE 0 END),0) AS lk_40_44,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=40 AND nullif(a.k413,"")<=44) THEN 1 ELSE 0 END),0) AS pr_40_44,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=45 AND nullif(a.k413,"")<=49) THEN 1 ELSE 0 END),0) AS lk_45_49,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=45 AND nullif(a.k413,"")<=49) THEN 1 ELSE 0 END),0) AS pr_45_49,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=50 AND nullif(a.k413,"")<=54) THEN 1 ELSE 0 END),0) AS lk_50_54,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=50 AND nullif(a.k413,"")<=54) THEN 1 ELSE 0 END),0) AS pr_50_54,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=55 AND nullif(a.k413,"")<=59) THEN 1 ELSE 0 END),0) AS lk_55_59,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=55 AND nullif(a.k413,"")<=59) THEN 1 ELSE 0 END),0) AS pr_55_59,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=60 AND nullif(a.k413,"")<=64) THEN 1 ELSE 0 END),0) AS lk_60_64,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=60 AND nullif(a.k413,"")<=64) THEN 1 ELSE 0 END),0) AS pr_60_64,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=65 AND nullif(a.k413,"")<=69) THEN 1 ELSE 0 END),0) AS lk_65_69,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=65 AND nullif(a.k413,"")<=69) THEN 1 ELSE 0 END),0) AS pr_65_69,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=70 AND nullif(a.k413,"")<=74) THEN 1 ELSE 0 END),0) AS lk_70_74,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=70 AND nullif(a.k413,"")<=74) THEN 1 ELSE 0 END),0) AS pr_70_74,
+                    ifnull(sum(case WHEN a.k410=1 AND (nullif(a.k413,"") >=75) THEN 1 ELSE 0 END),0) AS lk_75,
+                    ifnull(sum(case WHEN a.k411=1 AND (nullif(a.k413,"") >=75) THEN 1 ELSE 0 END),0) AS pr_75
+                    FROM t_art a WHERE ${aF} ${aFx} AND a.tahun = ${dlTahunSamasta2}`;
+
+            r = await sqlite.get(sql);
+            if (r) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr><td class="text-center">0-4</td><td class="text-center">${r.lk_0_4}</td><td class="text-center">${r.pr_0_4}</td><td class="text-center">${r.lk_0_4 + r.pr_0_4}</td></tr>`
+                    + `<tr><td class="text-center">5-9</td><td class="text-center">${r.lk_5_9}</td><td class="text-center">${r.pr_5_9}</td><td class="text-center">${r.lk_5_9 + r.pr_5_9}</td></tr>`
+                    + `<tr><td class="text-center">10-14</td><td class="text-center">${r.lk_10_14}</td><td class="text-center">${r.pr_10_14}</td><td class="text-center">${r.lk_10_14 + r.pr_10_14}</td></tr>`
+                    + `<tr><td class="text-center">15-19</td><td class="text-center">${r.lk_15_19}</td><td class="text-center">${r.pr_15_19}</td><td class="text-center">${r.lk_15_19 + r.pr_15_19}</td></tr>`
+                    + `<tr><td class="text-center">20-24</td><td class="text-center">${r.lk_20_24}</td><td class="text-center">${r.pr_20_24}</td><td class="text-center">${r.lk_20_24 + r.pr_20_24}</td></tr>`
+                    + `<tr><td class="text-center">25-29</td><td class="text-center">${r.lk_25_29}</td><td class="text-center">${r.pr_25_29}</td><td class="text-center">${r.lk_25_29 + r.pr_25_29}</td></tr>`
+                    + `<tr><td class="text-center">30-34</td><td class="text-center">${r.lk_30_34}</td><td class="text-center">${r.pr_30_34}</td><td class="text-center">${r.lk_30_34 + r.pr_30_34}</td></tr>`
+                    + `<tr><td class="text-center">35-39</td><td class="text-center">${r.lk_35_39}</td><td class="text-center">${r.pr_35_39}</td><td class="text-center">${r.lk_35_39 + r.pr_35_39}</td></tr>`
+                    + `<tr><td class="text-center">40-44</td><td class="text-center">${r.lk_40_44}</td><td class="text-center">${r.pr_40_44}</td><td class="text-center">${r.lk_40_44 + r.pr_40_44}</td></tr>`
+                    + `<tr><td class="text-center">45-49</td><td class="text-center">${r.lk_45_49}</td><td class="text-center">${r.pr_45_49}</td><td class="text-center">${r.lk_45_49 + r.pr_45_49}</td></tr>`
+                    + `<tr><td class="text-center">50-54</td><td class="text-center">${r.lk_50_54}</td><td class="text-center">${r.pr_50_54}</td><td class="text-center">${r.lk_50_54 + r.pr_50_54}</td></tr>`
+                    + `<tr><td class="text-center">55-59</td><td class="text-center">${r.lk_55_59}</td><td class="text-center">${r.pr_55_59}</td><td class="text-center">${r.lk_55_59 + r.pr_55_59}</td></tr>`
+                    + `<tr><td class="text-center">60-64</td><td class="text-center">${r.lk_60_64}</td><td class="text-center">${r.pr_60_64}</td><td class="text-center">${r.lk_60_64 + r.pr_60_64}</td></tr>`
+                    + `<tr><td class="text-center">65-69</td><td class="text-center">${r.lk_65_69}</td><td class="text-center">${r.pr_65_69}</td><td class="text-center">${r.lk_65_69 + r.pr_65_69}</td></tr>`
+                    + `<tr><td class="text-center">70-74</td><td class="text-center">${r.lk_70_74}</td><td class="text-center">${r.pr_70_74}</td><td class="text-center">${r.lk_70_74 + r.pr_70_74}</td></tr>`
+                    + `<tr><td class="text-center">75+</td><td class="text-center">${r.lk_75}</td><td class="text-center">${r.pr_75}</td><td class="text-center">${r.lk_75 + r.pr_75}</td></tr>`
+                );
+            }
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-2") {
+            $('#kampungKB-tabel').append(`<table id="tabel-2" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="16">Tabel 2 Jumlah Kepala Keluarga Menurut Dusun/Lingkungan dan Tingkat Pendidikan</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah KK</th><th colspan="13">Tingkat Pendidikan</th></tr>`
+                + `<tr><th>Tidak Punya Ijazah</th><th>SD</th><th>SLTP</th><th>SLTA</th><th>D1</th><th>D2</th><th>D3</th><th>S1</th><th>S2</th><th>S3</th><th>SLB A</th><th>SLB B</th><th>SLB C</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                    (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArtGuid <> '' AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS jml_kk,
+                    (SELECT ifnull(sum(case when a.k432 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_tidakpunyaijazah,
+                    (SELECT ifnull(sum(case when a.k432 = 2 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SD,
+                    (SELECT ifnull(sum(case when a.k432 = 3 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SLTP,
+                    (SELECT ifnull(sum(case when a.k432 = 4 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SLTA,
+                    (SELECT ifnull(sum(case when a.k432 = 5 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_D1,
+                    (SELECT ifnull(sum(case when a.k432 = 6 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_D2,
+                    (SELECT ifnull(sum(case when a.k432 = 7 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_D3,
+                    (SELECT ifnull(sum(case when a.k432 = 8 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_S1,
+                    (SELECT ifnull(sum(case when a.k432 = 9 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_S2,
+                    (SELECT ifnull(sum(case when a.k432 = 10 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_S3,
+                    (SELECT ifnull(sum(case when a.k432 = 11 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SLBA,
+                    (SELECT ifnull(sum(case when a.k432 = 12 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SLBB,
+                    (SELECT ifnull(sum(case when a.k432 = 13 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) as jml_SLBC
+                    FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_kk}</td>`
+                    + `<td class="text-center">${row.jml_tidakpunyaijazah}</td>`
+                    + `<td class="text-center">${row.jml_SD}</td>`
+                    + `<td class="text-center">${row.jml_SLTP}</td>`
+                    + `<td class="text-center">${row.jml_SLTA}</td>`
+                    + `<td class="text-center">${row.jml_D1}</td>`
+                    + `<td class="text-center">${row.jml_D2}</td>`
+                    + `<td class="text-center">${row.jml_D3}</td>`
+                    + `<td class="text-center">${row.jml_S1}</td>`
+                    + `<td class="text-center">${row.jml_S2}</td>`
+                    + `<td class="text-center">${row.jml_S3}</td>`
+                    + `<td class="text-center">${row.jml_SLBA}</td>`
+                    + `<td class="text-center">${row.jml_SLBB}</td>`
+                    + `<td class="text-center">${row.jml_SLBC}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-3") {
+            $('#kampungKB-tabel').append(`<table id="tabel-3" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="15">Tabel 3 Jumlah Kepala Keluarga Laki-Laki Menurut Dusun/Lingkungan dan Kelompok Umur</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah KK</th><th colspan="12">Kepala Keluarga Laki-Laki Menurut Kelompok Umur (Tahun)</th></tr>`
+                + `<tr><th><15</th><th>15-19</th><th>20-24</th><th>25-29</th><th>30-34</th><th>35-39</th><th>40-44</th><th>45-49</th><th>50-54</th><th>55-59</th><th>60-64</th><th>65+</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                    (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS jml_kk,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") < 15 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_kurang15,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 15 AND nullif(a.k413,"") <= 19  then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_15_19,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 20 AND nullif(a.k413,"") <= 24 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_20_24,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 25 AND nullif(a.k413,"") <= 29 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_25_29,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 30 AND nullif(a.k413,"") <= 34 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_30_34,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 35 AND nullif(a.k413,"") <= 39 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_35_39,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 40 AND nullif(a.k413,"") <= 44 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_40_44,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 45 AND nullif(a.k413,"") <= 49 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_45_49,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 50 AND nullif(a.k413,"") <= 54 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_50_54,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 55 AND nullif(a.k413,"") <= 59 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_55_59,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 60 AND nullif(a.k413,"") <= 64 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_60_64,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 65 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k410 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_65plus
+                    FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_kk}</td>`
+                    + `<td class="text-center">${row.jml_kurang15}</td>`
+                    + `<td class="text-center">${row.jml_15_19}</td>`
+                    + `<td class="text-center">${row.jml_20_24}</td>`
+                    + `<td class="text-center">${row.jml_25_29}</td>`
+                    + `<td class="text-center">${row.jml_30_34}</td>`
+                    + `<td class="text-center">${row.jml_35_39}</td>`
+                    + `<td class="text-center">${row.jml_40_44}</td>`
+                    + `<td class="text-center">${row.jml_45_49}</td>`
+                    + `<td class="text-center">${row.jml_50_54}</td>`
+                    + `<td class="text-center">${row.jml_55_59}</td>`
+                    + `<td class="text-center">${row.jml_60_64}</td>`
+                    + `<td class="text-center">${row.jml_65plus}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-4") {
+            $('#kampungKB-tabel').append(`<table id="tabel-4" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="15">Tabel 4 Jumlah Kepala Keluarga Perempuan Menurut Dusun/Lingkungan dan Kelompok Umur</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah KK</th><th colspan="12">Kepala Keluarga Perempuan Menurut Kelompok Umur (Tahun)</th></tr>`
+                + `<tr><th><15</th><th>15-19</th><th>20-24</th><th>25-29</th><th>30-34</th><th>35-39</th><th>40-44</th><th>45-49</th><th>50-54</th><th>55-59</th><th>60-64</th><th>65+</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                    (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS jml_kk,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") < 15 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_kurang15,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 15 AND nullif(a.k413,"") <= 19  then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_15_19,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 20 AND nullif(a.k413,"") <= 24 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_20_24,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 25 AND nullif(a.k413,"") <= 29 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_25_29,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 30 AND nullif(a.k413,"") <= 34 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_30_34,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 35 AND nullif(a.k413,"") <= 39 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_35_39,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 40 AND nullif(a.k413,"") <= 44 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_40_44,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 45 AND nullif(a.k413,"") <= 49 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_45_49,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 50 AND nullif(a.k413,"") <= 54 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_50_54,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 55 AND nullif(a.k413,"") <= 59 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_55_59,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 60 AND nullif(a.k413,"") <= 64 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_60_64,
+                    (SELECT ifnull(sum(case when nullif(a.k413,"") >= 65 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.k411 = 1 AND a.tahun = ${dlTahunSamasta2}) AS jml_65plus
+                    FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_kk}</td>`
+                    + `<td class="text-center">${row.jml_kurang15}</td>`
+                    + `<td class="text-center">${row.jml_15_19}</td>`
+                    + `<td class="text-center">${row.jml_20_24}</td>`
+                    + `<td class="text-center">${row.jml_25_29}</td>`
+                    + `<td class="text-center">${row.jml_30_34}</td>`
+                    + `<td class="text-center">${row.jml_35_39}</td>`
+                    + `<td class="text-center">${row.jml_40_44}</td>`
+                    + `<td class="text-center">${row.jml_45_49}</td>`
+                    + `<td class="text-center">${row.jml_50_54}</td>`
+                    + `<td class="text-center">${row.jml_55_59}</td>`
+                    + `<td class="text-center">${row.jml_60_64}</td>`
+                    + `<td class="text-center">${row.jml_65plus}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-5") {
+            $('#kampungKB-tabel').append(`<table id="tabel-5" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="14">Tabel 5 Jumlah Jiwa dalam Keluarga Menurut Dusun/Lingkungan dan Tingkat Pendidikan</th></tr>`
+                + `<tr><th rowspan="3">Kode</th><th rowspan="3" style="width:150px">Dusun/Lingkungan</th><th colspan="10">Sekolah</th><th rowspan="3">Tidak/ Belum Sekolah</th><th rowspan="3">Total</th></tr>`
+                + `<tr><th colspan="3">SD/MI</th><th colspan="2">SMP/MTS</th><th colspan="2">SLTA/MA</th><th colspan="2">PT/Akademi</th><th rowspan="2">Jumlah</th></tr>`
+                + `<tr><th>Tidak Tamat SD/MI</th><th>Masih SD/MI</th><th>Tamat SD/MI</th><th>Masih SMP/MTS</th><th>Tamat SMP/MTS</th><th>Masih SLTA/MA</th><th>Tamat SLTA/MA</th><th>Masih PT/ Akademi</th><th>Tamat PT/ Akademi</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                    (SELECT ifnull(sum(case when a.k430 = 1 AND a.k431 = 2 AND a.k432 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k1,
+                    (SELECT ifnull(sum(case when a.k429 = 1 AND a.k431 = 2 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k2,
+                    (SELECT ifnull(sum(case when a.k430 = 1 AND a.k432 = 2 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k3,
+                    (SELECT ifnull(sum(case when a.k429 = 1 AND a.k431 = 3 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k4,
+                    (SELECT ifnull(sum(case when a.k430 = 1 AND a.k432 = 3 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k5,
+                    (SELECT ifnull(sum(case when a.k429 = 1 AND a.k431 = 4 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k6,
+                    (SELECT ifnull(sum(case when a.k430 = 1 AND a.k432 = 4 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k7,
+                    (SELECT ifnull(sum(case when a.k429 = 1 AND a.k431 BETWEEN 5 AND 10 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k8,
+                    (SELECT ifnull(sum(case when a.k430 = 1 AND a.k432 BETWEEN 5 AND 10 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k9,
+                    (SELECT ifnull(sum(case when a.k428 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k11
+                    FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.k1}</td>`
+                    + `<td class="text-center">${row.k2}</td>`
+                    + `<td class="text-center">${row.k3}</td>`
+                    + `<td class="text-center">${row.k4}</td>`
+                    + `<td class="text-center">${row.k5}</td>`
+                    + `<td class="text-center">${row.k6}</td>`
+                    + `<td class="text-center">${row.k7}</td>`
+                    + `<td class="text-center">${row.k8}</td>`
+                    + `<td class="text-center">${row.k9}</td>`
+                    + `<td class="text-center">${row.k1 + row.k2 + row.k3 + row.k4 + row.k5 + row.k6 + row.k7 + row.k8 + row.k9}</td>`
+                    + `<td class="text-center">${row.k11}</td>`
+                    + `<td class="text-center">${row.k1 + row.k2 + row.k3 + row.k4 + row.k5 + row.k6 + row.k7 + row.k8 + row.k9 + row.k11}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-6") {
+            $('#kampungKB-tabel').append(`<table id="tabel-6" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="7">Tabel 6 Jumlah Anak Usia Sekolah 7-15 Tahun Menurut Dusun/Lingkungan dan Jenis Kelamin</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="2">Laki-Laki</th><th colspan="2">Perempuan</th><th rowspan="2">Jumlah</th></tr>`
+                + `<tr><th>Sekolah</th><th>Tidak Sekolah</th><th>Sekolah</th><th>Tidak Sekolah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                (SELECT ifnull(sum(case when a.k410 = 1 AND a.k429 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 15) AND a.tahun = ${dlTahunSamasta2}) AS k1,
+                (SELECT ifnull(sum(case when a.k410 = 1 AND a.k429 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 15) AND a.tahun = ${dlTahunSamasta2}) AS k2,
+                (SELECT ifnull(sum(case when a.k411 = 1 AND a.k429 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 7 AND nullif(a.k413,"") <= 15) AND a.tahun = ${dlTahunSamasta2}) AS k3,
+                (SELECT ifnull(sum(case when a.k411 = 1 AND a.k429 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"")>= 7 AND nullif(a.k413,"") <= 15) AND a.tahun = ${dlTahunSamasta2}) AS k4
+                FROM m_sls s WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.k1}</td>`
+                    + `<td class="text-center"> ${row.k2}</td>`
+                    + `<td class="text-center"> ${row.k3}</td>`
+                    + `<td class="text-center"> ${row.k4}</td>`
+                    + `<td class="text-center"> ${row.k1 + row.k2 + row.k3 + row.k4}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-7") {
+            $('#kampungKB-tabel').append(`<table id="tabel-7" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="7">Tabel 7 Jumlah Anak Usia Sekolah 16-18 Tahun Menurut Dusun/Lingkungan dan Jenis Kelamin</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="2">Laki-Laki</th><th colspan="2">Perempuan</th><th rowspan="2">Jumlah</th></tr>`
+                + `<tr><th>Sekolah</th><th>Tidak Sekolah</th><th>Sekolah</th><th>Tidak Sekolah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                (SELECT ifnull(sum(case when a.k410 = 1 AND a.k429 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 16 AND nullif(a.k413,"") <= 18) AND a.tahun = ${dlTahunSamasta2}) AS k1,
+                (SELECT ifnull(sum(case when a.k410 = 1 AND a.k429 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 16 AND nullif(a.k413,"") <= 18) AND a.tahun = ${dlTahunSamasta2}) AS k2,
+                (SELECT ifnull(sum(case when a.k411 = 1 AND a.k429 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"") >= 16 AND nullif(a.k413,"") <= 18) AND a.tahun = ${dlTahunSamasta2}) AS k3,
+                (SELECT ifnull(sum(case when a.k411 = 1 AND a.k429 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND (nullif(a.k413,"")>= 16 AND nullif(a.k413,"") <= 18) AND a.tahun = ${dlTahunSamasta2}) AS k4
+                FROM m_sls s WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.k1}</td>`
+                    + `<td class="text-center"> ${row.k2}</td>`
+                    + `<td class="text-center"> ${row.k3}</td>`
+                    + `<td class="text-center"> ${row.k4}</td>`
+                    + `<td class="text-center"> ${row.k1 + row.k2 + row.k3 + row.k4}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-8") {
+            $('#kampungKB-tabel').append(`<table id="tabel-8" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="31">Tabel 8 Jumlah Jiwa dalam Keluarga Menurut Dusun/Lingkungan dan Lapangan Pekerjaan Utama</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="27">Lapangan Pekerjaan Utama</th><th rowspan="2">Tidak Bekerja</th><th rowspan="2">Total</th></tr>`
+                + `<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+                    <th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
+                    <th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th>
+                    <th>25</th><th>26</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT
+                    s.*, ifnull(b.jml_total,0) as jml_total, ifnull(b.jml_1,0) as jml_1, ifnull(b.jml_2,0) as jml_2, 
+                    ifnull(b.jml_3,0) as jml_3, ifnull(b.jml_4,0) as jml_4, ifnull(b.jml_5,0) as jml_5, 
+                    ifnull(b.jml_6,0) as jml_6, ifnull(b.jml_7,0) as jml_7, ifnull(b.jml_8,0) as jml_8, 
+                    ifnull(b.jml_9,0) as jml_9, ifnull(b.jml_10,0) as jml_10, ifnull(b.jml_11,0) as jml_11, 
+                    ifnull(b.jml_12,0) as jml_12, ifnull(b.jml_13,0) as jml_13, ifnull(b.jml_14,0) as jml_14, 
+                    ifnull(b.jml_15,0) as jml_15, ifnull(b.jml_16,0) as jml_16, ifnull(b.jml_17,0) as jml_17, 
+                    ifnull(b.jml_18,0) as jml_18, ifnull(b.jml_19,0) as jml_19, ifnull(b.jml_20,0) as jml_20, 
+                    ifnull(b.jml_21,0) as jml_21, ifnull(b.jml_22,0) as jml_22, ifnull(b.jml_23,0) as jml_23, 
+                    ifnull(b.jml_24,0) as jml_24, ifnull(b.jml_25,0) as jml_25, ifnull(b.jml_26,0) as jml_26, 
+                    ifnull(b.jml_bekerja,0) as jml_bekerja, ifnull(b.jml_tidakbekerja,0) as jml_tidakbekerja
+                    FROM m_sls s LEFT OUTER JOIN
+                    (SELECT a.kodeProv, a.kodeKab, a.kodeKec, a.kodeDesa, a.kodeSLS, count(*) as jml_total
+                    , sum(case when a.k436 = 1 then 1 else 0 end) as jml_1, sum(case when a.k436 = 2 then 1 else 0 end) as jml_2
+                    , sum(case when a.k436 = 3 then 1 else 0 end) as jml_3, sum(case when a.k436 = 4 then 1 else 0 end) as jml_4
+                    , sum(case when a.k436 = 5 then 1 else 0 end) as jml_5, sum(case when a.k436 = 6 then 1 else 0 end) as jml_6
+                    , sum(case when a.k436 = 7 then 1 else 0 end) as jml_7, sum(case when a.k436 = 8 then 1 else 0 end) as jml_8
+                    , sum(case when a.k436 = 9 then 1 else 0 end) as jml_9, sum(case when a.k436 = 10 then 1 else 0 end) as jml_10
+                    , sum(case when a.k436 = 11 then 1 else 0 end) as jml_11, sum(case when a.k436 = 12 then 1 else 0 end) as jml_12
+                    , sum(case when a.k436 = 13 then 1 else 0 end) as jml_13, sum(case when a.k436 = 14 then 1 else 0 end) as jml_14
+                    , sum(case when a.k436 = 15 then 1 else 0 end) as jml_15, sum(case when a.k436 = 16 then 1 else 0 end) as jml_16
+                    , sum(case when a.k436 = 17 then 1 else 0 end) as jml_17, sum(case when a.k436 = 18 then 1 else 0 end) as jml_18
+                    , sum(case when a.k436 = 19 then 1 else 0 end) as jml_19, sum(case when a.k436 = 20 then 1 else 0 end) as jml_20
+                    , sum(case when a.k436 = 21 then 1 else 0 end) as jml_21, sum(case when a.k436 = 22 then 1 else 0 end) as jml_22
+                    , sum(case when a.k436 = 23 then 1 else 0 end) as jml_23, sum(case when a.k436 = 24 then 1 else 0 end) as jml_24
+                    , sum(case when a.k436 = 25 then 1 else 0 end) as jml_25, sum(case when a.k436 = 26 then 1 else 0 end) as jml_26
+                    , sum(case when a.k434 = 1 then 1 else 0 end) as jml_bekerja, sum(case when a.k434 = 0 then 1 else 0 end) as jml_tidakbekerja
+                    FROM t_art a WHERE a.tahun = '${dlTahunSamasta2}' ${aFx} GROUP BY a.kodeProv || a.kodeKab || a.kodeKec || a.kodeDesa || a.kodeSLS) as b
+                    ON b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS
+                    WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.jml_1}</td>`
+                    + `<td class="text-center"> ${row.jml_2}</td>`
+                    + `<td class="text-center"> ${row.jml_3}</td>`
+                    + `<td class="text-center"> ${row.jml_4}</td>`
+                    + `<td class="text-center"> ${row.jml_5}</td>`
+                    + `<td class="text-center"> ${row.jml_6}</td>`
+                    + `<td class="text-center"> ${row.jml_7}</td>`
+                    + `<td class="text-center"> ${row.jml_8}</td>`
+                    + `<td class="text-center"> ${row.jml_9}</td>`
+                    + `<td class="text-center"> ${row.jml_10}</td>`
+                    + `<td class="text-center"> ${row.jml_11}</td>`
+                    + `<td class="text-center"> ${row.jml_12}</td>`
+                    + `<td class="text-center"> ${row.jml_13}</td>`
+                    + `<td class="text-center"> ${row.jml_14}</td>`
+                    + `<td class="text-center"> ${row.jml_15}</td>`
+                    + `<td class="text-center"> ${row.jml_16}</td>`
+                    + `<td class="text-center"> ${row.jml_17}</td>`
+                    + `<td class="text-center"> ${row.jml_18}</td>`
+                    + `<td class="text-center"> ${row.jml_19}</td>`
+                    + `<td class="text-center"> ${row.jml_20}</td>`
+                    + `<td class="text-center"> ${row.jml_21}</td>`
+                    + `<td class="text-center"> ${row.jml_22}</td>`
+                    + `<td class="text-center"> ${row.jml_23}</td>`
+                    + `<td class="text-center"> ${row.jml_24}</td>`
+                    + `<td class="text-center"> ${row.jml_25}</td>`
+                    + `<td class="text-center"> ${row.jml_26}</td>`
+                    + `<td class="text-center"> ${row.jml_bekerja}</td>`
+                    + `<td class="text-center"> ${row.jml_tidakbekerja}</td>`
+                    + `<td class="text-center"> ${row.jml_total}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+            $('#kampungKB-tabel').append(`
+                <div class="row">
+                <div class="col-sm-12 d-none d-md-block">
+                    <b>Kode Kolom 436: Lapangan pekerjaan utama</b>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol>
+                    <li>Pertanian tanaman padi dan palawija</li>
+                    <li>Hortikultura</li>
+                    <li>Perkebunan</li>
+                    <li>Perikanan</li>
+                    <li>Peternakan</li>
+                    <li>Kehutanan dan pertanian lainnya</li>
+                    <li>Pertambangan dan penggalian</li>
+                    <li>Industri pengolahan</li>
+                    <li>Pengadaan listrik, gas, uap/air panas, dan udara dingin</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="10">
+                    <li>Pengelolaan air, pengelolaan air limbah, pengelolaan dan daur ulang sampah, dan aktivitas
+                        remediasi</li>
+                    <li>Konstruksi</li>
+                    <li>Perdagangan besar dan eceran, reparasi dan perawatan mobil dan sepeda motor</li>
+                    <li>Pengangkutan dan pergudangan</li>
+                    <li>Penyediaan akomodasi dan penyediaan makan minum</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="15">
+                    <li>Informasi dan komunikasi</li>
+                    <li>Aktivitas keuangan dan asuransi</li>
+                    <li>Real estate</li>
+                    <li>Aktivitas professional, ilmiah, dan teknis</li>
+                    <li>Aktivitas penyewaan dan sewa guna tanpa hak opsi, ketenagakerjaan, agen perjalanan, dan penunjang
+                        usaha lainnya</li>
+                    <li>Administrasi pemerintahan, pertanahan, dan jaminan social wajib</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="21">
+                    <li>Pendidikan</li>
+                    <li>Aktivitas kesehatan manusia dan aktivitas social</li>
+                    <li>kesenian, hiburan, dan rekreasi</li>
+                    <li>Aktivitas jasa lainnya</li>
+                    <li>Aktivitas rumah tangga sebagai pemberi kerja</li>
+                    <li>Aktivitas badan internasional dan badan ekstra internasional lainnya</li>
+                    </ol>
+                </div>
+                </div>
+            `);
+        }
+
+        if (optSelected == "tabel-9") {
+            $('#kampungKB-tabel').append(`<table id="tabel-9" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="31">Tabel 9 Jumlah Kepala Keluarga Menurut Dusun/Lingkungan dan Lapangan Pekerjaan Utama</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="27">Lapangan Pekerjaan Utama</th><th rowspan="2">Tidak Bekerja</th><th rowspan="2">Total</th></tr>`
+                + `<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+                    <th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th>
+                    <th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th>
+                    <th>25</th><th>26</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT
+                    s.*, ifnull(b.jml_total,0) as jml_total, ifnull(b.jml_1,0) as jml_1, ifnull(b.jml_2,0) as jml_2, 
+                    ifnull(b.jml_3,0) as jml_3, ifnull(b.jml_4,0) as jml_4, ifnull(b.jml_5,0) as jml_5, 
+                    ifnull(b.jml_6,0) as jml_6, ifnull(b.jml_7,0) as jml_7, ifnull(b.jml_8,0) as jml_8, 
+                    ifnull(b.jml_9,0) as jml_9, ifnull(b.jml_10,0) as jml_10, ifnull(b.jml_11,0) as jml_11, 
+                    ifnull(b.jml_12,0) as jml_12, ifnull(b.jml_13,0) as jml_13, ifnull(b.jml_14,0) as jml_14, 
+                    ifnull(b.jml_15,0) as jml_15, ifnull(b.jml_16,0) as jml_16, ifnull(b.jml_17,0) as jml_17, 
+                    ifnull(b.jml_18,0) as jml_18, ifnull(b.jml_19,0) as jml_19, ifnull(b.jml_20,0) as jml_20, 
+                    ifnull(b.jml_21,0) as jml_21, ifnull(b.jml_22,0) as jml_22, ifnull(b.jml_23,0) as jml_23, 
+                    ifnull(b.jml_24,0) as jml_24, ifnull(b.jml_25,0) as jml_25, ifnull(b.jml_26,0) as jml_26, 
+                    ifnull(b.jml_bekerja,0) as jml_bekerja, ifnull(b.jml_tidakbekerja,0) as jml_tidakbekerja
+                    FROM m_sls s LEFT OUTER JOIN
+                    (SELECT a.kodeProv, a.kodeKab, a.kodeKec, a.kodeDesa, a.kodeSLS, count(*) as jml_total
+                    , sum(case when a.k436 = 1 then 1 else 0 end) as jml_1, sum(case when a.k436 = 2 then 1 else 0 end) as jml_2
+                    , sum(case when a.k436 = 3 then 1 else 0 end) as jml_3, sum(case when a.k436 = 4 then 1 else 0 end) as jml_4
+                    , sum(case when a.k436 = 5 then 1 else 0 end) as jml_5, sum(case when a.k436 = 6 then 1 else 0 end) as jml_6
+                    , sum(case when a.k436 = 7 then 1 else 0 end) as jml_7, sum(case when a.k436 = 8 then 1 else 0 end) as jml_8
+                    , sum(case when a.k436 = 9 then 1 else 0 end) as jml_9, sum(case when a.k436 = 10 then 1 else 0 end) as jml_10
+                    , sum(case when a.k436 = 11 then 1 else 0 end) as jml_11, sum(case when a.k436 = 12 then 1 else 0 end) as jml_12
+                    , sum(case when a.k436 = 13 then 1 else 0 end) as jml_13, sum(case when a.k436 = 14 then 1 else 0 end) as jml_14
+                    , sum(case when a.k436 = 15 then 1 else 0 end) as jml_15, sum(case when a.k436 = 16 then 1 else 0 end) as jml_16
+                    , sum(case when a.k436 = 17 then 1 else 0 end) as jml_17, sum(case when a.k436 = 18 then 1 else 0 end) as jml_18
+                    , sum(case when a.k436 = 19 then 1 else 0 end) as jml_19, sum(case when a.k436 = 20 then 1 else 0 end) as jml_20
+                    , sum(case when a.k436 = 21 then 1 else 0 end) as jml_21, sum(case when a.k436 = 22 then 1 else 0 end) as jml_22
+                    , sum(case when a.k436 = 23 then 1 else 0 end) as jml_23, sum(case when a.k436 = 24 then 1 else 0 end) as jml_24
+                    , sum(case when a.k436 = 25 then 1 else 0 end) as jml_25, sum(case when a.k436 = 26 then 1 else 0 end) as jml_26
+                    , sum(case when a.k434 = 1 then 1 else 0 end) as jml_bekerja, sum(case when a.k434 = 0 then 1 else 0 end) as jml_tidakbekerja
+                    FROM t_art a WHERE a.nuArt = a.k404 AND a.tahun = '${dlTahunSamasta2}' ${aFx} GROUP BY a.kodeProv || a.kodeKab || a.kodeKec || a.kodeDesa || a.kodeSLS) as b
+                    ON b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS
+                    WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.jml_1}</td>`
+                    + `<td class="text-center"> ${row.jml_2}</td>`
+                    + `<td class="text-center"> ${row.jml_3}</td>`
+                    + `<td class="text-center"> ${row.jml_4}</td>`
+                    + `<td class="text-center"> ${row.jml_5}</td>`
+                    + `<td class="text-center"> ${row.jml_6}</td>`
+                    + `<td class="text-center"> ${row.jml_7}</td>`
+                    + `<td class="text-center"> ${row.jml_8}</td>`
+                    + `<td class="text-center"> ${row.jml_9}</td>`
+                    + `<td class="text-center"> ${row.jml_10}</td>`
+                    + `<td class="text-center"> ${row.jml_11}</td>`
+                    + `<td class="text-center"> ${row.jml_12}</td>`
+                    + `<td class="text-center"> ${row.jml_13}</td>`
+                    + `<td class="text-center"> ${row.jml_14}</td>`
+                    + `<td class="text-center"> ${row.jml_15}</td>`
+                    + `<td class="text-center"> ${row.jml_16}</td>`
+                    + `<td class="text-center"> ${row.jml_17}</td>`
+                    + `<td class="text-center"> ${row.jml_18}</td>`
+                    + `<td class="text-center"> ${row.jml_19}</td>`
+                    + `<td class="text-center"> ${row.jml_20}</td>`
+                    + `<td class="text-center"> ${row.jml_21}</td>`
+                    + `<td class="text-center"> ${row.jml_22}</td>`
+                    + `<td class="text-center"> ${row.jml_23}</td>`
+                    + `<td class="text-center"> ${row.jml_24}</td>`
+                    + `<td class="text-center"> ${row.jml_25}</td>`
+                    + `<td class="text-center"> ${row.jml_26}</td>`
+                    + `<td class="text-center"> ${row.jml_bekerja}</td>`
+                    + `<td class="text-center"> ${row.jml_tidakbekerja}</td>`
+                    + `<td class="text-center"> ${row.jml_total}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+            $('#kampungKB-tabel').append(`
+                <div class="row">
+                <div class="col-sm-12 d-none d-md-block">
+                    <b>Kode Kolom 436: Lapangan pekerjaan utama</b>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol>
+                    <li>Pertanian tanaman padi dan palawija</li>
+                    <li>Hortikultura</li>
+                    <li>Perkebunan</li>
+                    <li>Perikanan</li>
+                    <li>Peternakan</li>
+                    <li>Kehutanan dan pertanian lainnya</li>
+                    <li>Pertambangan dan penggalian</li>
+                    <li>Industri pengolahan</li>
+                    <li>Pengadaan listrik, gas, uap/air panas, dan udara dingin</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="10">
+                    <li>Pengelolaan air, pengelolaan air limbah, pengelolaan dan daur ulang sampah, dan aktivitas
+                        remediasi</li>
+                    <li>Konstruksi</li>
+                    <li>Perdagangan besar dan eceran, reparasi dan perawatan mobil dan sepeda motor</li>
+                    <li>Pengangkutan dan pergudangan</li>
+                    <li>Penyediaan akomodasi dan penyediaan makan minum</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="15">
+                    <li>Informasi dan komunikasi</li>
+                    <li>Aktivitas keuangan dan asuransi</li>
+                    <li>Real estate</li>
+                    <li>Aktivitas professional, ilmiah, dan teknis</li>
+                    <li>Aktivitas penyewaan dan sewa guna tanpa hak opsi, ketenagakerjaan, agen perjalanan, dan penunjang
+                        usaha lainnya</li>
+                    <li>Administrasi pemerintahan, pertanahan, dan jaminan social wajib</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3 d-none d-md-block">
+                    <ol start="21">
+                    <li>Pendidikan</li>
+                    <li>Aktivitas kesehatan manusia dan aktivitas social</li>
+                    <li>kesenian, hiburan, dan rekreasi</li>
+                    <li>Aktivitas jasa lainnya</li>
+                    <li>Aktivitas rumah tangga sebagai pemberi kerja</li>
+                    <li>Aktivitas badan internasional dan badan ekstra internasional lainnya</li>
+                    </ol>
+                </div>
+                </div>
+            `);
+        }
+
+        if (optSelected == "tabel-10") {
+            $('#kampungKB-tabel').append(`<table id="tabel-10" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="5">Tabel 10 Jumlah Kepala Keluarga yang Memiliki Akta Nikah dan Belum Memiliki Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah KK</th><th colspan="2">Kepemilikan Akta Nikah</th></tr>`
+                + `<tr><th>Memiliki</th><th>Tidak Memiliki</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS k1,
+                (SELECT ifnull(sum(case when a.k420 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS k2,
+                (SELECT ifnull(sum(case when a.k420 = 0 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.nuArt = a.k404 AND a.tahun = ${dlTahunSamasta2}) AS k3
+                FROM m_sls s WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.k1}</td>`
+                    + `<td class="text-center"> ${row.k2}</td>`
+                    + `<td class="text-center"> ${row.k3}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-11") {
+            $('#kampungKB-tabel').append(`<table id="tabel-11" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="6">Tabel 11 Jumlah Jiwa dalam Kepesertaan JKN Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah Jiwa</th><th colspan="3">Kepesertaan BPJS</th></tr>`
+                + `<tr><th>BPJS PBI</th><th>BPJS Non PBI</th><th>Tidak Memiliki</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                (SELECT count(*) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k1,
+                (SELECT ifnull(sum(case when a.k437 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k2,
+                (SELECT ifnull(sum(case when a.k438 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k3,
+                (SELECT ifnull(sum(case when a.k439 = 1 then 1 else 0 end),0) FROM t_art a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS ${aFx} AND a.tahun = ${dlTahunSamasta2}) AS k4
+                FROM m_sls s WHERE ${ aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.k1}</td>`
+                    + `<td class="text-center"> ${row.k2}</td>`
+                    + `<td class="text-center"> ${row.k3}</td>`
+                    + `<td class="text-center"> ${row.k4}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "tabel-12") {
+            $('#kampungKB-tabel').append(`<table id="tabel-12" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="31">Tabel 12 Jumlah PUS Ber-KB dan Tidak KB Menurut Dusun/Lingkungan dan Alat Kontrasepsi yang Dipakai</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th rowspan="2">Jumlah PUS</th><th colspan="9">Alat Kontrasepsi yang Dipakai</th><th colspan="5">Tidak KB</th></tr>`
+                + `<tr><th>Pil</th><th>IUD/ AKDR/ spriral</th><th>Suntikan</th><th>MOP (sterilisasi pria/ vasektomi)</th>
+                    <th>MOW (sterilisasi wanita/ tubektomi)</th><th>Kondom</th><th>Implant/ susuk KB</th><th>KB Mandiri (tradi- sional)</th><th>Jumlah</th>
+                    <th>Hamil</th><th>IAS (Ingin Anak Segera)</th><th>IAT (Ingin Anak Tunda)</th><th>TIAL (Tidak Ingin Anak Lagi)</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT
+                    s.*, ifnull(b.jml_pus,0) as jml_pus, ifnull(b.jml_k452,0) as jml_k452, ifnull(b.jml_k453,0) as jml_k453, 
+                    ifnull(b.jml_k454,0) as jml_k454, ifnull(b.jml_k455,0) as jml_k455, ifnull(b.jml_k456,0) as jml_k456, 
+                    ifnull(b.jml_k457,0) as jml_k457, ifnull(b.jml_k458,0) as jml_k458, ifnull(b.jml_k459,0) as jml_k459, 
+                    ifnull(b.jml_k460,0) as jml_k460, ifnull(b.jml_k461,0) as jml_k461, ifnull(b.jml_k462,0) as jml_k462, 
+                    ifnull(b.jml_k463,0) as jml_k463, ifnull(b.jml_k460+b.jml_k461+b.jml_k462+b.jml_k463,0) as jml_tidakKB
+                    FROM m_sls s LEFT OUTER JOIN
+                    (SELECT a.kodeProv, a.kodeKab, a.kodeKec, a.kodeDesa, a.kodeSLS, count(*) as jml_pus
+                    , sum(case when a.k452 = 1 then 1 else 0 end) as jml_k452, sum(case when a.k453 = 1 then 1 else 0 end) as jml_k453
+                    , sum(case when a.k454 = 1 then 1 else 0 end) as jml_k454, sum(case when a.k455 = 1 then 1 else 0 end) as jml_k455
+                    , sum(case when a.k456 = 1 then 1 else 0 end) as jml_k456, sum(case when a.k457 = 1 then 1 else 0 end) as jml_k457
+                    , sum(case when a.k458 = 1 then 1 else 0 end) as jml_k458, sum(case when a.k459 = 1 then 1 else 0 end) as jml_k459
+                    , sum(case when a.k460 = 1 then 1 else 0 end) as jml_k460, sum(case when a.k461 = 1 then 1 else 0 end) as jml_k461
+                    , sum(case when a.k462 = 1 then 1 else 0 end) as jml_k462, sum(case when a.k463 = 1 then 1 else 0 end) as jml_k463
+                    FROM t_art a WHERE a.k411 = 1 AND (a.k413 BETWEEN 10 AND 54) AND a.k415 = 1 AND a.tahun = '${dlTahunSamasta2}' ${aFx} GROUP BY a.kodeProv || a.kodeKab || a.kodeKec || a.kodeDesa || a.kodeSLS) as b
+                    ON b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS = s.kodeSLS
+                    WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.jml_pus}</td>`
+                    + `<td class="text-center"> ${row.jml_k452}</td>`
+                    + `<td class="text-center"> ${row.jml_k453}</td>`
+                    + `<td class="text-center"> ${row.jml_k454}</td>`
+                    + `<td class="text-center"> ${row.jml_k455}</td>`
+                    + `<td class="text-center"> ${row.jml_k456}</td>`
+                    + `<td class="text-center"> ${row.jml_k457}</td>`
+                    + `<td class="text-center"> ${row.jml_k458}</td>`
+                    + `<td class="text-center"> ${row.jml_k459}</td>`
+                    + `<td class="text-center"> ${row.jml_k452 + row.jml_k453 + row.jml_k454 + row.jml_k455 + row.jml_k456 + row.jml_k457 + row.jml_k458 + row.jml_k459}</td>`
+                    + `<td class="text-center"> ${row.jml_k460}</td>`
+                    + `<td class="text-center"> ${row.jml_k461}</td>`
+                    + `<td class="text-center"> ${row.jml_k462}</td>`
+                    + `<td class="text-center"> ${row.jml_k463}</td>`
+                    + `<td class="text-center"> ${row.jml_tidakKB}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+        if (optSelected == "tabel-13") {
+            $('#kampungKB-tabel').append(`<table id="tabel-13" class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th colspan="31">Tabel 12 Jumlah Keluarga Berdasarkan Indikator Pembangunan Keluarga Menurut Dusun/Lingkungan</th></tr>`
+                + `<tr><th rowspan="2">Kode</th><th rowspan="2">Dusun/Lingkungan</th><th colspan="3">Keluarga Punya Balita <1 Tahun</th><th colspan="3">Keluarga Punya Balita 1-4 Tahun</th><th colspan="3">Keluarga Punya Balita 0-4 Tahun</th></tr>`
+                + `<tr><th>Ikut Posyandu</th><th>Tidak Ikut Posyandu</th><th>Jumlah</th><th>Ikut Posyandu</th><th>Tidak Ikut Posyandu</th><th>Jumlah</th><th>Ikut Posyandu</th><th>Tidak Ikut Posyandu</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="kampungKB-tabel-tbody">`);
+
+            sql = `SELECT s.*,
+                    (SELECT count(kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404) FROM t_art
+                    WHERE kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS = s.kodeProv||s.kodeKab||s.kodeKec||s.kodeDesa||s.kodeSLS AND k440 = 1 AND k411 = 1 AND (k415 = 1 OR k416 = 1 OR k417 = 1) AND tahun = '${dlTahunSamasta2}' AND kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 in
+                    (SELECT DISTINCT kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 as idkk FROM t_art WHERE k413 = 0)) as jml_kk_0_1_ikut,
+                    (SELECT count(kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404) FROM t_art
+                    WHERE kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS = s.kodeProv||s.kodeKab||s.kodeKec||s.kodeDesa||s.kodeSLS AND k440 = 0 AND k411 = 1 AND (k415 = 1 OR k416 = 1 OR k417 = 1) AND tahun = '${dlTahunSamasta2}' AND kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 in
+                    (SELECT DISTINCT kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 as idkk FROM t_art WHERE k413 = 0)) as jml_kk_0_1_tidakikut,
+                    (SELECT count(kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404) FROM t_art
+                    WHERE kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS = s.kodeProv||s.kodeKab||s.kodeKec||s.kodeDesa||s.kodeSLS AND k440 = 1 AND k411 = 1 AND (k415 = 1 OR k416 = 1 OR k417 = 1) AND tahun = '${dlTahunSamasta2}' AND kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 in
+                    (SELECT DISTINCT kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 as idkk FROM t_art WHERE k413 BETWEEN 1 AND 4)) as jml_kk_1_4_ikut,
+                    (SELECT count(kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404) FROM t_art
+                    WHERE kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS = s.kodeProv||s.kodeKab||s.kodeKec||s.kodeDesa||s.kodeSLS AND k440 = 0 AND k411 = 1 AND (k415 = 1 OR k416 = 1 OR k417 = 1) AND tahun = '${dlTahunSamasta2}' AND kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 in
+                    (SELECT DISTINCT kodeProv||kodeKab||kodeKec||kodeDesa||kodeSLS||nurt||k404 as idkk FROM t_art WHERE k413 BETWEEN 1 AND 4)) as jml_kk_1_4_tidakikut
+                    FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+            
+            r = await sqlite.each(sql, [], function (row) {
+                $('#kampungKB-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td> ${row.namaSLS}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_ikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_tidakikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_ikut+row.jml_kk_0_1_tidakikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_1_4_ikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_1_4_tidakikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_1_4_ikut+row.jml_kk_1_4_tidakikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_ikut+row.jml_kk_1_4_ikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_tidakikut+row.jml_kk_1_4_tidakikut}</td>`
+                    + `<td class="text-center"> ${row.jml_kk_0_1_ikut+row.jml_kk_0_1_tidakikut+row.jml_kk_1_4_ikut+row.jml_kk_1_4_tidakikut}</td>`
+                    + `</tr>`);
+            });
+            $('#kampungKB-tabel').append(`</tbody></table>`);
+        }
+    }
+</script>
+
+<!-- populate: fungsi untuk populate filter wilayah -->
+<script>
+    async function populate(s1, s2, level) {
+        var s1 = document.getElementById(s1);
+        var s2 = document.getElementById(s2);
+        s2.innerHTML = "";
+
+        function splitOption(optionArray) {
+            for (var option in optionArray) {
+                var pair = optionArray[option].split("|");
+                var newOption = document.createElement("option");
+                newOption.value = pair[0];
+                newOption.innerHTML = pair[0] + " - " + pair[1];
+                s2.options.add(newOption);
+            }
+        }
+
+        if (level == "prov2kab") {
+            var optionArray = ["00|SEMUA KABUPATEN"];
+            sql = `SELECT * FROM m_kab WHERE kodeProv = '${s1.value}'`;
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeKab}| ${wil.namaKab} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selKecamatan").innerHTML = "";
+            document.getElementById("selDesa").innerHTML = "";
+            document.getElementById("selDusun").innerHTML = "";
+        }
+
+        if (level == "kab2kec") {
+            var optionArray = ["000|SEMUA KECAMATAN"];
+            var sProv = document.getElementById("selProvinsi");
+            sql = `SELECT * FROM m_kec WHERE kodeProv = '${sProv.value}' AND kodeKab = '${s1.value}'`;
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeKec}| ${wil.namaKec} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDesa").innerHTML = "";
+            $('#selDesa').append(`<option value = '000'> 000 - SEMUA DESA / KELURAHAN</option> `);
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value = '00'> 00 - SEMUA DUSUN / LINGKUNGAN</option> `);
+        }
+
+        if (level == "kec2desa") {
+            var optionArray = ["000|SEMUA DESA/KELURAHAN"];
+            var sProv = document.getElementById("selProvinsi");
+            var sKab = document.getElementById("selKabupaten");
+            sql = `SELECT * FROM m_desa WHERE kodeProv = '${sProv.value}' AND kodeKab = '${sKab.value}' AND kodeKec = '${s1.value}'`;
+
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeDesa}| ${wil.namaDesa} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value = '00'> 00 - SEMUA DUSUN / LINGKUNGAN</option> `);
+        }
+
+        if (level == "desa2dusun") {
+            var optionArray = ["00|SEMUA DUSUN/LINGKUNGAN"];
+            var sProv = document.getElementById("selProvinsi");
+            var sKab = document.getElementById("selKabupaten");
+            var sKec = document.getElementById("selKecamatan");
+            sql = `SELECT * FROM m_sls WHERE kodeProv = '${sProv.value}' AND kodeKab = '${sKab.value}' AND kodeKec = '${sKec.value}' AND kodeDesa = '${s1.value}'`;
+
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeSLS}| ${wil.namaSLS}`);
+            });
+            splitOption(optionArray);
+        }
+    }
+</script>

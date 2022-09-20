@@ -1,0 +1,376 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,2)" tabindex="-1">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,3)" tabindex="-1">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,4)" tabindex="-1">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,5)" tabindex="-1">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,6)" tabindex="-1">6</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(8,7)" tabindex="-1">7</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">8</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrian()" id="btnSimpan">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal8Blok5_1" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="14">BLOK V. KETERANGAN KEPALA KELUARGA</th>
+                    </tr>
+                    <tr>
+                      <th rowspan="4">No urut KK</th>
+                      <th colspan="13">KEPEMILIKAN LAHAN</th>
+                    </tr>
+                    <tr>
+                      <th colspan="12">Berapakah luas lahan yang dimiliki? (dalam m2). Jika tidak ada isikan 0</th>
+                      <th rowspan="3">Apakah KK menggarap Lahan Bengkok?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                    </tr>
+                    <tr>
+                      <th colspan="9">Lahan Pertanian</th>
+                      <th colspan="3">Lahan Bukan Pertanian</th>
+                    </tr>
+                    <tr>
+                      <th>Sawah</th>
+                      <th>Tegal kebun</th>
+                      <th>Ladang/ huma</th>
+                      <th>Perke-bunan</th>
+                      <th>Pohon/ hutan rakyat</th>
+                      <th>Tambak</th>
+                      <th>Kolam/ tebat/ empang</th>
+                      <th>Padang penggem-balaan/ rumput</th>
+                      <th>Sementara tidak diusahakan</th>
+                      <th>Rumah, bangunan, dan halaman sekitar</th>
+                      <th>Rawa-rawa</th>
+                      <th>Lainnya</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(501)</th>
+                      <th>(525)</th>
+                      <th>(526)</th>
+                      <th>(527)</th>
+                      <th>(528)</th>
+                      <th>(529)</th>
+                      <th>(530)</th>
+                      <th>(531)</th>
+                      <th>(532)</th>
+                      <th>(533)</th>
+                      <th>(534)</th>
+                      <th>(535)</th>
+                      <th>(536)</th>
+                      <th>(537)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisKK_a">
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal8Blok5_2" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th rowspan="3">No urut KK</th>
+                      <th colspan="3">PERUMAHAN</th>
+                      <th colspan="6">KOMUNIKASI</th>
+                      <th colspan="4">BANTUAN PEMERINTAH</th>
+                    </tr>
+                    <tr>
+                      <th colspan="3">Jenis perumahan
+                        <br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th colspan="6">Apakah keluarga ini memiliki?
+                        <br>
+                        ya= √<br>
+                        tidak = -</th>
+                      <th colspan="4">Apakah keluarga ini mendapatkan bantuan pemerintah?
+                        <br>
+                        ya= √<br>
+                        tidak = -</th>
+                    </tr>
+                    <tr>
+                      <th>Permanen</th>
+                      <th>Semi permanen</th>
+                      <th>Non permanen</th>
+                      <th>ORARI</th>
+                      <th>Telepon</th>
+                      <th>TV</th>
+                      <th>Radio</th>
+                      <th>TV kabel</th>
+                      <th>Parabola</th>
+                      <th>Rastra</th>
+                      <th>PKH</th>
+                      <th>PIP</th>
+                      <th>Bantuan Sosial Pemda</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(501)</th>
+                      <th>(538)</th>
+                      <th>(539)</th>
+                      <th>(540)</th>
+                      <th>(541)</th>
+                      <th>(542)</th>
+                      <th>(543)</th>
+                      <th>(544)</th>
+                      <th>(545)</th>
+                      <th>(546)</th>
+                      <th>(547)</th>
+                      <th>(548)</th>
+                      <th>(549)</th>
+                      <th>(550)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisKK_b">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutupEntrian('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupEntrian('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var RTdata;
+
+  function loadEntrian() {
+    getEntriSessionData();
+    bacaIsiJsonRT();
+
+    for (var i = 0; i < kkPage7.length; i++) {
+      $('#tbodyBarisKK_a').append(`<tr class='barisKK_a'>`
+        + `<td><input class='form-control text-center text-middle k501' value='${kkPage7[i].k501}' id='k501[${i}]' style='width:40px' disabled>
+                  </input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k525' id='k525[${i}]' value='${kkPage8[i].k525}' tabindex='${13 * (i) + 1}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k526' id='k526[${i}]' value='${kkPage8[i].k526}' tabindex='${13 * (i) + 2}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k527' id='k527[${i}]' value='${kkPage8[i].k527}' tabindex='${13 * (i) + 3}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k528' id='k528[${i}]' value='${kkPage8[i].k528}' tabindex='${13 * (i) + 4}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k529' id='k529[${i}]' value='${kkPage8[i].k529}' tabindex='${13 * (i) + 5}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k530' id='k530[${i}]' value='${kkPage8[i].k530}' tabindex='${13 * (i) + 6}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k531' id='k531[${i}]' value='${kkPage8[i].k531}' tabindex='${13 * (i) + 7}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k532' id='k532[${i}]' value='${kkPage8[i].k532}' tabindex='${13 * (i) + 8}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k533' id='k533[${i}]' value='${kkPage8[i].k533}' tabindex='${13 * (i) + 9}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k534' id='k534[${i}]' value='${kkPage8[i].k534}' tabindex='${13 * (i) + 10}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k535' id='k535[${i}]' value='${kkPage8[i].k535}' tabindex='${13 * (i) + 11}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k536' id='k536[${i}]' value='${kkPage8[i].k536}' tabindex='${13 * (i) + 12}' maxlength='6' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k537 nolSatu' id='k537[${i}]' value='${kkPage8[i].k537}' tabindex='${13 * (i) + 13}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `</tr>`);
+    }
+    for (var i = 0; i < kkPage7.length; i++) {
+      var a = kkPage8.length;
+      $('#tbodyBarisKK_b').append(`<tr class='barisKK_b'>`
+        + `<td><input class='form-control text-center text-middle k501' value='${kkPage7[i].k501}' id='k501[${i}]' style='width:40px' disabled>
+                  </input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k538 nolSatu' id='k538[${i}]' value='${kkPage8[i].k538}' tabindex='${13 * (a) + (13 * (i) + 1)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k539 nolSatu' id='k539[${i}]' value='${kkPage8[i].k539}' tabindex='${13 * (a) + (13 * (i) + 2)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k540 nolSatu' id='k540[${i}]' value='${kkPage8[i].k540}' tabindex='${13 * (a) + (13 * (i) + 3)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k541 nolSatu' id='k541[${i}]' value='${kkPage8[i].k541}' tabindex='${13 * (a) + (13 * (i) + 4)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k542 nolSatu' id='k542[${i}]' value='${kkPage8[i].k542}' tabindex='${13 * (a) + (13 * (i) + 5)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k543 nolSatu' id='k543[${i}]' value='${kkPage8[i].k543}' tabindex='${13 * (a) + (13 * (i) + 6)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k544 nolSatu' id='k544[${i}]' value='${kkPage8[i].k544}' tabindex='${13 * (a) + (13 * (i) + 7)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k545 nolSatu' id='k545[${i}]' value='${kkPage8[i].k545}' tabindex='${13 * (a) + (13 * (i) + 8)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k546 nolSatu' id='k546[${i}]' value='${kkPage8[i].k546}' tabindex='${13 * (a) + (13 * (i) + 9)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k547 nolSatu' id='k547[${i}]' value='${kkPage8[i].k547}' tabindex='${13 * (a) + (13 * (i) + 10)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k548 nolSatu' id='k548[${i}]' value='${kkPage8[i].k548}' tabindex='${13 * (a) + (13 * (i) + 11)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k549 nolSatu' id='k549[${i}]' value='${kkPage8[i].k549}' tabindex='${13 * (a) + (13 * (i) + 12)}' maxlength='1' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center k550 nolSatu' id='k550[${i}]' value='${kkPage8[i].k550}' tabindex='${13 * (a) + (13 * (i) + 13)}' maxlength='1' onfocus='this.select();' onkeypress='lastPageColumn(${i}, event)'></input></td>`
+        + `</tr>`);
+    }
+    document.getElementsByClassName("k525")[0].focus();
+    tabindexFix();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 8) {
+      updateIsiJsonRT();
+    }
+    location.href = `#/samasta-2/${to}/`;
+  }
+</script>
+
+<script>
+  async function lastPageColumn(i, e) {
+    var maxTabIndex = 13 * (kkPage7.length) + (13 * (kkPage7.length - 1) + 13);
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k550')[i].tabIndex == maxTabIndex) {
+        document.getElementById('btnSimpan').tabIndex = 13 * (kkPage7.length) + (13 * (kkPage7.length - 1) + 13) + 1;
+      }
+    }
+  }
+</script>
+
+<script>
+  // =====================================================================================================//
+  function updateIsiJsonRT() {
+    // artPage2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisKK = document.getElementsByClassName('barisKK_a');
+    kkPage8 = [];
+    for (i = 0; i < barisKK.length; i++) {
+      kkPage8.push({
+        'k525': document.getElementsByClassName('k525')[i].value,
+        'k526': document.getElementsByClassName('k526')[i].value,
+        'k527': document.getElementsByClassName('k527')[i].value,
+        'k528': document.getElementsByClassName('k528')[i].value,
+        'k529': document.getElementsByClassName('k529')[i].value,
+        'k530': document.getElementsByClassName('k530')[i].value,
+        'k531': document.getElementsByClassName('k531')[i].value,
+        'k532': document.getElementsByClassName('k532')[i].value,
+        'k533': document.getElementsByClassName('k533')[i].value,
+        'k534': document.getElementsByClassName('k534')[i].value,
+        'k535': document.getElementsByClassName('k535')[i].value,
+        'k536': document.getElementsByClassName('k536')[i].value,
+        'k537': document.getElementsByClassName('k537')[i].value,
+        'k538': document.getElementsByClassName('k538')[i].value,
+        'k539': document.getElementsByClassName('k539')[i].value,
+        'k540': document.getElementsByClassName('k540')[i].value,
+        'k541': document.getElementsByClassName('k541')[i].value,
+        'k542': document.getElementsByClassName('k542')[i].value,
+        'k543': document.getElementsByClassName('k543')[i].value,
+        'k544': document.getElementsByClassName('k544')[i].value,
+        'k545': document.getElementsByClassName('k545')[i].value,
+        'k546': document.getElementsByClassName('k546')[i].value,
+        'k547': document.getElementsByClassName('k547')[i].value,
+        'k548': document.getElementsByClassName('k548')[i].value,
+        'k549': document.getElementsByClassName('k549')[i].value,
+        'k550': document.getElementsByClassName('k550')[i].value
+      });
+    }
+
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    RTdata.kkPage7 = kkPage7;
+    RTdata.kkPage8 = kkPage8;
+    RTdata.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+    $(".k525").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k526").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k527").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k528").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k529").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k530").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k531").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k532").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k533").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k534").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k535").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k536").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+  });
+</script>

@@ -1,0 +1,541 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,1)">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,2)">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,3)">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,4)">4</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(5,6)">6</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrianSamasta1()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="4">IX. PENGGUNAAN LAHAN</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="text-center" style="width: 50px">901</td>
+                      <td>Luas wilayah desa/kelurahan:</td>
+                      <td style="width: 300px">
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" autofocus onfocus='this.select();'
+                              id="b9r901_i" tabindex="1" maxlength="8"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r901_ii" tabindex="2" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="6">902</td>
+                      <td> Luas lahan menurut jenis penggunaan lahan: </td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-9 d-none d-md-block">
+                            a. Lahan pertanian sawah <b>(R902a.1 + R902a.2)</b>
+                          </div>
+                          <div class="col-sm-3 d-none d-md-block text-center" style="padding: 0px">
+                            : .......................... Ha</div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" onfocus='this.select();'
+                              id="b9r902a_i" tabindex="3" maxlength="6"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r902a_ii" tabindex="4" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-9 d-none d-md-block" style="padding-left: 30px">
+                            1. Lahan sawah irigasi
+                          </div>
+                          <div class="col-sm-3 d-none d-md-block text-center" style="padding: 0px">
+                            : .......................... Ha</div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" onfocus='this.select();'
+                              id="b9r902a_1_i" tabindex="5" maxlength="6"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r902a_1_ii" tabindex="6" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-9 d-none d-md-block" style="padding-left: 30px">
+                            2. Lahan sawah nonirigasi (tadah hujan, pasang surut, rawa)
+                          </div>
+                          <div class="col-sm-3 d-none d-md-block text-center" style="padding: 0px">
+                            : .......................... Ha</div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" onfocus='this.select();'
+                              id="b9r902a_2_i" tabindex="7" maxlength="6"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r902a_2_ii" tabindex="8" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-9 d-none d-md-block">
+                            b. Lahan pertanian nonsawah<br>
+                            (tegal/kebun, ladang/huma, tambak, kolam/tebat/empang, perkebunan, peternakan, dll.)
+                          </div>
+                          <div class="col-sm-3 d-none d-md-block text-center" style="padding: 0px">
+                            : .......................... Ha</div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" onfocus='this.select();'
+                              id="b9r902b_i" tabindex="9" maxlength="6"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r902b_ii" tabindex="10" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-9 d-none d-md-block">
+                            c. Lahan nonpertanian<br>
+                            (perumahan, industri, perkantoran, pertokoan, jalan, prasarana umum, lapangan, dll.)
+                          </div>
+                          <div class="col-sm-3 d-none d-md-block text-center" style="padding: 0px">
+                            : .......................... Ha</div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-8 d-none d-md-block" style="padding-right: 0px">
+                            <input class="form-control form-kuesioner text-right regexJumlah" onfocus='this.select();'
+                              id="b9r902c_i" tabindex="11" maxlength="6"></input>
+                          </div>
+                          <div class="col-sm-1 d-none d-md-block text-center" style="padding: 0px">,</div>
+                          <div class="col-sm-3 d-none d-md-block" style="padding-left: 0px">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                              id="b9r902c_ii" tabindex="12" maxlength="2"></input>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="4">X. EKONOMI</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="text-center" rowspan="12" style="width: 50px">1001</td>
+                      <td>Jumlah sarana dan prasarana ekonomi di desa/kelurahan </td>
+                      <td style="width: 100px"></td>
+                    </tr>
+
+                    <tr>
+                      <td>a. Kelompok pertokoan (minimal 10 toko dan mengelompok dalam satu lokasi) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001a"
+                          tabindex="13" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>b. Pasar dengan bangunan permanen (memiliki atap, lantai, dan dinding) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001b"
+                          tabindex="14" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>c. Pasar dengan bangunan semi permanen (memiliki atap dan lantai, tanpa dinding) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001c"
+                          tabindex="15" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>d. Pasar tanpa bangunan (misalnya: pasar subuh, pasar terapung, dll.) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001d"
+                          tabindex="16" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>e. Jumlah minimarket/swalayan (tempat usaha di bangunan tetap untuk menjual berbagai
+                        jenis barang secara eceran dengan label harga, sistem pelayanan mandiri, luas lantai < 400 m2)
+                          </td> <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                            id="b10r1001e" tabindex="17" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>f.&nbsp;&nbsp;1. Toko/warung kelontong (tempat usaha di bangunan tetap untuk menjual berbagai
+                        jenis barang keperluan sehari– hari secara eceran, tanpa ada sistem pelayanan mandiri)
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                          id="b10r1001f_1" tabindex="18" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding-left: 20px">2. Toko/warung kelontong yang menjual bahan pangan (sembako) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();'
+                          id="b10r1001f_2" tabindex="19" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>g. Restoran/rumah makan (usaha pangan siap saji di bangunan tetap, pembeli biasanya dikenai
+                        pajak) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001g"
+                          tabindex="20" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>h. Warung/kedai makanan minuman (usaha pangan siap saji di bangunan tetap, pembeli
+                        biasanya tidak dikenai pajak)
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001h"
+                          tabindex="21" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>i. Hotel (menyediakan jasa akomodasi dan ada restoran, penginapan dengan izin usaha sebagai
+                        hotel)
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001i"
+                          tabindex="22" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>j. Penginapan: hostel/motel/losmen/wisma (menyediakan akomodasi, penginapan dengan
+                        izin usaha bukan sebagai hotel)
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1001j"
+                          tabindex="23" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="4">1002</td>
+                      <td>Jumlah sarana lembaga keuangan yang beroperasi di desa/kelurahan </td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td>a. Bank Umum Pemerintah (BRI, BNI, Mandiri, BPD, BTN) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1002a"
+                          tabindex="24" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>b. Bank Umum Swasta (BCA, Permata, Sinarmas, CIMB, dll.) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1002b"
+                          tabindex="25" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>c. Bank Perkreditan Rakyat (BPR) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1002c"
+                          tabindex="26" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" rowspan="8">1003</td>
+                      <td>Jumlah sarana penunjang ekonomi di desa/kelurahan </td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td>a. Baitul Maal Wa Tamwil (BMT) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003a"
+                          tabindex="27" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>b. Pegadaian </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003b"
+                          tabindex="28" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>c. Anjungan Tunai Mandiri (ATM) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003c"
+                          tabindex="29" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>d. Bengkel mobil/motor </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003d"
+                          tabindex="30" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>e. Salon Kecantikan </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003e"
+                          tabindex="31" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>f. Agen Tiket/Travel/Biro Perjalanan </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003f"
+                          tabindex="32" maxlength="2"></input></input></td>
+                    </tr>
+
+                    <tr>
+                      <td>g. Agen Bank </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b10r1003g"
+                          tabindex="33" maxlength="2" onkeypress='nextPage(this.tabIndex, event)'></input></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  async function loadEntrian() {
+    // jika statusEntrian new, load dari json
+    await getEntriSessionDataSamasta1();
+    //if (statusEntrian == 'new') {
+    await bacaIsiJsonSamasta1();
+    document.getElementById('b9r901_i').value = desaPage5[0].b9r901_i;
+    document.getElementById('b9r901_ii').value = desaPage5[0].b9r901_ii;
+    document.getElementById('b9r902a_i').value = desaPage5[0].b9r902a_i;
+    document.getElementById('b9r902a_ii').value = desaPage5[0].b9r902a_ii;
+    document.getElementById('b9r902a_1_i').value = desaPage5[0].b9r902a_1_i;
+    document.getElementById('b9r902a_1_ii').value = desaPage5[0].b9r902a_1_ii;
+    document.getElementById('b9r902a_2_i').value = desaPage5[0].b9r902a_2_i;
+    document.getElementById('b9r902a_2_ii').value = desaPage5[0].b9r902a_2_ii;
+    document.getElementById('b9r902b_i').value = desaPage5[0].b9r902b_i;
+    document.getElementById('b9r902b_ii').value = desaPage5[0].b9r902b_ii;
+    document.getElementById('b9r902c_i').value = desaPage5[0].b9r902c_i;
+    document.getElementById('b9r902c_ii').value = desaPage5[0].b9r902c_ii;
+    document.getElementById('b10r1001a').value = desaPage5[0].b10r1001a;
+    document.getElementById('b10r1001b').value = desaPage5[0].b10r1001b;
+    document.getElementById('b10r1001c').value = desaPage5[0].b10r1001c;
+    document.getElementById('b10r1001d').value = desaPage5[0].b10r1001d;
+    document.getElementById('b10r1001e').value = desaPage5[0].b10r1001e;
+    document.getElementById('b10r1001f_1').value = desaPage5[0].b10r1001f_1;
+    document.getElementById('b10r1001f_2').value = desaPage5[0].b10r1001f_2;
+    document.getElementById('b10r1001g').value = desaPage5[0].b10r1001g;
+    document.getElementById('b10r1001h').value = desaPage5[0].b10r1001h;
+    document.getElementById('b10r1001i').value = desaPage5[0].b10r1001i;
+    document.getElementById('b10r1001j').value = desaPage5[0].b10r1001j;
+    document.getElementById('b10r1002a').value = desaPage5[0].b10r1002a;
+    document.getElementById('b10r1002b').value = desaPage5[0].b10r1002b;
+    document.getElementById('b10r1002c').value = desaPage5[0].b10r1002c;
+    document.getElementById('b10r1003a').value = desaPage5[0].b10r1003a;
+    document.getElementById('b10r1003b').value = desaPage5[0].b10r1003b;
+    document.getElementById('b10r1003c').value = desaPage5[0].b10r1003c;
+    document.getElementById('b10r1003d').value = desaPage5[0].b10r1003d;
+    document.getElementById('b10r1003e').value = desaPage5[0].b10r1003e;
+    document.getElementById('b10r1003f').value = desaPage5[0].b10r1003f;
+    document.getElementById('b10r1003g').value = desaPage5[0].b10r1003g;
+    
+    document.getElementById("b9r901_i").focus();
+  }
+
+  function updateIsiJsonSamasta1() {
+    desaPage5 = [];
+    desaPage5.push({
+      'b9r901_i': document.getElementById('b9r901_i').value,
+      'b9r901_ii': document.getElementById('b9r901_ii').value,
+      'b9r902a_i': document.getElementById('b9r902a_i').value,
+      'b9r902a_ii': document.getElementById('b9r902a_ii').value,
+      'b9r902a_1_i': document.getElementById('b9r902a_1_i').value,
+      'b9r902a_1_ii': document.getElementById('b9r902a_1_ii').value,
+      'b9r902a_2_i': document.getElementById('b9r902a_2_i').value,
+      'b9r902a_2_ii': document.getElementById('b9r902a_2_ii').value,
+      'b9r902b_i': document.getElementById('b9r902b_i').value,
+      'b9r902b_ii': document.getElementById('b9r902b_ii').value,
+      'b9r902c_i': document.getElementById('b9r902c_i').value,
+      'b9r902c_ii': document.getElementById('b9r902c_ii').value,
+      'b10r1001a': document.getElementById('b10r1001a').value,
+      'b10r1001b': document.getElementById('b10r1001b').value,
+      'b10r1001c': document.getElementById('b10r1001c').value,
+      'b10r1001d': document.getElementById('b10r1001d').value,
+      'b10r1001e': document.getElementById('b10r1001e').value,
+      'b10r1001f_1': document.getElementById('b10r1001f_1').value,
+      'b10r1001f_2': document.getElementById('b10r1001f_2').value,
+      'b10r1001g': document.getElementById('b10r1001g').value,
+      'b10r1001h': document.getElementById('b10r1001h').value,
+      'b10r1001i': document.getElementById('b10r1001i').value,
+      'b10r1001j': document.getElementById('b10r1001j').value,
+      'b10r1002a': document.getElementById('b10r1002a').value,
+      'b10r1002b': document.getElementById('b10r1002b').value,
+      'b10r1002c': document.getElementById('b10r1002c').value,
+      'b10r1003a': document.getElementById('b10r1003a').value,
+      'b10r1003b': document.getElementById('b10r1003b').value,
+      'b10r1003c': document.getElementById('b10r1003c').value,
+      'b10r1003d': document.getElementById('b10r1003d').value,
+      'b10r1003e': document.getElementById('b10r1003e').value,
+      'b10r1003f': document.getElementById('b10r1003f').value,
+      'b10r1003g': document.getElementById('b10r1003g').value
+    });
+
+    dataDesa.desaPage2 = desaPage2;
+    dataDesa.desaPage3 = desaPage3;
+    dataDesa.desaPage4 = desaPage4;
+    dataDesa.desaPage5 = desaPage5;
+    dataDesa.desaPage6 = desaPage6;
+    dataDesa.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta1/${namaFile}.json`, JSON.stringify(dataDesa));
+  }
+</script>
+
+<script>
+  function pindahHalaman(from, to) {
+    if (from == 5) {
+      updateIsiJsonSamasta1();
+    }
+    location.href = `#/samasta-1/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = i;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b10r1003g').tabIndex == maxTabIndex) {
+        updateIsiJsonSamasta1();
+        location.href = `#/samasta-1/6/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  tabindexFix();
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".regexJumlah").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+  });
+</script>

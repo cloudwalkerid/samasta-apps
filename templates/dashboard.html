@@ -1,0 +1,337 @@
+<!-- Breadcrumb-->
+<ol class="breadcrumb">
+  <!-- <li class="breadcrumb-item">Home</li>
+  <li class="breadcrumb-item">
+    <a href="#">Admin</a>
+  </li> -->
+  <li class="breadcrumb-item active">Dashboard</li>
+  <!-- Breadcrumb Menu-->
+  <!-- <li class="breadcrumb-menu d-md-down-none">
+    <div class="btn-group" role="group" aria-label="Button group">
+      <a class="btn" href="#">
+        <i class="icon-speech"></i>
+      </a>
+      <a class="btn" href="./">
+        <i class="icon-graph"></i>  Dashboard</a>
+      <a class="btn" href="#">
+        <i class="icon-settings"></i>  Settings</a>
+    </div>
+  </li> -->
+</ol>
+
+<article>
+  <section>
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="row">
+          <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-primary">
+              <div class="card-body pb-0">
+                <!-- <div class="btn-group float-right">
+                  <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="icon-settings"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </div> -->
+                <div class="text-value" id="jumlahRT"></div>
+                <div>Rumah Tangga</div>
+              </div>
+              <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                <canvas class="chart" id="card-chart1" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+          <div class="col-sm-6 col-lg-3">
+            <div class="card text-white bg-success">
+              <div class="card-body pb-0">
+                <div class="text-value" id="jumlahKK"></div>
+                <div>Kepala Keluarga</div>
+              </div>
+              <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                <canvas class="chart" id="card-chart2" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+          <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-warning">
+              <div class="card-body pb-0">
+                <div class="text-value" id="jumlahPenduduk"></div>
+                <div>Jumlah Penduduk</div>
+              </div>
+              <div class="chart-wrapper mt-3" style="height:70px;">
+                <canvas class="chart" id="card-chart3" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+          <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-danger">
+              <div class="card-body pb-0">
+                <div class="text-value" id="jumlahLakiLaki"></div>
+                <div>Penduduk Laki-Laki</div>
+              </div>
+              <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                <canvas class="chart" id="card-chart4" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+          <div class="col-sm-6 col-lg-2">
+            <div class="card text-white bg-info">
+              <div class="card-body pb-0">
+                <div class="text-value" id="jumlahPerempuan"></div>
+                <div>Penduduk Perempuan</div>
+              </div>
+              <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                <canvas class="chart" id="card-chart5" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+        </div>
+        <!-- /.row-->
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-5">
+                <h4 class="card-title mb-0">Progress Input Data / Samasta-2</h4>
+                <!-- <div class="small text-muted">November 2017</div> -->
+              </div>
+            </div>
+            <!-- /.row-->
+            <div class="chart-wrapper" style="height:200px;margin-top:40px;">
+              <canvas class="chart" id="main-chart" height="200"></canvas>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row text-center">
+              <div class="col-sm-12 col-md mb-sm-2 mb-0">
+                <div class="text-muted">Samasta-2 Clean</div>
+                <span id="jumlahClean"></span>
+                <div class="progress progress-xs mt-2">
+                  <div id="jumlahCleanProgress" class="progress-bar bg-success" role="progressbar" aria-valuenow="40"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md mb-sm-2 mb-0">
+                <div class="text-muted">Samasta-2 Error</div>
+                <span id="jumlahError"></span>
+                <div class="progress progress-xs mt-2">
+                  <div id="jumlahErrorProgress" class="progress-bar bg-danger" role="progressbar" aria-valuenow="80"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md mb-sm-2 mb-0">
+                <div class="text-muted">Samasta-2 Total</div>
+                <span id="jumlahTotal"></span>
+                <div class="progress progress-xs mt-2">
+                  <div id="jumlahTotalProgress" class="progress-bar" role="progressbar" aria-valuenow="40"
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-->
+        <div class="card">
+          <div class="card-body">
+            <div class="row text-center">
+              <div class="col-sm-12 col-md mb-sm-2 mb-0">
+                <div class="text-muted">Samasta-1</div>
+                <span id="progressS1"></span>
+                <div class="progress-group-bars mt-3">
+                  <div class="progress progress-xs">
+                    <div id="progressS1Clean" class="progress-bar bg-success" role="progressbar" aria-valuenow="12"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div id="progressS1Error" class="progress-bar bg-danger" role="progressbar" aria-valuenow="67"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div id="progressS1Belum" class="progress-bar bg-secondary" role="progressbar" aria-valuenow="67"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-sm-12 col-md mb-sm-2 mb-0">
+                <div class="text-muted">Samasta-3</div>
+                <span id="progressS3"></span>
+                <div class="progress-group-bars mt-3">
+                  <div class="progress progress-xs">
+                    <div id="progressS3Clean" class="progress-bar bg-success" role="progressbar" aria-valuenow="12"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div id="progressS3Error" class="progress-bar bg-danger" role="progressbar" aria-valuenow="67"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress progress-xs">
+                    <div id="progressS3Belum" class="progress-bar bg-secondary" role="progressbar" aria-valuenow="67"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+
+<script src="node_modules/chart.js/dist/Chart.min.js"></script>
+<!--<script src="src/js/main.js"></script>-->
+<script src="assets/js/main.js"></script>
+
+<script>
+  var filterWhere, tabelMasterWilayah;
+  var dataKodeWilayah = [];
+  var dataNamaWilayah = [];
+  var dataJumlahRT = [];
+  var dataJumlahRTClean = [];
+  var dataJumlahRTError = [];
+  var dataJumlahKK = [];
+  var dataJumlahPenduduk = [];
+  var dataJumlahLakiLaki = [];
+  var dataJumlahPerempuan = [];
+
+  if (dlKodeKab == '00') { // login sebagai user provinsi
+    tabelMasterWilayah = 'm_kab';
+    filterWhere = `s.kodeProv = '${dlKodeProv}'`;
+  } else if (dlKodeKab != '00' && dlKodeKec == '000') { // login sebagai user kabupaten
+    tabelMasterWilayah = 'm_kec';
+    filterWhere = `s.kodeProv = '${dlKodeProv}' AND s.kodeKab = '${dlKodeKab}'`;
+  } else if (dlKodeKec != '000' && dlKodeDesa == '000') { // login sebagai user kecamatan
+    tabelMasterWilayah = 'm_desa';
+    filterWhere = `s.kodeProv = '${dlKodeProv}' AND s.kodeKab = '${dlKodeKab}' AND s.kodeKec = '${dlKodeKec}'`;
+  } else if (dlKodeDesa != '000' && dlKodeSLS == '00') { // login sebagai user desa
+    tabelMasterWilayah = 'm_sls';
+    filterWhere = `s.kodeProv = '${dlKodeProv}' AND s.kodeKab = '${dlKodeKab}' AND s.kodeKec = '${dlKodeKec}' AND s.kodeDesa = '${dlKodeDesa}'`;
+  } /* else if (dlKodeSLS != '00') {
+    tabelMasterWilayah = 'm_sls';
+    filterWhere = `s.kodeProv = '${dlKodeProv}' AND s.kodeKab = '${dlKodeKab}' AND s.kodeKec = '${dlKodeKec}' AND s.kodeDesa = '${dlKodeDesa}' AND s.kodeSLS = '${dlKodeSLS}'`;
+  } */
+
+  // jumlah rumah tangga
+  async function jumlahBox() {
+    sql = `SELECT COUNT(*) AS jumlahRT FROM t_rt s WHERE ${filterWhere} AND tahun='${dlTahunSamasta2}'`;
+    r = await sqlite.get(sql);
+    if (r) {
+      document.getElementById('jumlahRT').innerHTML = r.jumlahRT;
+    }
+
+    sql = `SELECT COUNT(*) AS jumlahKK FROM t_art s WHERE ${filterWhere} AND nuArt = k404 AND tahun='${dlTahunSamasta2}'`;
+    r = await sqlite.get(sql);
+    if (r) {
+      document.getElementById('jumlahKK').innerHTML = r.jumlahKK;
+    }
+
+    sql = `SELECT COUNT(*) AS jumlahLakiLaki FROM t_art s WHERE ${filterWhere} AND k410 = '1' AND tahun='${dlTahunSamasta2}'`;
+    r = await sqlite.get(sql);
+    if (r) {
+      jumlahLakiLaki = r.jumlahLakiLaki;
+      document.getElementById('jumlahLakiLaki').innerHTML = jumlahLakiLaki;
+    }
+
+    sql = `SELECT COUNT(*) AS jumlahPerempuan FROM t_art s WHERE ${filterWhere} AND k411 = '1' AND tahun='${dlTahunSamasta2}'`;
+    r = await sqlite.get(sql);
+    if (r) {
+      jumlahPerempuan = r.jumlahPerempuan
+      document.getElementById('jumlahPerempuan').innerHTML = jumlahPerempuan;
+    }
+
+    document.getElementById('jumlahPenduduk').innerHTML = jumlahLakiLaki + jumlahPerempuan;
+
+    //sql = `SELECT * FROM ${tabelMasterWilayah} WHERE ${filterWhere} ORDER BY kodeSLS`;
+    sql = `SELECT * FROM m_sls s WHERE ${filterWhere} ORDER BY kodeSLS`;
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        dataKodeWilayah.push(row.kodeSLS);
+        dataNamaWilayah.push(row.namaSLS);
+      });
+    }
+
+    sql = `SELECT s.*,
+          (SELECT COUNT(*) FROM t_rt b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jumlahRT,
+          (SELECT COUNT(*) FROM t_rt b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.tahun = '${dlTahunSamasta2}' AND b.statusDok = 'C' ) AS jumlahRTClean,
+          (SELECT COUNT(*) FROM t_rt b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.tahun = '${dlTahunSamasta2}' AND b.statusDok = 'E' ) AS jumlahRTError,
+          (SELECT COUNT(*) FROM t_kk b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.tahun = '${dlTahunSamasta2}') AS jumlahKK,
+          (SELECT COUNT(*) FROM t_art b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.k410 = '1' AND b.tahun = '${dlTahunSamasta2}') AS jumlahLakiLaki,
+          (SELECT COUNT(*) FROM t_art b
+          WHERE b.kodeProv = s.kodeProv AND b.kodeKab = s.kodeKab AND b.kodeKec = s.kodeKec AND b.kodeDesa = s.kodeDesa AND b.kodeSLS=s.kodeSLS AND b.k411 = '1' AND b.tahun = '${dlTahunSamasta2}') AS jumlahPerempuan
+          FROM m_sls s
+          WHERE ${filterWhere}
+          ORDER BY kodeSLS`;
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        dataJumlahRT.push(row.jumlahRT);
+        dataJumlahRTClean.push(row.jumlahRTClean);
+        dataJumlahRTError.push(row.jumlahRTError);
+        dataJumlahKK.push(row.jumlahKK);
+        dataJumlahLakiLaki.push(row.jumlahLakiLaki);
+        dataJumlahPerempuan.push(row.jumlahPerempuan);
+        dataJumlahPenduduk.push(row.jumlahLakiLaki + row.jumlahPerempuan);
+      });
+    }
+  }
+
+  async function loadPage() {
+    await jumlahBox();
+    await loadChart();
+    document.getElementById("jumlahClean").innerHTML = `<strong>${dataJumlahRTClean.reduce((a, b) => a + b, 0)} dokumen 
+      (${(100 * dataJumlahRTClean.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2)}%)</strong>`;
+    document.getElementById("jumlahCleanProgress").style.width = (100 * dataJumlahRTClean.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2) + "%";
+
+    document.getElementById("jumlahError").innerHTML = `<strong>${dataJumlahRTError.reduce((a, b) => a + b, 0)} dokumen 
+      (${(100 * dataJumlahRTError.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2)}%)</strong>`;
+    document.getElementById("jumlahErrorProgress").style.width = (100 * dataJumlahRTError.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2) + "%";
+
+    document.getElementById("jumlahTotal").innerHTML = `<strong>${dataJumlahRT.reduce((a, b) => a + b, 0)} dokumen 
+      (${(100 * dataJumlahRT.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2)}%)</strong>`;
+    document.getElementById("jumlahTotalProgress").style.width = (100 * dataJumlahRT.reduce((a, b) => a + b, 0) / dataJumlahRT.reduce((a, b) => a + b, 0)).toFixed(2) + "%";
+
+    var sql = `SELECT ifnull(sum(case when statusDok = 'C' then 1 else 0 end),0) as s1Clean,
+      ifnull(sum(case when statusDok = 'E' then 1 else 0 end),0) as s1Error,
+      (SELECT count(*) FROM m_desa s WHERE ${filterWhere}) as s1Target
+      FROM t_samasta1 s WHERE ${filterWhere} AND tahun = '${dlTahunSamasta1}'`;
+    var r = await sqlite.get(sql);
+
+    document.getElementById("progressS1").innerHTML = `<strong>Clean: ${r.s1Clean}, Error: ${r.s1Error}, Belum: ${r.s1Target - r.s1Clean - r.s1Error}, Target: ${r.s1Target}</strong>`;
+    document.getElementById("progressS1Clean").style.width = (100 * r.s1Clean / r.s1Target).toFixed(2) + "%";
+    document.getElementById("progressS1Error").style.width = (100 * r.s1Error / r.s1Target).toFixed(2) + "%";
+    document.getElementById("progressS1Belum").style.width = (100 * (r.s1Target - r.s1Clean - r.s1Error) / r.s1Target).toFixed(2) + "%";
+
+
+    /* var sql = `SELECT ifnull(sum(case when statusDok = 'C' then 1 else 0 end),0) as s3Clean,
+      ifnull(sum(case when statusDok = 'E' then 1 else 0 end),0) as s3Error,
+      (SELECT count(*) FROM m_sls s WHERE ${filterWhere}) as s3Target
+      FROM t_samasta3 s WHERE ${filterWhere} AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+    var r = await sqlite.get(sql);
+
+    document.getElementById("progressS3").innerHTML = `<strong>Clean: ${r.s3Clean}, Error: ${r.s3Error}, Belum: ${r.s3Target - r.s3Clean - r.s3Error}, Target: ${r.s3Target}</strong>`;
+    document.getElementById("progressS3Clean").style.width = (100 * r.s3Clean / r.s3Target).toFixed(2) + "%";
+    document.getElementById("progressS3Error").style.width = (100 * r.s3Error / r.s3Target).toFixed(2) + "%";
+    document.getElementById("progressS3Belum").style.width = (100 * (r.s3Target - r.s3Clean - r.s3Error) / r.s3Target).toFixed(2) + "%"; */
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+</script>

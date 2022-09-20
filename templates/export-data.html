@@ -1,0 +1,547 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Utilities / Export Data</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 d-none d-md-block bg-light border">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <br>
+                    <table class="table table-responsive-sm table-sm table-borderless">
+                      <tbody>
+                        <tr>
+                          <td style="width: 40%">Provinsi:</td>
+                          <td>
+                            <select class="form-control" id="selProvinsi" name="selProvinsi"
+                              onchange="populate(this.id,'selKabupaten','prov2kab')">
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kabupaten/Kota:</td>
+                          <td>
+                            <select class="form-control" id="selKabupaten" name="selKabupaten"
+                              onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kecamatan:</td>
+                          <td>
+                            <select class="form-control" id="selKecamatan" name="selKecamatan"
+                              onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Desa/Kelurahan:</td>
+                          <td>
+                            <select class="form-control" id="selDesa" name="selDesa"
+                              onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Dusun/Lingkungan:</td>
+                          <td>
+                            <select class="form-control" id="selDusun" name="selDusun">
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8 d-none d-md-block">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <div class="card">
+                      <div class="card-header">
+                        Untuk melakukan Export Data, pilih level wilayah dan jenis kuesioner untuk data yang akan
+                        diexport, <b>Browse</b> folder penyimpanan kemudian klik tombol <b>Export</b>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">
+                          <input type="checkbox" name="jenisKuesioner[]" value="samasta1"> Samasta-1&nbsp;&nbsp;&nbsp;
+                          <input type="checkbox" name="jenisKuesioner[]" value="samasta2"> Samasta-2&nbsp;&nbsp;&nbsp;
+                          <!-- <input type="checkbox" name="jenisKuesioner[]" value="samasta3"> Samasta-3 -->
+                        </p>
+                        <div class="row">
+                          <div class="col-sm-10 d-none d-md-block">
+                            <input id="content-name" class="form-control" disabled>
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block">
+                            <button id="buttonBrowse" class="btn btn-primary">Browse</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-footer text-muted">
+                        <div class="row">
+                          <div class="col-sm-10 d-none d-md-block">
+                          </div>
+                          <div class="col-sm-2 d-none d-md-block">
+                            <button id="buttonExport" class="btn btn-success">Export</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+</script>
+
+<script>
+  document.getElementById("buttonBrowse").onclick = async function () {
+    const fs = require("fs");
+    const { dialog } = require("electron").remote;
+    const remote = require('electron').remote;
+    const app = remote.app;
+
+    var path = dialog.showOpenDialog({
+      properties: ['openDirectory']
+    });
+    backup_date = ambilDate();
+    if (path) {
+      document.getElementById("content-name").value = path;
+      document.getElementById("buttonExport").onclick = async function () {
+        //document.getElementById("loader").style.display = "block";
+        $(".overlay").show();
+        function checkedJenisKuesioner() {
+          var checked = false;
+          var jenisKuesioner = document.getElementsByName("jenisKuesioner[]");
+          var kuesionerChecked = [];
+          for (var i = 0; i < jenisKuesioner.length; i++) {
+            if (jenisKuesioner[i].checked) {
+              checked = true;
+              kuesionerChecked.push(jenisKuesioner[i].value);
+            }
+          }
+          if (!checked) {
+            alert("Gagal \nPilih terlebih dahulu jenis kuesioner yang akan diexport");
+            return false;
+          } else {
+            return kuesionerChecked;
+          }
+        }
+
+        var jenisKuesioner = checkedJenisKuesioner();
+        var aF = await areaFilter();
+        var aFd = await areaFilterD();
+
+        for (i = 0; i < jenisKuesioner.length; i++) {
+          if (jenisKuesioner[i] == "samasta1") await exportSamasta1(path, aFd);
+          if (jenisKuesioner[i] == "samasta2") await exportSamasta2(path, aF);
+          if (jenisKuesioner[i] == "samasta3") await exportSamasta3(path, aF);
+        }        
+        // document.getElementById("loader").style.display = "none";
+        $(".overlay").hide();
+      }
+    }
+  }
+
+  async function exportSamasta1(path, aFd) {
+    var Excel = require('exceljs');
+    // a new excel workbook;
+    workbook = new Excel.Workbook();
+    // some information about the workbook
+    workbook.creator = "samasta-apps@bpsprovinsisulawesibarat";
+    workbook.lastModifiedBy = dlNamaUser;
+    workbook.created = new Date();
+    workbook.modified = new Date();
+    workbook.lastPrinted = new Date();
+    // create a sheet
+    var sheetSamasta1 = workbook.addWorksheet('samasta1');
+    // a table header
+    kolom = [];
+    var sql = `select name from pragma_table_info("t_samasta1")`;
+    var r = await sqlite.all(sql, []);
+    r.forEach(function (namaKolom) {
+      kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+    });
+    sheetSamasta1.columns = kolom;
+
+    // add rows in the above header
+    sql = `SELECT * FROM t_samasta1 ${aFd} AND tahun = '${dlTahunSamasta1}'`;
+    r = await sqlite.all(sql, []);
+    if (r) sheetSamasta1.addRows(r);
+
+    // save file on harddisk
+    workbook.xlsx.writeFile(path + "/" + ambilDate() + "_export_samasta-1.xlsx")
+      .then(function () {
+        // success message
+        alert("Export Samasta-1 berhasil");
+      });
+  }
+
+  async function exportSamasta2(path, aF) {
+    var Excel = require('exceljs');
+    // a new excel workbook;
+    workbook = new Excel.Workbook();
+    // some information about the workbook
+    workbook.creator = "samasta-apps@bpsprovinsisulawesibarat";
+    workbook.lastModifiedBy = dlNamaUser;
+    workbook.created = new Date();
+    workbook.modified = new Date();
+    workbook.lastPrinted = new Date();
+
+    await createSheetRT();
+    await createSheetART();
+    await createSheetKK();
+
+    async function createSheetRT() {
+      // create a sheet
+      var sheetSamasta2_rt = workbook.addWorksheet('samasta2_hal1');
+      // a table header
+      kolom = [];
+      var sql = `select name from pragma_table_info("t_rt")`;
+      var r = await sqlite.all(sql, []);
+      r.forEach(function (namaKolom) {
+        kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+      });
+      sheetSamasta2_rt.columns = kolom;
+
+      // add rows in the above header
+      sql = `SELECT * FROM t_rt ${aF} AND tahun = '${dlTahunSamasta2}'`;
+      r = await sqlite.all(sql, []);
+      if (r) sheetSamasta2_rt.addRows(r);
+    }
+
+    async function createSheetART() {
+      // create a sheet
+      var sheetSamasta2_art = workbook.addWorksheet('samasta2_hal2-6');
+      // a table header
+      kolom = [];
+      var sql = `select name from pragma_table_info("t_art")`;
+      var r = await sqlite.all(sql, []);
+      r.forEach(function (namaKolom) {
+        kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+      });
+      sheetSamasta2_art.columns = kolom;
+
+      // add rows in the above header
+      sql = `SELECT * FROM t_art ${aF} AND tahun = '${dlTahunSamasta2}'`;
+      r = await sqlite.all(sql, []);
+      if (r) sheetSamasta2_art.addRows(r);
+    }
+
+    async function createSheetKK() {
+      // create a sheet
+      var sheetSamasta2_kk = workbook.addWorksheet('samasta2_hal7-8');
+      // a table header
+      kolom = [];
+      var sql = `select name from pragma_table_info("t_kk")`;
+      var r = await sqlite.all(sql, []);
+      r.forEach(function (namaKolom) {
+        kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+      });
+      sheetSamasta2_kk.columns = kolom;
+
+      // add rows in the above header
+      sql = `SELECT * FROM t_kk ${aF} AND tahun = '${dlTahunSamasta2}'`;
+      r = await sqlite.all(sql, []);
+      if (r) sheetSamasta2_kk.addRows(r);
+    }
+
+    // save file on harddisk
+    workbook.xlsx.writeFile(path + "/" + ambilDate() + "_export_samasta-2.xlsx")
+      .then(function () {
+        // success message
+        alert("Export Samasta-2 berhasil");
+      });
+  }
+
+  async function exportSamasta3(path, aF) {
+    var Excel = require('exceljs');
+    // a new excel workbook;
+    workbook = new Excel.Workbook();
+    // some information about the workbook
+    workbook.creator = "samasta-apps@bpsprovinsisulawesibarat";
+    workbook.lastModifiedBy = dlNamaUser;
+    workbook.created = new Date();
+    workbook.modified = new Date();
+    workbook.lastPrinted = new Date();
+
+    await createSheetSamasta3();
+    await createSheetSamasta3_blok4();
+
+    async function createSheetSamasta3() {
+      // create a sheet
+      var sheetSamasta3 = workbook.addWorksheet('samasta3_hal1');
+      // a table header
+      kolom = [];
+      var sql = `select name from pragma_table_info("t_samasta3")`;
+      var r = await sqlite.all(sql, []);
+      r.forEach(function (namaKolom) {
+        kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+      });
+      sheetSamasta3.columns = kolom;
+
+      // add rows in the above header
+      sql = `SELECT * FROM t_samasta3 ${aF} AND tahun = '${dlTahunSamasta3}'`;
+      r = await sqlite.all(sql, []);
+      if (r) sheetSamasta3.addRows(r);
+    }
+
+    async function createSheetSamasta3_blok4() {
+      // create a sheet
+      var sheetSamasta3_blok4 = workbook.addWorksheet('samasta3_mutasi');
+      // a table header
+      kolom = [];
+      var sql = `select name from pragma_table_info("t_samasta3_blok4")`;
+      var r = await sqlite.all(sql, []);
+      r.forEach(function (namaKolom) {
+        kolom.push({ 'header': namaKolom.name, 'key': namaKolom.name });
+      });
+      sheetSamasta3_blok4.columns = kolom;
+
+      // add rows in the above header
+      sql = `SELECT * FROM t_samasta3_blok4 ${aF} AND tahun = '${dlTahunSamasta3}'`;
+      r = await sqlite.all(sql, []);
+      if (r) sheetSamasta3_blok4.addRows(r);
+    }
+
+    // save file on harddisk
+    workbook.xlsx.writeFile(path + "/" + ambilDate() + "_export_samasta-3.xlsx")
+      .then(function () {
+        // success message
+        alert("Export Samasta-3 berhasil");
+      });
+  }
+</script>
+<!-- onload value select box -->
+<script>
+  async function loadPage() {
+    if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+    if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+    if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+    if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+    if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+    sql = "SELECT * FROM m_prov ORDER BY kodeProv ASC";
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeProv == dlKodeProv) selected = "selected";
+        $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kab WHERE kodeProv='${dlKodeProv}' ORDER BY kodeKab ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKabupaten').append(`<option value='00'>00 - SELURUH KABUPATEN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKab == dlKodeKab) selected = "selected";
+        $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kec WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' ORDER BY kodeKec ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKecamatan').append(`<option value='000'>000 - SELURUH KECAMATAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKec == dlKodeKec) selected = "selected";
+        $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_desa WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' ORDER BY kodeDesa ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeDesa == dlKodeDesa) selected = "selected";
+        $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_sls WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' AND kodeDesa='${dlKodeDesa}' ORDER BY kodeSLS ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeSLS == dlKodeSLS) selected = "selected";
+        $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+      });
+    }
+  }
+</script>
+
+<!-- dynamic select option wilayah operator -->
+<script>
+  function populate(s1, s2, level) {
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+
+    function splitOption(optionArray) {
+      for (var option in optionArray) {
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[0] + " - " + pair[1];
+        s2.options.add(newOption);
+      }
+    }
+
+    if (level == "prov2kab") {
+      db.serialize(function () {
+        let sql = `SELECT * FROM m_kab WHERE kodeProv='${s1.value}'`;
+        var optionArray = ["00|SELURUH KABUPATEN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKab}|${wil.namaKab}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selKecamatan").innerHTML = "";
+            document.getElementById("selDesa").innerHTML = "";
+            document.getElementById("selDusun").innerHTML = "";
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kab2kec") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        let sql = `SELECT * FROM m_kec WHERE kodeProv='${sProv.value}' AND kodeKab='${s1.value}'`;
+        var optionArray = ["000|SELURUH KECAMATAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKec}|${wil.namaKec}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDesa").innerHTML = "";
+            $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kec2desa") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        let sql = `SELECT * FROM m_desa WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${s1.value}'`;
+        var optionArray = ["000|SELURUH DESA/KELURAHAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeDesa}|${wil.namaDesa}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "desa2dusun") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        let sql = `SELECT * FROM m_sls WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${sKec.value}' AND kodeDesa='${s1.value}'`;
+        var optionArray = ["00|SELURUH DUSUN/LINGKUNGAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeSLS}|${wil.namaSLS}`);
+            });
+            splitOption(optionArray);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+  }
+</script>
+
+<!-- script menampilkan row operator -->
+<script>
+  async function areaFilter() {
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+    var sDusun = document.getElementById("selDusun");
+
+    strAreaFilter = ` WHERE kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND kodeDesa = '${sDesa.value}'`;
+          if (sDusun.value != "00") {
+            strAreaFilter += ` AND kodeSLS = '${sDusun.value}'`;
+          }
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+  async function areaFilterD() {
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+
+    strAreaFilter = ` WHERE kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND kodeDesa = '${sDesa.value}'`;
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+</script>

@@ -1,0 +1,330 @@
+<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(1,2)" tabindex="16">2</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrianSamasta3()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <!--<div class="card-header">
+          </div>-->
+          <div class="card-body" style="margin-top: 50px">
+
+            <div class="row">
+              <div class="col-sm-3 d-none d-md-block text-center">
+                <img src="assets/images/logobps.png" width="40%">
+              </div>
+              <div class="col-sm-6 d-none d-md-block text-center">
+                <img src="assets/images/logosamasta.jpeg" width="25%">
+                <b>
+                  <h3>PENDATAAN DESA MANDIRI STATISTIK 2019</h3>
+                </b>
+                <b>DAFTAR MUTASI PENDUDUK</b>
+              </div>
+              <div class="col-sm-3 d-none d-md-block text-center">
+                <img src="assets/images/logosulbar.png" width="25%"><br>
+                <b>SAMASTA-3</b>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+                <br>
+                <table class="table table-responsive-sm table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="3"><b>I. KETERANGAN TEMPAT</b></th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyOperator">
+                    <tr>
+                      <td width="5%" class="text-center">101</td>
+                      <td width="55%">Provinsi</td>
+                      <td width="40%"><input class="form-control form-kuesioner" id="b1r101" tabindex="-1"
+                          disabled></input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">102</td>
+                      <td>Kabupaten/Kota *)</td>
+                      <td><input class="form-control form-kuesioner" id="b1r102" tabindex="-1" disabled></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">103</td>
+                      <td>Kecamatan</td>
+                      <td><input class="form-control form-kuesioner" id="b1r103" tabindex="-1" disabled></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">104</td>
+                      <td>Desa/Kelurahan *)</td>
+                      <td><input class="form-control form-kuesioner" id="b1r104" tabindex="-1" disabled></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">105</td>
+                      <td>Dusun/Lingkungan *)</td>
+                      <td><input class="form-control form-kuesioner" id="b1r105" tabindex="-1" disabled></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">106</td>
+                      <td>Bulan Periode Pelaporan</td>
+                      <td><input class="form-control form-kuesioner" id="b1r106" tabindex="1" disabled></input>
+                    </tr>
+                  </tbody>
+                </table>
+                <br>
+                <table class="table table-responsive-sm table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th colspan="3" class="judulBlokKuesioner"><b>II. RINGKASAN</b></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td width="5%" class="text-center">201</td>
+                      <td width="55%">Jumlah Penduduk Awal (Hasil penjumlahan Blok IV kolom (6) halaman yang terisi)
+                      </td>
+                      <td width="40%"><input class="form-control form-kuesioner text-center" id="b2r201" tabindex="1"
+                          onfocus='this.select();' maxlength="4"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">202</td>
+                      <td>Jumlah Kelahiran (Hasil penjumlahan Blok IV kolom (9) halaman yang terisi)</td>
+                      <td><input class="form-control form-kuesioner text-center" id="b2r202" tabindex="2"
+                          onfocus='this.select();' maxlength="4"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">203</td>
+                      <td>Jumlah Kematian (Hasil penjumlahan Blok IV kolom (12) halaman yang terisi)</td>
+                      <td><input class="form-control form-kuesioner text-center" id="b2r203" tabindex="3"
+                          onfocus='this.select();' maxlength="4"></input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">204</td>
+                      <td>Jumlah Penduduk Masuk (Hasil penjumlahan Blok IV kolom (15) halaman yang terisi)</td>
+                      <td><input class="form-control form-kuesioner text-center" id="b2r204" tabindex="4"
+                          onfocus='this.select();' maxlength="4"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">205</td>
+                      <td>Jumlah Penduduk Keluar (Hasil penjumlahan Blok IV kolom (18) halaman yang terisi)</td>
+                      <td><input class="form-control form-kuesioner text-center" id="b2r205" tabindex="5"
+                          onfocus='this.select();' maxlength="4"></input></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">206</td>
+                      <td>Jumlah Penduduk Akhir (Hasil penjumlahan Blok IV kolom (21) halaman yang terisi)</td>
+                      <td><input class="form-control form-kuesioner text-center" id="b2r206" tabindex="6"
+                          onfocus='this.select();' maxlength="4"></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br>
+                <table class="table table-responsive-sm table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner"><b>III. CATATAN</b></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <textarea class="form-control form-kuesioner" style="width: 100%; height: 150px;"
+                          onfocus='this.select();' id="b3catatan" tabindex="7"></textarea>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-7 d-none d-md-block"></div>
+              <div class="col-sm-4 d-none d-md-block text-center">
+                Mengetahui,<br>
+                Kepala Dusun/Lingkungan *)<br><br><br><br>
+                <input class="form-control form-kuesioner text-center" id="kepalaSLS" tabindex="8"
+                  onfocus='this.select();' maxlength="50" onkeypress='nextPage(this.tabIndex, event)'></input>
+              </div>
+              <div class="col-sm-1 d-none d-md-block"></div>
+            </div>
+          </div>
+          <!-- /.row-->
+        </div>
+      </div>
+    </div>
+    <!-- /.col-->
+  </div>
+  <!-- /.row-->
+</div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta3('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta3('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+    document.getElementById("b2r201").focus();
+    //document.getElementById("loader").style.display = "none";
+    $(".overlay").hide();
+  });
+</script>
+
+<script>
+  async function loadEntrian() {
+    getEntriSessionDataSamasta3();
+    bacaIsiJsonSamasta3();
+
+    arrayBulan = {
+      1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
+      7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+    };
+
+    let sql = `SELECT * FROM m_sls AS e 
+          LEFT JOIN m_prov AS a ON e.kodeProv = a.kodeProv 
+          LEFT JOIN m_kab AS b ON e.kodeProv = b.kodeProv AND e.kodeKab = b.kodeKab
+          LEFT JOIN m_kec AS c ON e.kodeProv = c.kodeProv AND e.kodeKab = c.kodeKab AND e.kodeKec = c.kodeKec
+          LEFT JOIN m_desa AS d ON e.kodeProv = d.kodeProv AND e.kodeKab = d.kodeKab AND e.kodeKec = d.kodeKec AND e.kodeDesa = d.kodeDesa
+          WHERE e.kodeProv = '${kodeProv}' AND e.kodeKab  = '${kodeKab}' AND e.kodeKec = '${kodeKec}' AND e.kodeDesa = '${kodeDesa}' AND e.kodeSLS = '${kodeSLS}'`;
+    row = await sqlite.get(sql);
+    if (row) {
+      document.getElementById('b1r101').value = row.namaProv;
+      document.getElementById('b1r102').value = row.namaKab;
+      document.getElementById('b1r103').value = row.namaKec;
+      document.getElementById('b1r104').value = row.namaDesa;
+      document.getElementById('b1r105').value = row.namaSLS;
+      document.getElementById('b1r106').value = bulan + " - " + arrayBulan[bulan];
+      document.getElementById('b2r201').value = b2r201;
+      document.getElementById('b2r202').value = b2r202;
+      document.getElementById('b2r203').value = b2r203;
+      document.getElementById('b2r204').value = b2r204;
+      document.getElementById('b2r205').value = b2r205;
+      document.getElementById('b2r206').value = b2r206;
+      document.getElementById('b3catatan').value = b3catatan;
+      document.getElementById('kepalaSLS').value = kepalaSLS;
+    }
+  }
+
+  function updateIsiJsonSamasta3() {
+    const fs = require('fs');
+
+    let rawdata = fs.readFileSync(dlPathData + `entriSamasta3/${namaFile}.json`);
+    let dataSamasta3 = JSON.parse(rawdata);
+
+    dataSamasta3.b2r201 = document.getElementById("b2r201").value;
+    dataSamasta3.b2r202 = document.getElementById("b2r202").value;
+    dataSamasta3.b2r203 = document.getElementById("b2r203").value;
+    dataSamasta3.b2r204 = document.getElementById("b2r204").value;
+    dataSamasta3.b2r205 = document.getElementById("b2r205").value;
+    dataSamasta3.b2r206 = document.getElementById("b2r206").value;
+    dataSamasta3.b3catatan = document.getElementById("b3catatan").value.toUpperCase();
+    dataSamasta3.kepalaSLS = document.getElementById("kepalaSLS").value;
+    dataSamasta3.statusDok = statusDok;
+
+    fs.writeFileSync(dlPathData + `entriSamasta3/${namaFile}.json`, JSON.stringify(dataSamasta3));
+  }
+</script>
+
+<script>
+  function pindahHalaman(from, to) {
+    if (from == 1) {
+      updateIsiJsonSamasta3();
+    }
+    location.href = `#/samasta-3/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = i;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('kepalaSLS').tabIndex == maxTabIndex) {
+        updateIsiJsonSamasta3();
+        location.href = `#/samasta-3/2/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  tabindexFix();
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $("#b2r201").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b2r202").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b2r203").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b2r204").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b2r205").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b2r206").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#b3catatan").inputFilter(function (value) {
+      return /^[a-zA-Z0-9 .,/?()+=-@:&]*$/i.test(value);
+    });
+    $("#kepalaSLS").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+  });
+</script>

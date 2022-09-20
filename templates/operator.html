@@ -1,0 +1,608 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Masters / Operator</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 d-none d-md-block bg-light border">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <br>
+                    <table class="table table-responsive-sm table-sm table-borderless">
+                      <tbody>
+                        <tr>
+                          <td style="width: 40%">Provinsi:</td>
+                          <td>
+                            <select class="form-control" id="selProvinsi" name="selProvinsi"
+                              onchange="populate(this.id,'selKabupaten','prov2kab')">
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kabupaten/Kota:</td>
+                          <td>
+                            <select class="form-control" id="selKabupaten" name="selKabupaten"
+                              onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kecamatan:</td>
+                          <td>
+                            <select class="form-control" id="selKecamatan" name="selKecamatan"
+                              onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Desa/Kelurahan:</td>
+                          <td>
+                            <select class="form-control" id="selDesa" name="selDesa"
+                              onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Dusun/Lingkungan:</td>
+                          <td>
+                            <select class="form-control" id="selDusun" name="selDusun">
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <p>
+                      <button id="btnTampilOperator" class="btn btn-primary" type="button" onclick="viewOperator()">
+                        Tampil </button>
+                      <button class="btn btn-success" id="btnAddOperator" data-toggle="collapse" href="#formAddOperator"
+                        role="button" aria-expanded="false" aria-controls="formAddOperator">
+                        + Tambah
+                      </button>
+                    </p>
+                    <div class="collapse" id="formAddOperator">
+                      <div class="card card-body">
+                        <form action="#">
+                          <table class="table table-responsive-sm table-sm table-borderless">
+                            <tbody>
+                              <tr>
+                                <td style="width: 40%">Username:</td>
+                                <td>
+                                  <input class="form-control" id="formKodeUser" type="hidden"></input>
+                                  <input class="form-control" id="formUsername" required></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Nama Lengkap:</td>
+                                <td> <input class="form-control" id="formNamaLengkap" required></input> </td>
+                              </tr>
+                              <tr>
+                                <td>Password:</td>
+                                <td> <input class="form-control" id="formPassword" required></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Level:</td>
+                                <td>
+                                  <select class="form-control" id="formLevel" name="formLevel" required>
+                                    <option value="">Pilih level user</option>
+                                    <option value="2">2 - Admin</option>
+                                    <option value="3">3 - Operator</option>
+                                    <option value="4">4 - Pemantau</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p>
+                            <button id="btnSimpanOperator" class="btn btn-success" type="button"
+                              onclick="simpanOperator()">Simpan</button>
+                            <button class="btn btn-danger" type="reset" onclick="clearFormOperator()"> Reset </button>
+                          </p>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8 d-none d-md-block">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <table id="tabelOperator" class="table table-responsive-sm table-bordered table-striped table-sm">
+                      <thead>
+                        <tr>
+                          <th>ID Wilayah</th>
+                          <th>Username</th>
+                          <th>Nama Lengkap</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbodyOperator">
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-------------------------------------- Modal hapus ------------------------------------->
+                  <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Hapus Operator</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" id="textConfirmHapusOperator">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" id="btnConfirmHapusOperator">Hapus</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-------------------------------------- Modal hapus ------------------------------------->
+                  <!-------------------------------------- Modal error simpan ------------------------------------->
+                  <div class="modal fade" id="modalSimpan" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-danger" id="exampleModalLabel">Error Simpan Operator</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" id="textErrorSimpan">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-------------------------------------- Modal error simpan ------------------------------------->
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+
+  $(document).ready(function () {
+    // Install input filters.
+    $("#formUsername").inputFilter(function (value) {
+      return /^[0-9a-zA-Z]*$/i.test(value);
+    });
+    $("#formNamaLengkap").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+    $("#formPassword").inputFilter(function (value) {
+      return /^[0-9a-zA-Z]*$/i.test(value);
+    });
+  });
+</script>
+
+<!-- onload value select box -->
+<script>
+  var kodeUserEdit;
+
+  async function loadPage() {
+    if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+    if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+    if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+    if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+    if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+    sql = "SELECT * FROM m_prov ORDER BY kodeProv ASC";
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeProv == dlKodeProv) selected = "selected";
+        $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kab WHERE kodeProv='${dlKodeProv}' ORDER BY kodeKab ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKabupaten').append(`<option value='00'>00 - SELURUH KABUPATEN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKab == dlKodeKab) selected = "selected";
+        $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kec WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' ORDER BY kodeKec ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKecamatan').append(`<option value='000'>000 - SELURUH KECAMATAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKec == dlKodeKec) selected = "selected";
+        $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_desa WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' ORDER BY kodeDesa ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeDesa == dlKodeDesa) selected = "selected";
+        $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_sls WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' AND kodeDesa='${dlKodeDesa}' ORDER BY kodeSLS ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeSLS == dlKodeSLS) selected = "selected";
+        $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+      });
+    }
+    await viewOperator();
+  }
+</script>
+
+<script>
+  async function userRoleAttributes() {
+    if (dlLevelUser >= 3) {
+      document.getElementById('btnAddOperator').style.visibility = 'hidden';
+      document.getElementById('formAddOperator').display = 'none';
+      for (i = 0; i < document.getElementsByClassName('divAction').length; i++) {
+        document.getElementsByClassName('btnEdit')[i].classList.add('btn-default');
+        document.getElementsByClassName('btnDelete')[i].classList.add('btn-default');
+        document.getElementsByClassName('btnEdit')[i].disabled = true
+        document.getElementsByClassName('btnDelete')[i].disabled = true
+      }
+    } else {
+      for (i = 0; i < document.getElementsByClassName('divAction').length; i++) {
+        document.getElementsByClassName('btnEdit')[i].classList.add('btn-warning');
+        document.getElementsByClassName('btnDelete')[i].classList.add('btn-danger');
+      }
+    }
+  }
+</script>
+<!-- dynamic select option wilayah operator -->
+<script>
+  function populate(s1, s2, level) {
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+
+    function splitOption(optionArray) {
+      for (var option in optionArray) {
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[0] + " - " + pair[1];
+        s2.options.add(newOption);
+      }
+    }
+
+    if (level == "prov2kab") {
+      db.serialize(function () {
+        let sql = `SELECT * FROM m_kab WHERE kodeProv='${s1.value}'`;
+        var optionArray = ["00|SELURUH KABUPATEN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKab}|${wil.namaKab}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selKecamatan").innerHTML = "";
+            document.getElementById("selDesa").innerHTML = "";
+            document.getElementById("selDusun").innerHTML = "";
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kab2kec") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        let sql = `SELECT * FROM m_kec WHERE kodeProv='${sProv.value}' AND kodeKab='${s1.value}'`;
+        var optionArray = ["000|SELURUH KECAMATAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKec}|${wil.namaKec}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDesa").innerHTML = "";
+            $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kec2desa") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        let sql = `SELECT * FROM m_desa WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${s1.value}'`;
+        var optionArray = ["000|SELURUH DESA/KELURAHAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeDesa}|${wil.namaDesa}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "desa2dusun") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        let sql = `SELECT * FROM m_sls WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${sKec.value}' AND kodeDesa='${s1.value}'`;
+        var optionArray = ["00|SELURUH DUSUN/LINGKUNGAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeSLS}|${wil.namaSLS}`);
+            });
+            splitOption(optionArray);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+  }
+</script>
+
+<!-- script menampilkan row operator -->
+<script>
+  async function areaFilter() {
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+    var sDusun = document.getElementById("selDusun");
+
+    strAreaFilter = ` WHERE kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND kodeDesa = '${sDesa.value}'`;
+          if (sDusun.value != "00") {
+            strAreaFilter += ` AND kodeSLS = '${sDusun.value}'`;
+          }
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+
+  function clearFormOperator() {
+    formKodeUser = document.getElementById("formKodeUser").value = "";
+    formUsername = document.getElementById("formUsername").value = "";
+    formNamaLengkap = document.getElementById("formNamaLengkap").value = "";
+    formPassword = document.getElementById("formPassword").value = "";
+    formLevel = document.getElementById("formLevel").value = "";
+    document.getElementById("formUsername").disabled = false;
+    document.getElementById("btnSimpanOperator").innerHTML = "Simpan";
+  }
+
+  async function viewOperator() {
+    var aF = await areaFilter();
+    $("#tbodyOperator tr").remove();
+    sql = `SELECT * FROM m_user ${aF} AND levelUser <> "1" ORDER BY levelUser ASC, kodeProv ASC, kodeKab ASC, kodeKec ASC, kodeDesa ASC, kodeSLS ASC, namaUser ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      switch (row.levelUser) {
+        case 1:
+          levelUser = "1 - Superadmin";
+          break;
+        case 2:
+          levelUser = "2 - Admin";
+          break;
+        case 3:
+          levelUser = "3 - Operator";
+          break;
+        case 4:
+          levelUser = "4 - Pemantau";
+          break;
+      }
+      /* switch (row.statusUser) {
+        case 1:
+          statusUser = "<span class='badge badge-success'>Aktif</span>";
+          break;
+        case 2:
+          statusUser = "<span class='badge badge-secondary'>Tidak Aktif</span>";
+          break;
+      } */
+      $('#tbodyOperator').append('<tr blabla=' + row.kodeUser + ' class="trOperator"><td>'
+        + row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS + '</td><td>'
+        + row.namaUser + '</td><td>'
+        + row.namaLengkapUser + '</td><td>'
+        + levelUser + '</td><td class="text-center aba">'
+        + '<div class="btn-group btn-group-sm divAction" role="group" aria-label="Basic example">'
+        + '<button type="button" class="btn btnEdit" onclick="editOperator(`' + row.kodeUser + '`)"><span class="nav-icon icon-pencil"></span></button>'
+        + '<button type="button" class="btn btnDelete" onclick="hapusOperator(`' + row.kodeUser + '`)"><span class="nav-icon icon-trash"></span></button>'
+        + '</div>'
+        + '</td></tr>');
+    });
+    await userRoleAttributes();
+  }
+</script>
+
+<script>
+  async function simpanOperator() {
+    formUsername = document.getElementById("formUsername").value.toUpperCase();
+    formNamaLengkap = document.getElementById("formNamaLengkap").value.toUpperCase();
+    formPassword = document.getElementById("formPassword").value.toUpperCase();
+    formLevel = document.getElementById("formLevel").value;
+
+    var errors = [];
+    if (document.getElementById("btnSimpanOperator").innerHTML == "Simpan") {
+      sql = `SELECT * FROM m_user WHERE namaUser = '${formUsername}'`;
+      r = await sqlite.get(sql);
+      if (r) {
+        errors.push({ 'variabel': 'Username', 'msg': 'Username sudah digunakan' });
+      }
+    }
+    if (formUsername == '' || formUsername.length < 3) {
+      errors.push({ 'variabel': 'Username', 'msg': 'Username tidak boleh kosong dan minimal 3 karakter' });
+    }
+    if (formNamaLengkap == '' || formNamaLengkap.length < 3) {
+      errors.push({ 'variabel': 'Nama Lengkap', 'msg': 'Nama Lengkap tidak boleh kosong dan minimal 3 karakter' });
+    }
+    if (formPassword == '' || formPassword.length < 3) {
+      errors.push({ 'variabel': 'Password', 'msg': 'Password tidak boleh kosong dan minimal 3 karakter' });
+    }
+    if (formLevel == '') {
+      errors.push({ 'variabel': 'Level', 'msg': 'Level belum dipilih' });
+    }
+
+    if (errors.length > 0) {
+      msgError = "";
+      errors.forEach(error => {
+        msgError += "<b>" + error.variabel + "</b>: " + error.msg + "<br>";
+      });
+      document.getElementById("textErrorSimpan").innerHTML = msgError;
+      $('#modalSimpan').modal('show');
+    } else {
+      var kodeUser = getGuid();
+      var sProv = document.getElementById("selProvinsi");
+      var sKab = document.getElementById("selKabupaten");
+      var sKec = document.getElementById("selKecamatan");
+      var sDesa = document.getElementById("selDesa");
+      var sDusun = document.getElementById("selDusun");
+
+      if (document.getElementById("btnSimpanOperator").innerHTML == "Simpan") {
+        sql = `INSERT INTO m_user (kodeUser, kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, namaUser, namaLengkapUser, passwordUser, levelUser, statusUser) 
+              VALUES ('${kodeUser}','${sProv.value}','${sKab.value}','${sKec.value}','${sDesa.value}','${sDusun.value}','${formUsername}','${formNamaLengkap}','${formPassword}','${formLevel}',1)`;
+      }
+      if (document.getElementById("btnSimpanOperator").innerHTML == "Edit") {
+        sql = `UPDATE m_user SET namaLengkapUser='${formNamaLengkap}', passwordUser='${formPassword}', levelUser='${formLevel}'
+              WHERE kodeUser='${kodeUserEdit}'`;
+      }
+
+      r = await sqlite.run(sql);
+      if (r) {
+        console.log("Operator tersimpan");
+        await viewOperator();
+        clearFormOperator();
+        document.getElementById("btnSimpanOperator").innerHTML = "Simpan";
+      }
+    }
+  }
+
+  async function editOperator(a) {
+    document.getElementById("btnSimpanOperator").innerHTML = "Edit";
+    $('#formAddOperator').collapse('show');
+    kodeUserEdit = a;
+
+    let sql = `SELECT * FROM m_user WHERE kodeUser='${a}'`;
+    row = await sqlite.get(sql);
+    if (row) {
+      document.getElementById("formKodeUser").value = kodeUserEdit;
+      document.getElementById("formUsername").value = row.namaUser;
+      document.getElementById("formUsername").disabled = true;
+      document.getElementById("formNamaLengkap").value = row.namaLengkapUser;
+      document.getElementById("formPassword").value = row.passwordUser;
+      document.getElementById("formLevel").value = row.levelUser;
+    }
+  }
+</script>
+
+<script>
+  function hapusOperator(a) {
+    if(a == dlKodeUser){
+      alert("User tidak bisa menghapus user sendiri");
+      return false;
+    }
+    db.serialize(function () {
+      let sql = `SELECT * FROM m_user WHERE kodeUser='${a}'`;
+
+      db.get(sql, (err, row) => {
+        if (row) {
+          document.getElementById("textConfirmHapusOperator").innerHTML = `Anda yakin akan menghapus operator <strong>${row.namaLengkapUser}</strong>?`;
+          $('#modalConfirm').modal('show');
+        }
+      });
+    });
+
+    async function hapussss() {
+      var aF = await areaFilter();
+      // cek dulu si user sudah pernah ngentri/ngupdate entrian atau belum
+      sql = `SELECT
+                ifnull(sum(case WHEN createUser = '${a}' THEN 1 ELSE 0 END),0) AS jml_create,
+                ifnull(sum(case WHEN modUser = '${a}' THEN 1 ELSE 0 END),0) AS jml_mod
+                FROM
+                (SELECT e.*, y.kodeUser AS modUser FROM
+                (SELECT d.*, x.kodeUser AS createUser FROM
+                (SELECT a.operatorCreated, a.operatorLastMod FROM t_rt a ${aF}
+                UNION ALL
+                SELECT b.operatorCreated, b.operatorLastMod FROM t_samasta1 b ${aF}
+                UNION ALL
+                SELECT c.operatorCreated, c.operatorLastMod FROM t_samasta3 c ${aF}) AS d
+                LEFT JOIN m_user x
+                ON d.operatorCreated = x.namaUser) AS e
+                LEFT JOIN m_user y
+                ON e.operatorLastMod= y.namaUser) AS f`;
+      r = await sqlite.get(sql);
+
+      if (r.jml_create + r.jml_mod > 0) {
+        $('#modalConfirm').modal('hide');
+        alert("GAGAL \n\nOperator ini sudah pernah melakukan input data ataupun mengupdate data. User tidak bisa dihapus.")
+      } else {
+        sql = `DELETE FROM m_user WHERE kodeUser = '${a}'`;
+        r = await sqlite.run(sql);
+        if (r) {
+          $('#modalConfirm').modal('hide');
+          viewOperator();
+        }
+      }
+    }
+    document.getElementById("btnConfirmHapusOperator").onclick = function () { hapussss() };
+  }
+</script>

@@ -1,0 +1,632 @@
+<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">2</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrianSamasta3()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal2Blok4" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="21">
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">IV. KETERANGAN MUTASI PENDUDUK
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2" style="width: 55px">No</th>
+                      <th rowspan="2" style="width: 175px">Nama Kepala Keluarga </th>
+                      <th rowspan="2">Tanggal Pela-poran</th>
+                      <th colspan="3">Jumlah Penduduk Awal</th>
+                      <th colspan="3">Jumlah Kelahiran</th>
+                      <th colspan="3">Jumlah Kematian</th>
+                      <th colspan="3">Jumlah Penduduk Masuk</th>
+                      <th colspan="3">Jumlah Penduduk Keluar</th>
+                      <th colspan="3">Jumlah Penduduk Akhir</th>
+                    </tr>
+                    <tr>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                      <th>L</th>
+                      <th>P</th>
+                      <th>Total</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(1)</th>
+                      <th>(2)</th>
+                      <th>(3)</th>
+                      <th>(4)</th>
+                      <th>(5)</th>
+                      <th>(6)</th>
+                      <th>(7)</th>
+                      <th>(8)</th>
+                      <th>(9)</th>
+                      <th>(10)</th>
+                      <th>(11)</th>
+                      <th>(12)</th>
+                      <th>(13)</th>
+                      <th>(14)</th>
+                      <th>(15)</th>
+                      <th>(16)</th>
+                      <th>(17)</th>
+                      <th>(18)</th>
+                      <th>(19)</th>
+                      <th>(20)</th>
+                      <th>(21)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBlok4">
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3"><b>c. Jumlah sampai dengan halaman ini</b></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k4"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k5"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k6"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k7"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k8"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k9"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k10"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k11"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k12"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k13"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k14"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k15"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k16"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k17"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k18"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k19"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k20"
+                          onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center" id="jumlah_b4k21"
+                          onfocus='this.select();'></input></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta3('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta3('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal hapusBarisModal -->
+<div class="modal fade" id="hapusBarisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda yakin ingin menghapus ART ini?<br>
+        <p id="msgHapus"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+          onclick="hapusBarisBlok4('konfirmyes', barisDihapus)">Hapus</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="hapusBarisBlok4('konfirmno', barisDihapus)">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+    document.getElementById("b4k2[0]").focus();
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var dataSamasta3;
+  var barisDihapus;
+
+  function loadEntrian() {
+    getEntriSessionDataSamasta3();
+    bacaIsiJsonSamasta3();
+    for (var i = 0; i < samasta3Page2.length; i++) {
+      $('#tbodyBlok4').append(`<tr class='barisBlok4'>`
+        + `<td><span class='d-inline-block myPopover' data-toggle='myPopover' onclick="hapusBarisBlok4('pilihBaris', ${i + 1})">
+                <input class='form-control text-center text-middle b4k1' value='${i + 1}' id='b4k1[${i}]' disabled>
+                </span></input>
+              </td>`
+        + `<td><input class='form-control form-kuesioner b4k2' id='b4k2[${i}]' value='${samasta3Page2[i].b4k2}' tabindex='${20 * (i) + 1}' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k3' id='b4k3[${i}]' value='${samasta3Page2[i].b4k3}' tabindex='${20 * (i) + 2}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k4' id='b4k4[${i}]' value='${samasta3Page2[i].b4k4}' tabindex='${20 * (i) + 3}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k5' id='b4k5[${i}]' value='${samasta3Page2[i].b4k5}' tabindex='${20 * (i) + 4}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k6' id='b4k6[${i}]' value='${samasta3Page2[i].b4k6}' tabindex='${20 * (i) + 5}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k7' id='b4k7[${i}]' value='${samasta3Page2[i].b4k7}' tabindex='${20 * (i) + 6}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k8' id='b4k8[${i}]' value='${samasta3Page2[i].b4k8}' tabindex='${20 * (i) + 7}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k9' id='b4k9[${i}]' value='${samasta3Page2[i].b4k9}' tabindex='${20 * (i) + 8}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k10' id='b4k10[${i}]' value='${samasta3Page2[i].b4k10}' tabindex='${20 * (i) + 9}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k11' id='b4k11[${i}]' value='${samasta3Page2[i].b4k11}' tabindex='${20 * (i) + 10}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k12' id='b4k12[${i}]' value='${samasta3Page2[i].b4k12}' tabindex='${20 * (i) + 11}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k13' id='b4k13[${i}]' value='${samasta3Page2[i].b4k13}' tabindex='${20 * (i) + 12}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k14' id='b4k14[${i}]' value='${samasta3Page2[i].b4k14}' tabindex='${20 * (i) + 13}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k15' id='b4k15[${i}]' value='${samasta3Page2[i].b4k15}' tabindex='${20 * (i) + 14}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k16' id='b4k16[${i}]' value='${samasta3Page2[i].b4k16}' tabindex='${20 * (i) + 15}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k17' id='b4k17[${i}]' value='${samasta3Page2[i].b4k17}' tabindex='${20 * (i) + 16}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k18' id='b4k18[${i}]' value='${samasta3Page2[i].b4k18}' tabindex='${20 * (i) + 17}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k19' id='b4k19[${i}]' value='${samasta3Page2[i].b4k19}' tabindex='${20 * (i) + 18}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k20' id='b4k20[${i}]' value='${samasta3Page2[i].b4k20}' tabindex='${20 * (i) + 19}' maxlength='2' onfocus='this.select();'></input></td>`
+        + `<td><input class='form-control form-kuesioner text-center b4k21' id='b4k21[${i}]' value='${samasta3Page2[i].b4k21}' tabindex='${20 * (i) + 20}' maxlength='2' onfocus='this.select();' onkeypress='tambahBarisBlok4(${i}, event)'></input></td>`
+        + `</tr>`);
+    }
+
+    document.getElementById("jumlah_b4k4").value = samasta3SumBlok4[0].sum_b4k4;
+    document.getElementById("jumlah_b4k5").value = samasta3SumBlok4[0].sum_b4k5;
+    document.getElementById("jumlah_b4k6").value = samasta3SumBlok4[0].sum_b4k6;
+    document.getElementById("jumlah_b4k7").value = samasta3SumBlok4[0].sum_b4k7;
+    document.getElementById("jumlah_b4k8").value = samasta3SumBlok4[0].sum_b4k8;
+    document.getElementById("jumlah_b4k9").value = samasta3SumBlok4[0].sum_b4k9;
+    document.getElementById("jumlah_b4k10").value = samasta3SumBlok4[0].sum_b4k10;
+    document.getElementById("jumlah_b4k11").value = samasta3SumBlok4[0].sum_b4k11;
+    document.getElementById("jumlah_b4k12").value = samasta3SumBlok4[0].sum_b4k12;
+    document.getElementById("jumlah_b4k13").value = samasta3SumBlok4[0].sum_b4k13;
+    document.getElementById("jumlah_b4k14").value = samasta3SumBlok4[0].sum_b4k14;
+    document.getElementById("jumlah_b4k15").value = samasta3SumBlok4[0].sum_b4k15;
+    document.getElementById("jumlah_b4k16").value = samasta3SumBlok4[0].sum_b4k16;
+    document.getElementById("jumlah_b4k17").value = samasta3SumBlok4[0].sum_b4k17;
+    document.getElementById("jumlah_b4k18").value = samasta3SumBlok4[0].sum_b4k18;
+    document.getElementById("jumlah_b4k19").value = samasta3SumBlok4[0].sum_b4k19;
+    document.getElementById("jumlah_b4k20").value = samasta3SumBlok4[0].sum_b4k20;
+    document.getElementById("jumlah_b4k21").value = samasta3SumBlok4[0].sum_b4k21;
+
+    document.getElementById("jumlah_b4k4").tabIndex = 20 * i + 1;
+    document.getElementById("jumlah_b4k5").tabIndex = 20 * i + 2;
+    document.getElementById("jumlah_b4k6").tabIndex = 20 * i + 3;
+    document.getElementById("jumlah_b4k7").tabIndex = 20 * i + 4;
+    document.getElementById("jumlah_b4k8").tabIndex = 20 * i + 5;
+    document.getElementById("jumlah_b4k9").tabIndex = 20 * i + 6;
+    document.getElementById("jumlah_b4k10").tabIndex = 20 * i + 7;
+    document.getElementById("jumlah_b4k11").tabIndex = 20 * i + 8;
+    document.getElementById("jumlah_b4k12").tabIndex = 20 * i + 9;
+    document.getElementById("jumlah_b4k13").tabIndex = 20 * i + 10;
+    document.getElementById("jumlah_b4k14").tabIndex = 20 * i + 11;
+    document.getElementById("jumlah_b4k15").tabIndex = 20 * i + 12;
+    document.getElementById("jumlah_b4k16").tabIndex = 20 * i + 13;
+    document.getElementById("jumlah_b4k17").tabIndex = 20 * i + 14;
+    document.getElementById("jumlah_b4k18").tabIndex = 20 * i + 15;
+    document.getElementById("jumlah_b4k19").tabIndex = 20 * i + 16;
+    document.getElementById("jumlah_b4k20").tabIndex = 20 * i + 17;
+    document.getElementById("jumlah_b4k21").tabIndex = 20 * i + 18;
+    tabindexFix();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 2) {
+      updateIsiJsonSamasta3();
+    }
+    location.href = `#/samasta-3/${to}/`;
+  }
+
+  function tambahBarisBlok4(i, e) {
+    if (i == samasta3Page2.length - 1) {
+      var keycode = (e.keyCode ? e.keyCode : e.which);
+      if (keycode == '13') {
+        updateIsiJsonSamasta3();
+        bacaIsiJsonSamasta3();
+        barisBaru = samasta3Page2.length + 1;
+
+        samasta3Page2.push({
+          'b4k1': barisBaru, 'b4k2': '', 'b4k3': '', 'b4k4': '', 'b4k5': '', 'b4k6': '', 'b4k7': '',
+          'b4k8': '', 'b4k9': '', 'b4k10': '', 'b4k11': '', 'b4k12': '', 'b4k13': '', 'b4k14': '',
+          'b4k15': '', 'b4k16': '', 'b4k17': '', 'b4k18': '', 'b4k19': '', 'b4k20': '', 'b4k21': ''
+        });
+
+        dataSamasta3.samasta3Page2 = samasta3Page2;
+        fs.writeFileSync(dlPathData + `entriSamasta3/${namaFile}.json`, JSON.stringify(dataSamasta3));
+
+        $('#tbodyBlok4').append(`<tr class='barisBlok4'>`
+          + `<td><span class='d-inline-block myPopover' data-toggle='myPopover' onclick="hapusBarisBlok4('pilihBaris', ${barisBaru})">
+                <input class='form-control text-center text-middle b4k1' value='${barisBaru}' id='b4k1[${barisBaru - 1}]' disabled>
+                </span></input>
+              </td>`
+          + `<td><input class='form-control form-kuesioner b4k2' id='b4k2[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k2}' tabindex='${20 * (barisBaru - 1) + 1}' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k3' id='b4k3[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k3}' tabindex='${20 * (barisBaru - 1) + 2}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k4' id='b4k4[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k4}' tabindex='${20 * (barisBaru - 1) + 3}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k5' id='b4k5[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k5}' tabindex='${20 * (barisBaru - 1) + 4}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k6' id='b4k6[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k6}' tabindex='${20 * (barisBaru - 1) + 5}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k7' id='b4k7[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k7}' tabindex='${20 * (barisBaru - 1) + 6}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k8' id='b4k8[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k8}' tabindex='${20 * (barisBaru - 1) + 7}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k9' id='b4k9[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k9}' tabindex='${20 * (barisBaru - 1) + 8}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k10' id='b4k10[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k10}' tabindex='${20 * (barisBaru - 1) + 9}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k11' id='b4k11[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k11}' tabindex='${20 * (barisBaru - 1) + 10}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k12' id='b4k12[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k12}' tabindex='${20 * (barisBaru - 1) + 11}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k13' id='b4k13[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k13}' tabindex='${20 * (barisBaru - 1) + 12}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k14' id='b4k14[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k14}' tabindex='${20 * (barisBaru - 1) + 13}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k15' id='b4k15[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k15}' tabindex='${20 * (barisBaru - 1) + 14}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k16' id='b4k16[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k16}' tabindex='${20 * (barisBaru - 1) + 15}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k17' id='b4k17[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k17}' tabindex='${20 * (barisBaru - 1) + 16}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k18' id='b4k18[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k18}' tabindex='${20 * (barisBaru - 1) + 17}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k19' id='b4k19[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k19}' tabindex='${20 * (barisBaru - 1) + 18}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k20' id='b4k20[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k20}' tabindex='${20 * (barisBaru - 1) + 19}' maxlength='2' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center b4k21' id='b4k21[${barisBaru - 1}]' value='${samasta3Page2[barisBaru - 1].b4k21}' tabindex='${20 * (barisBaru - 1) + 20}' maxlength='2' onfocus='this.select();' onkeypress='tambahBarisBlok4(${barisBaru - 1}, event)'></input></td>`
+          + `</tr>`);
+
+        document.getElementById("jumlah_b4k4").tabIndex = 20 * (barisBaru) + 1;
+        document.getElementById("jumlah_b4k5").tabIndex = 20 * (barisBaru) + 2;
+        document.getElementById("jumlah_b4k6").tabIndex = 20 * (barisBaru) + 3;
+        document.getElementById("jumlah_b4k7").tabIndex = 20 * (barisBaru) + 4;
+        document.getElementById("jumlah_b4k8").tabIndex = 20 * (barisBaru) + 5;
+        document.getElementById("jumlah_b4k9").tabIndex = 20 * (barisBaru) + 6;
+        document.getElementById("jumlah_b4k10").tabIndex = 20 * (barisBaru) + 7;
+        document.getElementById("jumlah_b4k11").tabIndex = 20 * (barisBaru) + 8;
+        document.getElementById("jumlah_b4k12").tabIndex = 20 * (barisBaru) + 9;
+        document.getElementById("jumlah_b4k13").tabIndex = 20 * (barisBaru) + 10;
+        document.getElementById("jumlah_b4k14").tabIndex = 20 * (barisBaru) + 11;
+        document.getElementById("jumlah_b4k15").tabIndex = 20 * (barisBaru) + 12;
+        document.getElementById("jumlah_b4k16").tabIndex = 20 * (barisBaru) + 13;
+        document.getElementById("jumlah_b4k17").tabIndex = 20 * (barisBaru) + 14;
+        document.getElementById("jumlah_b4k18").tabIndex = 20 * (barisBaru) + 15;
+        document.getElementById("jumlah_b4k19").tabIndex = 20 * (barisBaru) + 16;
+        document.getElementById("jumlah_b4k20").tabIndex = 20 * (barisBaru) + 17;
+        document.getElementById("jumlah_b4k21").tabIndex = 20 * (barisBaru) + 18;
+
+        tabindexFix();
+
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  async function hapusBarisBlok4(mode, baris) {
+    barisDihapus = baris; // i+1
+
+    updateIsiJsonSamasta3();
+    bacaIsiJsonSamasta3();
+
+    if (mode == 'pilihBaris') {
+      namaDihapus = document.getElementsByClassName('b4k2')[barisDihapus - 1].value.toUpperCase();
+      msgHapus = "Baris: <strong>" + barisDihapus + "</strong>";
+      msgHapus += "<br>Nama Kepala Keluarga: <strong>" + namaDihapus + "</strong>";
+      document.getElementById('msgHapus').innerHTML = msgHapus;
+      $(".myPopover").popover({
+        content: '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapusBarisModal">X Hapus</button>',
+        html: true
+      });
+    }
+
+    if (mode == 'konfirmyes') {
+      $(".myPopover").popover('hide');
+      console.log('konfirm yes, b4k1: ' + barisDihapus);
+      console.log(samasta3Page2[barisDihapus - 1]);
+
+      samasta3Page2.splice(barisDihapus - 1, 1);
+
+      var table = document.getElementById('tbodyBlok4');
+      if (table.rows.length > 0) {
+        table.deleteRow(barisDihapus - 1);
+        for (i = 0; i < document.getElementsByClassName('b4k1').length; i++) {
+          document.getElementsByClassName('b4k1')[i].value = i + 1;
+        }
+      }
+
+      dataSamasta3.samasta3Page2 = samasta3Page2;
+      fs.writeFileSync(dlPathData + `entriSamasta3/${namaFile}.json`, JSON.stringify(dataSamasta3));
+
+      function deleteAllRows() {
+        var table = document.getElementById('tbodyBlok4');
+        var baris = document.getElementsByClassName('b4k1');
+        console.log('baris: ' + baris.length);
+        for (i = baris.length - 1; i >= 0; i--) {
+          table.deleteRow(i);
+          console.log('deleterow' + i);
+        }
+      }
+      deleteAllRows();
+      loadEntrian();
+
+      var baris = document.getElementsByClassName('b4k1').length;
+      console.log(baris + "     dddddddddddd");
+      document.getElementById("jumlah_b4k4").tabIndex = 20 * (baris) + 1;
+      document.getElementById("jumlah_b4k5").tabIndex = 20 * (baris) + 2;
+      document.getElementById("jumlah_b4k6").tabIndex = 20 * (baris) + 3;
+      document.getElementById("jumlah_b4k7").tabIndex = 20 * (baris) + 4;
+      document.getElementById("jumlah_b4k8").tabIndex = 20 * (baris) + 5;
+      document.getElementById("jumlah_b4k9").tabIndex = 20 * (baris) + 6;
+      document.getElementById("jumlah_b4k10").tabIndex = 20 * (baris) + 7;
+      document.getElementById("jumlah_b4k11").tabIndex = 20 * (baris) + 8;
+      document.getElementById("jumlah_b4k12").tabIndex = 20 * (baris) + 9;
+      document.getElementById("jumlah_b4k13").tabIndex = 20 * (baris) + 10;
+      document.getElementById("jumlah_b4k14").tabIndex = 20 * (baris) + 11;
+      document.getElementById("jumlah_b4k15").tabIndex = 20 * (baris) + 12;
+      document.getElementById("jumlah_b4k16").tabIndex = 20 * (baris) + 13;
+      document.getElementById("jumlah_b4k17").tabIndex = 20 * (baris) + 14;
+      document.getElementById("jumlah_b4k18").tabIndex = 20 * (baris) + 15;
+      document.getElementById("jumlah_b4k19").tabIndex = 20 * (baris) + 16;
+      document.getElementById("jumlah_b4k20").tabIndex = 20 * (baris) + 17;
+      document.getElementById("jumlah_b4k21").tabIndex = 20 * (baris) + 18;
+    }
+
+    if (mode == 'konfirmno') {
+      console.log('konfirm no: ' + barisDihapus);
+      return false;
+    }
+  }
+
+  // =====================================================================================================//
+
+  function updateIsiJsonSamasta3() {
+    // samasta3Page2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisBlok4 = document.getElementsByClassName('barisBlok4');
+    samasta3Page2 = [];
+    samasta3SumBlok4 = [];
+
+    for (i = 0; i < barisBlok4.length; i++) {
+      samasta3Page2.push({
+        'b4k1': i + 1,
+        'b4k2': document.getElementsByClassName('b4k2')[i].value,
+        'b4k3': document.getElementsByClassName('b4k3')[i].value.toUpperCase(),
+        'b4k4': document.getElementsByClassName('b4k4')[i].value,
+        'b4k5': document.getElementsByClassName('b4k5')[i].value,
+        'b4k6': document.getElementsByClassName('b4k6')[i].value,
+        'b4k7': document.getElementsByClassName('b4k7')[i].value,
+        'b4k8': document.getElementsByClassName('b4k8')[i].value,
+        'b4k9': document.getElementsByClassName('b4k9')[i].value,
+        'b4k10': document.getElementsByClassName('b4k10')[i].value,
+        'b4k11': document.getElementsByClassName('b4k11')[i].value,
+        'b4k12': document.getElementsByClassName('b4k12')[i].value,
+        'b4k13': document.getElementsByClassName('b4k13')[i].value,
+        'b4k14': document.getElementsByClassName('b4k14')[i].value,
+        'b4k15': document.getElementsByClassName('b4k15')[i].value,
+        'b4k16': document.getElementsByClassName('b4k16')[i].value,
+        'b4k17': document.getElementsByClassName('b4k17')[i].value,
+        'b4k18': document.getElementsByClassName('b4k18')[i].value,
+        'b4k19': document.getElementsByClassName('b4k19')[i].value,
+        'b4k20': document.getElementsByClassName('b4k20')[i].value,
+        'b4k21': document.getElementsByClassName('b4k21')[i].value
+      });
+    }
+    samasta3SumBlok4.push({
+      'sum_b4k4': document.getElementById("jumlah_b4k4").value,
+      'sum_b4k5': document.getElementById("jumlah_b4k5").value,
+      'sum_b4k6': document.getElementById("jumlah_b4k6").value,
+      'sum_b4k7': document.getElementById("jumlah_b4k7").value,
+      'sum_b4k8': document.getElementById("jumlah_b4k8").value,
+      'sum_b4k9': document.getElementById("jumlah_b4k9").value,
+      'sum_b4k10': document.getElementById("jumlah_b4k10").value,
+      'sum_b4k11': document.getElementById("jumlah_b4k11").value,
+      'sum_b4k12': document.getElementById("jumlah_b4k12").value,
+      'sum_b4k13': document.getElementById("jumlah_b4k13").value,
+      'sum_b4k14': document.getElementById("jumlah_b4k14").value,
+      'sum_b4k15': document.getElementById("jumlah_b4k15").value,
+      'sum_b4k16': document.getElementById("jumlah_b4k16").value,
+      'sum_b4k17': document.getElementById("jumlah_b4k17").value,
+      'sum_b4k18': document.getElementById("jumlah_b4k18").value,
+      'sum_b4k19': document.getElementById("jumlah_b4k19").value,
+      'sum_b4k20': document.getElementById("jumlah_b4k20").value,
+      'sum_b4k21': document.getElementById("jumlah_b4k21").value
+    });
+
+    dataSamasta3.samasta3Page2 = samasta3Page2;
+    dataSamasta3.samasta3SumBlok4 = samasta3SumBlok4;
+    dataSamasta3.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta3/${namaFile}.json`, JSON.stringify(dataSamasta3));
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+    $(".b4k2").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+    $(".b4k3").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31);
+    });
+    $(".b4k4").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k5").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k6").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k7").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k8").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k9").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k10").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k11").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k12").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k13").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k14").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k15").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k16").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k17").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k18").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k19").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k20").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".b4k21").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    
+    $("#jumlah_b4k4").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k5").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k6").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k7").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k8").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k9").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k10").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k11").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k12").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k13").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k14").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k15").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k16").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k17").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k18").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k19").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k20").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $("#jumlah_b4k21").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+  });
+</script>

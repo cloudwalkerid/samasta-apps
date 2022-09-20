@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/css-login.css">
+    <!-- Bootstrap Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>let $ = require('jquery');</script>
+    <script>require('popper.js');</script>
+    <script>require('bootstrap');</script>
+    <title>SAMASTA - Desa Mandiri Statistik</title>
+    <script src="assets/js/database.js"> // konfigurasi database </script>
+    <script src="assets/js/fcLogin.js"> // fungsi untuk login </script>
+</head>
+
+<body>
+    <video autoplay muted loop id="bgVideo">
+        <source src="assets/images/bg.mp4" type="video/mp4">
+    </video>
+    <div>
+        <div class="bgContent">
+            <div class="bgColumn" style="width:45%;text-align: left;">
+                <p style="font-size:smaller;">2019 &copy; BPS Provinsi Sulawesi Barat
+                </p>
+            </div>
+            <div class="bgColumn" style="width:45%;text-align: right;">
+                <p style="font-size:smaller;"><b> Beautiful Karampuang </b> - Video by Rizki Indra Permadi
+                    <br><a href="https://www.youtube.com/watch?v=ZD7MKKIdkMU"
+                        style="color: #000;;">https://www.youtube.com/watch?v=ZD7MKKIdkMU</a>
+                </p>
+            </div>
+            <div class="bgColumn" style="width:10%;text-align: left">
+                <!-- Use a button to pause/play the video with JavaScript -->
+                <button id="bgBtn" onclick="bgFunction()">Pause</button>
+            </div>
+        </div>
+    </div>
+    <div class="login-reg-panel">
+        <div class="login-info-box">
+            <h3>Manfaat bagi Stakeholder</h3>
+            <ul>
+                <li>Tersedianya informasi di tingkat desa dalam perencanaan pembangunan</li>
+                <li>Tersedianya informasi dalam pelaksanaan pembinaan desa</li>
+                <li>Tersedianya data sektoral pada lembaga setingkat desa bagi OPD sesuai dengan tanggung jawabnya</li>
+                <li>Terakomodirnya <i>evidence base policy</i> dalam program aksi di tingkat desa</li>
+            </ul>
+        </div>
+
+        <div class="register-info-box">
+            <p>Pendataan Desa Mandiri Statistik</p>
+            <h2>SAMASTA 2019</h2>
+            <p>Desa Karampuang</p>
+            <label id="label-login" for="log-login-show">Lebih lanjut</label>
+            <input type="radio" name="active-log-panel" id="log-login-show">
+        </div>
+
+        <div class="white-panel">
+            <div class="login-show">
+                <div style="text-align: center"><img src="assets/images/logosamasta.jpeg" width="50%"></div>
+
+                <h2>LOGIN</h2>
+                <input type="text" name="username" id="username" placeholder="Username" tabindex="1" autofocus>
+                <input type="password" name="password" id="password" placeholder="Password" tabindex="2">
+                <input type="button" value="Login" id="submit" onclick="validate()" tabindex="3">
+            </div>
+            <div class="register-show">
+                <h3>Manfaat bagi Desa</h3>
+                <ul>
+                    <li>Memiliki kemampuan untuk menyelenggarakan kegiatan statistik secara mandiri</li>
+                    <li>Tersedianya data dalam program pembangunan desa scara berkesinambungan</li>
+                    <li>Pemanfaatan dana desa lebih terarah dan tepat sasaran</li>
+                    <li>Sarana promosi desa di kancah nasional maupun internasional</li>
+                    <li>Memahami potensi desa yang didukung dengan data</li>
+                    <li>Meningkatkan daya saing desa</li>
+                </ul>
+                <label id="label-register" for="log-reg-show">Login</label>
+                <input type="radio" name="active-log-panel" id="log-reg-show" checked="checked">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.login-info-box').fadeOut();
+            $('.login-show').addClass('show-log-panel');
+
+            var inputUsername = document.getElementById("username");
+            inputUsername.focus();
+            inputUsername.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("password").focus();
+                }
+            });
+
+            var inputPassword = document.getElementById("password");
+            inputPassword.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("submit").click();
+                }
+            });
+        });
+
+        $('.login-reg-panel input[type="radio"]').on('change', function () {
+            if ($('#log-login-show').is(':checked')) {
+                $('.register-info-box').fadeOut();
+                $('.login-info-box').fadeIn();
+                $('.white-panel').addClass('right-log');
+                $('.register-show').addClass('show-log-panel');
+                $('.login-show').removeClass('show-log-panel');
+            }
+            else if ($('#log-reg-show').is(':checked')) {
+                $('.register-info-box').fadeIn();
+                $('.login-info-box').fadeOut();
+                $('.white-panel').removeClass('right-log');
+                $('.login-show').addClass('show-log-panel');
+                $('.register-show').removeClass('show-log-panel');
+            }
+        });
+    </script>
+
+    <!-- script untuk validate login, create session, redirect ke dashboard -->
+    <script>
+        async function validate() {
+            var username = document.getElementById("username").value.toUpperCase();
+            var password = document.getElementById("password").value.toUpperCase();
+
+            if (username == '' || password == '') {
+                alert("Username dan password tidak boleh kosong");
+                return false;
+            }
+
+            sql = `SELECT * FROM m_user WHERE namaUser  = '${username}'`;
+            r = await sqlite.get(sql);
+
+            if (!r) {
+                alert("Username dan atau password Anda salah");
+            } else {
+                if (username == r.namaUser && password == r.passwordUser) {
+                    // create cookies // store login data to json file
+                    await createLoginData(r.namaUser);
+                    // redirecting to dashboard page
+                    window.location = "index.html";
+                    return false;
+                } else {
+                    alert("Username dan atau password Anda salah");
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // Get the video
+        var video = document.getElementById("bgVideo");
+        // Get the button
+        var btn = document.getElementById("bgBtn");
+        // Pause and play the video, and change the button text
+        function bgFunction() {
+            if (video.paused) {
+                video.play();
+                btn.innerHTML = "Pause";
+            } else {
+                video.pause();
+                btn.innerHTML = "Play";
+            }
+        }
+    </script>
+</body>
+
+</html>

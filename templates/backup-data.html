@@ -1,0 +1,81 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Utilities / Backup Data</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block" id="form-container">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block mb-2">
+                    <span>Untuk melakukan backup data, <b>Browse</b> terlebih dahulu folder penyimpanan kemudian klik
+                      tombol <b>Backup</b></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-10 d-none d-md-block">
+                    <input id="content-name" class="form-control" disabled>
+                  </div>
+                  <div class="col-sm-2 d-none d-md-block">
+                    <button id="buttonBrowse" class="btn btn-primary">Browse</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+          <div class="card-footer text-muted">
+              <div class="row">
+                <div class="col-sm-10 d-none d-md-block">
+                </div>
+                <div class="col-sm-2 d-none d-md-block">
+                    <button id="buttonBackup" class="btn btn-success">Backup</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+</script>
+
+<script>
+  async function loadPage() {
+    document.getElementById("buttonBrowse").onclick = async function () {
+      const fs = require("fs");
+      const { dialog } = require("electron").remote;
+      const remote = require('electron').remote;
+      const app = remote.app;
+
+      var path = dialog.showOpenDialog({
+        properties: ['openDirectory']
+      });
+      backup_date = ambilDate();
+      if (path) {
+        document.getElementById("content-name").value = path;
+        document.getElementById("buttonBackup").onclick = async function () {
+          $(".overlay").show();
+          backupPath = path + "/" + backup_date + "_backup_samasta" + dlTahunSamasta2 + ".bakzsmst";
+          await fs.copyFile(pathdb, backupPath, (err) => {
+            if (err) throw err;
+            alert("Backup database berhasil")
+            $(".overlay").hide();
+          });
+        }
+      }
+    }
+  }
+</script>

@@ -1,0 +1,473 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Utilities / Gabung Data</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block" id="form-container">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block mb-2">
+                    <span>Untuk melakukan gabung data, <b>Browse</b> terlebih dahulu file database (extension
+                      <b>.bakzsmst</b>) yang akan digabung
+                      kemudian klik tombol <b>Gabung</b></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-10 d-none d-md-block">
+                    <input id="content-name" class="form-control" disabled>
+                  </div>
+                  <div class="col-sm-2 d-none d-md-block">
+                    <button id="buttonBrowse" class="btn btn-primary">Browse</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+          <div class="card-footer text-muted">
+            <div class="row">
+              <div class="col-sm-10 d-none d-md-block">
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+                <button id="buttonGabung" class="btn btn-success">Gabung</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+</script>
+
+<script>
+  async function loadPage() {
+    document.getElementById("buttonBrowse").onclick = function () {
+      const fs = require("fs");
+      const { dialog } = require("electron").remote;
+      const remote = require('electron').remote;
+      const app = remote.app;
+
+      var path = dialog.showOpenDialog({
+        properties: ['openFile']
+      });
+
+      if (path) {
+        document.getElementById("content-name").value = path;
+        document.getElementById("buttonGabung").onclick = async function () {
+          //document.getElementById("loader").style.display = "block";
+          $(".overlay").show();
+          // cek dulu extensi file yang akan digabung
+          strPath = path.toString();
+          fileExtension = strPath.substring(strPath.lastIndexOf('.') + 1, strPath.length) || strPath;
+          if (fileExtension != "bakzsmst") {
+            alert("Gagal! \nFile yang dipilih bukan file backup database");
+            //document.getElementById("loader").style.display = "none";
+            $(".overlay").hide();
+            return;
+          }
+
+          // copy file ke folder userData
+          // & rename file ke extensi .sqlite
+          copyPathname = dlPathData + "gabung.sqlite";
+          fs.copyFile(path.toString(), copyPathname, (err) => {
+            if (err) {
+              alert("Gagal \nError: " + err.message);
+            } else {
+              console.log("data tercopy");
+              gabungData();
+              async function gabungData() {
+                var aF = await areaFilter();
+                var aFd = await areaFilterD();
+                // buka file. buat koneksi ke database yang akan digabung
+                await makeDBConnection(copyPathname);
+                // query semua tabel yang akan digabung
+                var sql_s_m_user = `SELECT * FROM m_user ${aF}`;
+                var r_s_m_user = await sqlite.all(sql_s_m_user, []);
+
+                var sql_s_t_rt = `SELECT * FROM t_rt ${aF}`;
+                var r_s_t_rt = await sqlite.all(sql_s_t_rt, []);
+
+                var sql_s_t_art = `SELECT * FROM t_art ${aF}`;
+                var r_s_t_art = await sqlite.all(sql_s_t_art, []);
+
+                var sql_s_t_kk = `SELECT * FROM t_kk ${aF}`;
+                var r_s_t_kk = await sqlite.all(sql_s_t_kk, []);
+
+                var sql_s_t_samasta1 = `SELECT * FROM t_samasta1 ${aF}`;
+                var r_s_t_samasta1 = await sqlite.all(sql_s_t_samasta1, []);
+
+                var sql_s_t_samasta3 = `SELECT * FROM t_samasta3 ${aF}`;
+                var r_s_t_samasta3 = await sqlite.all(sql_s_t_samasta3, []);
+
+                var sql_s_t_samasta3_blok4 = `SELECT * FROM t_samasta3_blok4 ${aF}`;
+                var r_s_t_samasta3_blok4 = await sqlite.all(sql_s_t_samasta3_blok4, []);
+
+                // kembalikan koneksi ke database aplikasi
+                sqlite.close();
+                await makeDBConnection(pathdb);
+
+                // gabung table: m_user, t_rt, t_art, t_kk, t_samasta1, t_samasta3, t_samasta3_blok4
+                await gabung_m_user(r_s_m_user);
+                await gabung_t_rt(r_s_t_rt, r_s_t_art, r_s_t_kk);
+                await gabung_t_samasta1(r_s_t_samasta1);
+                //await gabung_t_samasta3(r_s_t_samasta3, r_s_t_samasta3_blok4);
+
+                // hapus file database yg digabung
+                //fs.unlinkSync(copyPathname);
+                //document.getElementById("loader").style.display = "none";
+                alert("Gabung data berhasil")
+                $(".overlay").hide();
+              }
+            }
+          });
+
+          async function gabung_m_user(dataSource) {
+            // cek dulu ada di db tidak
+            for (i = 0; i < dataSource.length; i++) {
+              var sql_d_cek = `SELECT * FROM m_user WHERE kodeUser = '${dataSource[i].kodeUser}'`;
+              var r_d_cek = await sqlite.get(sql_d_cek);
+
+              if (!r_d_cek) {
+                // insert
+                var sql_d_insert = `INSERT INTO m_user (kodeUser, kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, namaUser, namaLengkapUser, passwordUser, levelUser, statusUser) 
+                VALUES ('${dataSource[i].kodeUser}','${dataSource[i].kodeProv}','${dataSource[i].kodeKab}','${dataSource[i].kodeKec}','${dataSource[i].kodeDesa}','${dataSource[i].kodeSLS}','${dataSource[i].namaUser}','${dataSource[i].namaLengkapUser}','${dataSource[i].passwordUser}','${dataSource[i].levelUser}','${dataSource[i].statusUser}')`;
+                var r = await sqlite.run(sql_d_insert);
+                if (r) console.log("row m_user inserted at i= " + i);
+              } else {
+                // update
+                var sql_d_update = `UPDATE m_user SET kodeProv = '${dataSource[i].kodeProv}', kodeKab = '${dataSource[i].kodeKab}', kodeKec = '${dataSource[i].kodeKec}', kodeDesa = '${dataSource[i].kodeDesa}', kodeSLS = '${dataSource[i].kodeSLS}', namaUser = '${dataSource[i].namaUser}', namaLengkapUser = '${dataSource[i].namaLengkapUser}', passwordUser = '${dataSource[i].passwordUser}', levelUser = '${dataSource[i].levelUser}', statusUser = '${dataSource[i].statusUser}'
+                  WHERE kodeUser = '${dataSource[i].kodeUser}'`;
+                var r = await sqlite.run(sql_d_update);
+                if (r) console.log("row m_user updated at i= " + i);
+              }
+            }
+          }
+
+          async function gabung_t_rt(dataSource, dataSource_art, dataSource_kk) {
+            // cek dulu ada di db tidak
+            for (i = 0; i < dataSource.length; i++) {
+              var sql_d_cek = `SELECT * FROM t_rt WHERE kodeProv = '${dataSource[i].kodeProv}' AND kodeKab = '${dataSource[i].kodeKab}' AND kodeKec = '${dataSource[i].kodeKec}' AND kodeDesa = '${dataSource[i].kodeDesa}' AND kodeSLS = '${dataSource[i].kodeSLS}' AND nurtGuid = '${dataSource[i].nurtGuid}' AND tahun = '${dataSource[i].tahun}'`;
+              var r_d_cek = await sqlite.get(sql_d_cek);
+              
+              if (!r_d_cek) {
+                sql_maxnurt = `SELECT ifnull(max(nurt),0) AS maxNurt FROM t_rt WHERE kodeProv = '${dataSource[i].kodeProv}' AND kodeKab = '${dataSource[i].kodeKab}' AND kodeKec = '${dataSource[i].kodeKec}' AND kodeDesa = '${dataSource[i].kodeDesa}' AND kodeSLS = '${dataSource[i].kodeSLS}' AND tahun = '${dataSource[i].tahun}'`;
+                r_maxnurt = await sqlite.get(sql_maxnurt);
+
+                nurtInsert = r_maxnurt.maxNurt + 1;
+                var sql_d_insert = `INSERT INTO t_rt 
+                  (kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, tahun, nurt, nurtGuid, 
+                  b1r106, b1r107, b1r108, b1r109, 
+                  b2r201a, b2r201b, b2r202a_dd, b2r202a_mm, b2r202a_yy, b2r202b_dd, b2r202b_mm, b2r202b_yy, 
+                  b3catatan, set_kk,
+                  statusDok, operatorCreated, timeCreated, operatorLastMod, timeLastMod, lamaEntri) 
+                  VALUES ('${dataSource[i].kodeProv}','${dataSource[i].kodeKab}','${dataSource[i].kodeKec}','${dataSource[i].kodeDesa}','${dataSource[i].kodeSLS}','${dataSource[i].tahun}','${nurtInsert}','${dataSource[i].nurtGuid}',
+                  '${dataSource[i].b1r106}','${dataSource[i].b1r107}','${dataSource[i].b1r108}','${dataSource[i].b1r109}',
+                  '${dataSource[i].b2r201a}','${dataSource[i].b2r201b}','${dataSource[i].b2r202a_dd}','${dataSource[i].b2r202a_mm}','${dataSource[i].b2r202a_yy}','${dataSource[i].b2r202b_dd}','${dataSource[i].b2r202b_mm}','${dataSource[i].b2r202b_yy}',
+                  '${dataSource[i].b3catatan}','${dataSource[i].set_kk}',
+                  '${dataSource[i].statusDok}','${dataSource[i].operatorCreated}','${dataSource[i].timeCreated}','${dataSource[i].operatorLastMod}','${dataSource[i].timeLastMod}','${dataSource[i].lamaEntri}')`;
+                await sqlite.run(sql_d_insert);
+                if (r) {
+                  console.log("row t_rt inserted at i= " + i);
+                  // gabung data art dan data kk
+                  await gabung_t_art(dataSource_art, dataSource[i], nurtInsert, "insert");
+                  await gabung_t_kk(dataSource_kk, dataSource[i], nurtInsert, "insert");
+                }
+              } else {
+                var sql_d_update = `UPDATE t_rt
+                  SET b1r106 = '${dataSource[i].b1r106}', b1r107 = '${dataSource[i].b1r107}', b1r108 = '${dataSource[i].b1r108}', b1r109 = '${dataSource[i].b1r109}', 
+                  b2r201a = '${dataSource[i].b2r201a}', b2r201b = '${dataSource[i].b2r201b}', 
+                  b2r202a_dd = '${dataSource[i].b2r202a_dd}', b2r202a_mm = '${dataSource[i].b2r202a_mm}', b2r202a_yy = '${dataSource[i].b2r202a_yy}', 
+                  b2r202b_dd = '${dataSource[i].b2r202b_dd}', b2r202b_mm = '${dataSource[i].b2r202b_mm}', b2r202b_yy = '${dataSource[i].b2r202b_yy}', 
+                  b3catatan = '${dataSource[i].b3catatan}', set_kk = '${dataSource[i].set_kk}',
+                  statusDok = '${dataSource[i].statusDok}', operatorCreated = '${dataSource[i].operatorCreated}', timeCreated = '${dataSource[i].timeCreated}', 
+                  operatorLastMod = '${dataSource[i].operatorLastMod}', timeLastMod = '${dataSource[i].timeLastMod}', lamaEntri = '${dataSource[i].lamaEntri}'
+                  WHERE kodeProv = '${dataSource[i].kodeProv}' AND kodeKab = '${dataSource[i].kodeKab}' AND kodeKec = '${dataSource[i].kodeKec}' AND kodeDesa = '${dataSource[i].kodeDesa}' AND kodeSLS = '${dataSource[i].kodeSLS}' AND nurtGuid = '${dataSource[i].nurtGuid}' AND tahun = '${dataSource[i].tahun}'`;
+                r = await sqlite.run(sql_d_update);
+                if (r) {
+                  console.log("row t_rt updated at i= " + i);
+                  // gabung data art dan data kk
+                  await gabung_t_art(dataSource_art, dataSource[i], null, "update");
+                  await gabung_t_kk(dataSource_kk, dataSource[i], null, "update");
+                }
+              }
+            }
+          }
+
+          async function gabung_t_art(dataSource_art, dataSource_rt, nurtInsert, mode) {
+            for (a = 0; a < dataSource_art.length; a++) {
+              if (dataSource_art[a].kodeProv == dataSource_rt.kodeProv && dataSource_art[a].kodeKab == dataSource_rt.kodeKab && dataSource_art[a].kodeKec == dataSource_rt.kodeKec && dataSource_art[a].kodeDesa == dataSource_rt.kodeDesa && dataSource_art[a].kodeSLS == dataSource_rt.kodeSLS && dataSource_art[a].tahun == dataSource_rt.tahun && dataSource_art[a].nurtGuid == dataSource_rt.nurtGuid) {
+                if (mode == "insert") {
+                  var sql_d_insert = `INSERT INTO t_art 
+                  (kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, tahun, nurt, nurtGuid, 
+                  nuArt, nuArtGuid, k402, k403, k404, k405, k406, k407, k408, k409, k410, k411, 
+                  k412_dd, k412_mm, k412_yy, k413, k414, k415, k416, k417, k418, k419, k420, k421, k422, k423, k424, k425, k426, k427, 
+                  k428, k429, k430, k431, k432, k433, k434, k435, k436, 
+                  k437, k438, k439, k440, k441, k442, k443, k444, k445, k446, k447, k448, k449, 
+                  k450, k451, k452, k453, k454, k455, k456, k457, k458, k459, k460, k461, k462, k463) 
+                  VALUES 
+                  ('${dataSource_art[a].kodeProv}','${dataSource_art[a].kodeKab}','${dataSource_art[a].kodeKec}','${dataSource_art[a].kodeDesa}','${dataSource_art[a].kodeSLS}','${dataSource_art[a].tahun}','${nurtInsert}','${dataSource_art[a].nurtGuid}',
+                  '${dataSource_art[a].nuArt}','${dataSource_art[a].nuArtGuid}','${dataSource_art[a].k402}','${dataSource_art[a].k403}','${dataSource_art[a].k404}','${dataSource_art[a].k405}','${dataSource_art[a].k406}','${dataSource_art[a].k407}','${dataSource_art[a].k408}','${dataSource_art[a].k409}','${dataSource_art[a].k410}','${dataSource_art[a].k411}',
+                  '${dataSource_art[a].k412_dd}','${dataSource_art[a].k412_mm}','${dataSource_art[a].k412_yy}','${dataSource_art[a].k413}','${dataSource_art[a].k414}','${dataSource_art[a].k415}','${dataSource_art[a].k416}','${dataSource_art[a].k417}','${dataSource_art[a].k418}','${dataSource_art[a].k419}','${dataSource_art[a].k420}','${dataSource_art[a].k421}','${dataSource_art[a].k422}','${dataSource_art[a].k423}','${dataSource_art[a].k424}','${dataSource_art[a].k425}','${dataSource_art[a].k426}','${dataSource_art[a].k427}',
+                  '${dataSource_art[a].k428}','${dataSource_art[a].k429}','${dataSource_art[a].k430}','${dataSource_art[a].k431}','${dataSource_art[a].k432}','${dataSource_art[a].k433}','${dataSource_art[a].k434}','${dataSource_art[a].k435}','${dataSource_art[a].k436}',
+                  '${dataSource_art[a].k437}','${dataSource_art[a].k438}','${dataSource_art[a].k439}','${dataSource_art[a].k440}','${dataSource_art[a].k441}','${dataSource_art[a].k442}','${dataSource_art[a].k443}','${dataSource_art[a].k444}','${dataSource_art[a].k445}','${dataSource_art[a].k446}','${dataSource_art[a].k447}','${dataSource_art[a].k448}','${dataSource_art[a].k449}',
+                  '${dataSource_art[a].k450}','${dataSource_art[a].k451}','${dataSource_art[a].k452}','${dataSource_art[a].k453}','${dataSource_art[a].k454}','${dataSource_art[a].k455}','${dataSource_art[a].k456}','${dataSource_art[a].k457}','${dataSource_art[a].k458}','${dataSource_art[a].k459}','${dataSource_art[a].k460}','${dataSource_art[a].k461}','${dataSource_art[a].k462}','${dataSource_art[a].k463}'
+                  )`;
+                  await sqlite.run(sql_d_insert);
+                  if (r) console.log("row t_art inserted at a= " + i);
+                }
+                if (mode == "update") {
+                  var sql_d_update = `UPDATE t_art SET
+                    kodeProv = '${dataSource_art[a].kodeProv}', kodeKab = '${dataSource_art[a].kodeKab}', kodeKec = '${dataSource_art[a].kodeKec}', kodeDesa = '${dataSource_art[a].kodeDesa}', kodeSLS = '${dataSource_art[a].kodeSLS}', tahun = '${dataSource_art[a].tahun}', nurt = '${dataSource_art[a].nurt}', nurtGuid = '${dataSource_art[a].nurtGuid}', 
+                    nuArt = '${dataSource_art[a].nuArt}', nuArtGuid = '${dataSource_art[a].nuArtGuid}', k402 = '${dataSource_art[a].k402}', k403 = '${dataSource_art[a].k403}', k404 = '${dataSource_art[a].k404}', k405 = '${dataSource_art[a].k405}', k406 = '${dataSource_art[a].k406}', k407 = '${dataSource_art[a].k407}', k408 = '${dataSource_art[a].k408}', k409 = '${dataSource_art[a].k409}', k410 = '${dataSource_art[a].k410}', k411 = '${dataSource_art[a].k411}', 
+                    k412_dd = '${dataSource_art[a].k412_dd}', k412_mm = '${dataSource_art[a].k412_mm}', k412_yy = '${dataSource_art[a].k412_yy}', k413 = '${dataSource_art[a].k413}', k414 = '${dataSource_art[a].k414}', k415 = '${dataSource_art[a].k415}', k416 = '${dataSource_art[a].k416}', k417 = '${dataSource_art[a].k417}', k418 = '${dataSource_art[a].k418}', k419 = '${dataSource_art[a].k419}', k420 = '${dataSource_art[a].k420}', k421 = '${dataSource_art[a].k421}', k422 = '${dataSource_art[a].k422}', k423 = '${dataSource_art[a].k423}', k424 = '${dataSource_art[a].k424}', k425 = '${dataSource_art[a].k425}', k426 = '${dataSource_art[a].k426}', k427 = '${dataSource_art[a].k427}', 
+                    k428 = '${dataSource_art[a].k428}', k429 = '${dataSource_art[a].k429}', k430 = '${dataSource_art[a].k430}', k431 = '${dataSource_art[a].k431}', k432 = '${dataSource_art[a].k432}', k433 = '${dataSource_art[a].k433}', k434 = '${dataSource_art[a].k434}', k435 = '${dataSource_art[a].k435}', k436 = '${dataSource_art[a].k436}', 
+                    k437 = '${dataSource_art[a].k437}', k438 = '${dataSource_art[a].k438}', k439 = '${dataSource_art[a].k439}', k440 = '${dataSource_art[a].k440}', k441 = '${dataSource_art[a].k441}', k442 = '${dataSource_art[a].k442}', k443 = '${dataSource_art[a].k443}', k444 = '${dataSource_art[a].k444}', k445 = '${dataSource_art[a].k445}', k446 = '${dataSource_art[a].k446}', k447 = '${dataSource_art[a].k447}', k448 = '${dataSource_art[a].k448}', k449 = '${dataSource_art[a].k449}', 
+                    k450 = '${dataSource_art[a].k450}', k451 = '${dataSource_art[a].k451}', k452 = '${dataSource_art[a].k452}', k453 = '${dataSource_art[a].k453}', k454 = '${dataSource_art[a].k454}', k455 = '${dataSource_art[a].k455}', k456 = '${dataSource_art[a].k456}', k457 = '${dataSource_art[a].k457}', k458 = '${dataSource_art[a].k458}', k459 = '${dataSource_art[a].k459}', k460 = '${dataSource_art[a].k460}', k461 = '${dataSource_art[a].k461}', k462 = '${dataSource_art[a].k462}', k463 = '${dataSource_art[a].k463}'
+                    WHERE kodeProv = '${dataSource_art[a].kodeProv}' AND kodeKab = '${dataSource_art[a].kodeKab}' AND kodeKec = '${dataSource_art[a].kodeKec}' AND kodeDesa = '${dataSource_art[a].kodeDesa}' AND kodeSLS = '${dataSource_art[a].kodeSLS}' AND nurtGuid = '${dataSource_art[a].nurtGuid}' AND nuArt = '${dataSource_art[a].nuArt}' AND tahun = '${dataSource_art[a].tahun}'`;
+                  await sqlite.run(sql_d_update);
+                  if (r) console.log("row t_art updated at a= " + i);
+                }
+              }
+            }
+          }
+
+          async function gabung_t_kk(dataSource_kk, dataSource_rt, nurtInsert, mode) {
+            for (b = 0; b < dataSource_kk.length; b++) {
+              if (dataSource_kk[b].kodeProv == dataSource_rt.kodeProv && dataSource_kk[b].kodeKab == dataSource_rt.kodeKab && dataSource_kk[b].kodeKec == dataSource_rt.kodeKec && dataSource_kk[b].kodeDesa == dataSource_rt.kodeDesa && dataSource_kk[b].kodeSLS == dataSource_rt.kodeSLS && dataSource_kk[b].tahun == dataSource_rt.tahun && dataSource_kk[b].nurtGuid == dataSource_rt.nurtGuid) {
+                if (mode == "insert") {
+                  var sql_d_insert = `INSERT INTO t_kk
+                    (kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, tahun, nurt, nurtGuid, 
+                    k501, nuArtGuid, k502, k503, k504, k505, k506, k507, k508, k509, k510, k511, k512, k513, k514, k515, k516, k517, k518, k519, k520, k521, k522, k523, k524, 
+                    k525, k526, k527, k528, k529, k530, k531, k532, k533, k534, k535, k536, k537, k538, k539, k540, k541, k542, k543, k544, k545, k546, k547, k548, k549, k550) 
+                    VALUES 
+                    ('${dataSource_kk[b].kodeProv}','${dataSource_kk[b].kodeKab}','${dataSource_kk[b].kodeKec}','${dataSource_kk[b].kodeDesa}','${dataSource_kk[b].kodeSLS}','${dataSource_kk[b].tahun}','${nurtInsert}','${dataSource_kk[b].nurtGuid}',
+                    '${dataSource_kk[b].k501}','${dataSource_kk[b].nuArtGuid}','${dataSource_kk[b].k502}','${dataSource_kk[b].k503}','${dataSource_kk[b].k504}','${dataSource_kk[b].k505}','${dataSource_kk[b].k506}','${dataSource_kk[b].k507}','${dataSource_kk[b].k508}','${dataSource_kk[b].k509}','${dataSource_kk[b].k510}',
+                    '${dataSource_kk[b].k511}','${dataSource_kk[b].k512}','${dataSource_kk[b].k513}','${dataSource_kk[b].k514}','${dataSource_kk[b].k515}','${dataSource_kk[b].k516}','${dataSource_kk[b].k517}','${dataSource_kk[b].k518}','${dataSource_kk[b].k519}','${dataSource_kk[b].k520}','${dataSource_kk[b].k521}','${dataSource_kk[b].k522}','${dataSource_kk[b].k523}','${dataSource_kk[b].k524}',
+                    '${dataSource_kk[b].k525}','${dataSource_kk[b].k526}','${dataSource_kk[b].k527}','${dataSource_kk[b].k528}','${dataSource_kk[b].k529}','${dataSource_kk[b].k530}','${dataSource_kk[b].k531}','${dataSource_kk[b].k532}','${dataSource_kk[b].k533}','${dataSource_kk[b].k534}','${dataSource_kk[b].k535}','${dataSource_kk[b].k536}','${dataSource_kk[b].k537}',
+                    '${dataSource_kk[b].k538}','${dataSource_kk[b].k539}','${dataSource_kk[b].k540}','${dataSource_kk[b].k541}','${dataSource_kk[b].k542}','${dataSource_kk[b].k543}','${dataSource_kk[b].k544}','${dataSource_kk[b].k545}','${dataSource_kk[b].k546}','${dataSource_kk[b].k547}','${dataSource_kk[b].k548}','${dataSource_kk[b].k549}','${dataSource_kk[b].k550}'
+                    )`;
+                  await sqlite.run(sql_d_insert);
+                  if (r) console.log("row t_kk inserted at b= " + i);
+                }
+                if (mode == "update") {
+                  var sql_d_update = `UPDATE t_kk SET
+                    kodeProv = '${dataSource_kk[b].kodeProv}', kodeKab = '${dataSource_kk[b].kodeKab}', kodeKec = '${dataSource_kk[b].kodeKec}', kodeDesa = '${dataSource_kk[b].kodeDesa}', kodeSLS = '${dataSource_kk[b].kodeSLS}', tahun = '${dataSource_kk[b].tahun}', nurt = '${dataSource_kk[b].nurt}', nurtGuid = '${dataSource_kk[b].nurtGuid}', 
+                    k501 = '${dataSource_kk[b].k501}', nuArtGuid = '${dataSource_kk[b].nuArtGuid}', k502 = '${dataSource_kk[b].k502}', k503 = '${dataSource_kk[b].k503}', k504 = '${dataSource_kk[b].k504}', k505 = '${dataSource_kk[b].k505}', k506 = '${dataSource_kk[b].k506}', k507 = '${dataSource_kk[b].k507}', k508 = '${dataSource_kk[b].k508}', k509 = '${dataSource_kk[b].k509}', k510 = '${dataSource_kk[b].k510}', k511 = '${dataSource_kk[b].k511}', k512 = '${dataSource_kk[b].k512}', k513 = '${dataSource_kk[b].k513}', k514 = '${dataSource_kk[b].k514}', k515 = '${dataSource_kk[b].k515}', k516 = '${dataSource_kk[b].k516}', k517 = '${dataSource_kk[b].k517}', k518 = '${dataSource_kk[b].k518}', k519 = '${dataSource_kk[b].k519}', k520 = '${dataSource_kk[b].k520}', k521 = '${dataSource_kk[b].k521}', k522 = '${dataSource_kk[b].k522}', k523 = '${dataSource_kk[b].k523}', k524 = '${dataSource_kk[b].k524}', 
+                    k525 = '${dataSource_kk[b].k525}', k526 = '${dataSource_kk[b].k526}', k527 = '${dataSource_kk[b].k527}', k528 = '${dataSource_kk[b].k528}', k529 = '${dataSource_kk[b].k529}', k530 = '${dataSource_kk[b].k530}', k531 = '${dataSource_kk[b].k531}', k532 = '${dataSource_kk[b].k532}', k533 = '${dataSource_kk[b].k533}', k534 = '${dataSource_kk[b].k534}', k535 = '${dataSource_kk[b].k535}', k536 = '${dataSource_kk[b].k536}', k537 = '${dataSource_kk[b].k537}', k538 = '${dataSource_kk[b].k538}', k539 = '${dataSource_kk[b].k539}', k540 = '${dataSource_kk[b].k540}', k541 = '${dataSource_kk[b].k541}', k542 = '${dataSource_kk[b].k542}', k543 = '${dataSource_kk[b].k543}', k544 = '${dataSource_kk[b].k544}', k545 = '${dataSource_kk[b].k545}', k546 = '${dataSource_kk[b].k546}', k547 = '${dataSource_kk[b].k547}', k548 = '${dataSource_kk[b].k548}', k549 = '${dataSource_kk[b].k549}', k550 = '${dataSource_kk[b].k550}'
+                    WHERE kodeProv = '${dataSource_kk[b].kodeProv}' AND kodeKab = '${dataSource_kk[b].kodeKab}' AND kodeKec = '${dataSource_kk[b].kodeKec}' AND kodeDesa = '${dataSource_kk[b].kodeDesa}' AND kodeSLS = '${dataSource_kk[b].kodeSLS}' AND nurtGuid = '${dataSource_kk[b].nurtGuid}' AND k501 = '${dataSource_kk[b].k501}' AND tahun = '${dataSource_kk[b].tahun}'`;
+                  await sqlite.run(sql_d_update);
+                  if (r) console.log("row t_kk updated at b= " + i);
+                }
+              }
+            }
+          }
+
+          async function gabung_t_samasta1(dataSource) {
+            for (var i = 0; i < dataSource.length; i++) {
+              var sql_d_cek = `SELECT * FROM t_samasta1 
+                WHERE kodeProv = '${dataSource[i].kodeProv}' AND kodeKab = '${dataSource[i].kodeKab}' AND kodeKec = '${dataSource[i].kodeKec}' AND kodeDesa = '${dataSource[i].kodeDesa}' AND tahun = '${dataSource[i].tahun}'`;
+              var r_d_cek = await sqlite.get(sql_d_cek);
+
+              if (!r_d_cek) {
+                var sql_d_insert = `INSERT INTO t_samasta1 
+                  (
+                    kodeProv, kodeKab, kodeKec, kodeDesa, tahun, b1r105, b2r201a, b2r201b, b2r202a_dd, b2r202a_mm, b2r202a_yy, b2r202b_dd, b2r202b_mm, b2r202b_yy, b2r203a, b2r203b, b3r301, b3r302_dd, b3r302_mm, b3r302_yy, b3r303, b4r401, b4r402a, b4r402b, b4r402c, b4r403, b4r404a, b4r404b, b4r404c, b4r405a, b4r405b, b4r405c, b4r405d, b4r406, b4r407a, b4r407b_a, b4r407b_b, b4r407b_c, b4r407b_d, b4r407b_e, b4r407c, b4r408a, b4r408b, b4r408c, b5r501a, b5r501b, b5r502a, b5r502b, b5r502c_1, b5r502c_2, b5r502c_3, b5r503a, b5r503b, b5r504a, b5r504b_1, b5r504b_2, b5r504b_3, b6r601a_2, b6r601a_3, b6r601a_4, b6r601a_5, b6r601a_6, b6r601a_7, b6r601b_2, b6r601b_3, b6r601b_4, b6r601b_5, b6r601b_6, b6r601b_7, b6r601c_2, b6r601c_3, b6r601c_4, b6r601c_5, b6r601c_6, b6r601c_7, b6r601d_2, b6r601d_3, b6r601d_4, b6r601d_5, b6r601d_6, b6r601d_7, b6r601e_2, b6r601e_3, b6r601e_4, b6r601e_5, b6r601e_6, b6r601e_7, b6r601f_2, b6r601f_3, b6r601f_4, b6r601f_5, b6r601f_6, b6r601f_7, b6r601g_2, b6r601g_3, b6r601g_4, b6r601g_5, b6r601g_6, b6r601g_7, b6r601h_2, 
+                    b6r601h_3, b6r601h_4, b6r601h_5, b6r601h_6, b6r601h_7, b6r601i_2, b6r601i_3, b6r601i_4, b6r601i_5, b6r601i_6, b6r601i_7, b6r601j_2, b6r601j_3, b6r601j_4, b6r601j_5, b6r601j_6, b6r601j_7, b6r601k_2, b6r601k_3, b6r601k_4, b6r601k_5, b6r601k_6, b6r601k_7, b6r601l_2, b6r601l_3, b6r601l_4, b6r601l_5, b6r601l_6, b6r601l_7, b6r601m_2, b6r601m_3, b6r601m_4, b6r601m_5, b6r601m_6, b6r601m_7, b6r602a, b6r602b, b6r602c, b6r602d, b6r602e, b6r602f, b6r602g, b6r602h, b6r602i, b6r602j, b6r602k, b6r602l, b6r602m, b6r603a, b6r603b, b6r603c, b6r604a, b6r604b, b6r604c, b6r604d, b6r605, b6r606, b7r701a, b7r701b, b7r701c, b7r701d, b7r701e, b7r701f, b7r701g, b7r701h, b7r701i, b7r701i_lainnya, b7r702a, b7r702b, b7r702c, b7r702d, b7r702e, b7r702f, b8r801l_1_lainnya, b8r801a_2, b8r801b_2, b8r801c_2, b8r801d_2, b8r801e_2, b8r801f_2, b8r801g_2, b8r801h_2, b8r801i_2, b8r801j_2, b8r801k_2, b8r801l_2, b8r801a_3, b8r801b_3, b8r801c_3, b8r801d_3, 
+                    b8r801e_3, b8r801f_3, b8r801g_3, b8r801h_3, b8r801i_3, b8r801j_3, b8r801k_3, b8r801l_3, b9r901, b9r902a, b9r902a_1, b9r902a_2, b9r902b, b9r902c, b10r1001a, b10r1001b, b10r1001c, b10r1001d, b10r1001e, b10r1001f_1, b10r1001f_2, b10r1001g, b10r1001h, b10r1001i, b10r1001j, b10r1002a, b10r1002b, b10r1002c, b10r1003a, b10r1003b, b10r1003c, b10r1003d, b10r1003e, b10r1003f, b10r1003g, b11catatan, statusDok, operatorCreated, timeCreated, operatorLastMod, timeLastMod, lamaEntri                
+                  ) 
+                  VALUES 
+                  (
+                    '${dataSource[i].kodeProv}','${dataSource[i].kodeKab}','${dataSource[i].kodeKec}','${dataSource[i].kodeDesa}','${dataSource[i].tahun}','${dataSource[i].b1r105}','${dataSource[i].b2r201a}','${dataSource[i].b2r201b}','${dataSource[i].b2r202a_dd}','${dataSource[i].b2r202a_mm}','${dataSource[i].b2r202a_yy}','${dataSource[i].b2r202b_dd}','${dataSource[i].b2r202b_mm}','${dataSource[i].b2r202b_yy}','${dataSource[i].b2r203a}','${dataSource[i].b2r203b}','${dataSource[i].b3r301}','${dataSource[i].b3r302_dd}','${dataSource[i].b3r302_mm}','${dataSource[i].b3r302_yy}','${dataSource[i].b3r303}','${dataSource[i].b4r401}','${dataSource[i].b4r402a}','${dataSource[i].b4r402b}','${dataSource[i].b4r402c}','${dataSource[i].b4r403}','${dataSource[i].b4r404a}','${dataSource[i].b4r404b}','${dataSource[i].b4r404c}','${dataSource[i].b4r405a}','${dataSource[i].b4r405b}','${dataSource[i].b4r405c}','${dataSource[i].b4r405d}','${dataSource[i].b4r406}','${dataSource[i].b4r407a}','${dataSource[i].b4r407b_a}','${dataSource[i].b4r407b_b}','${dataSource[i].b4r407b_c}','${dataSource[i].b4r407b_d}','${dataSource[i].b4r407b_e}','${dataSource[i].b4r407c}','${dataSource[i].b4r408a}','${dataSource[i].b4r408b}','${dataSource[i].b4r408c}','${dataSource[i].b5r501a}','${dataSource[i].b5r501b}','${dataSource[i].b5r502a}','${dataSource[i].b5r502b}','${dataSource[i].b5r502c_1}','${dataSource[i].b5r502c_2}','${dataSource[i].b5r502c_3}',
+                    '${dataSource[i].b5r503a}','${dataSource[i].b5r503b}','${dataSource[i].b5r504a}','${dataSource[i].b5r504b_1}','${dataSource[i].b5r504b_2}','${dataSource[i].b5r504b_3}','${dataSource[i].b6r601a_2}','${dataSource[i].b6r601a_3}','${dataSource[i].b6r601a_4}','${dataSource[i].b6r601a_5}','${dataSource[i].b6r601a_6}','${dataSource[i].b6r601a_7}','${dataSource[i].b6r601b_2}','${dataSource[i].b6r601b_3}','${dataSource[i].b6r601b_4}','${dataSource[i].b6r601b_5}','${dataSource[i].b6r601b_6}','${dataSource[i].b6r601b_7}','${dataSource[i].b6r601c_2}','${dataSource[i].b6r601c_3}','${dataSource[i].b6r601c_4}','${dataSource[i].b6r601c_5}','${dataSource[i].b6r601c_6}','${dataSource[i].b6r601c_7}','${dataSource[i].b6r601d_2}','${dataSource[i].b6r601d_3}','${dataSource[i].b6r601d_4}','${dataSource[i].b6r601d_5}','${dataSource[i].b6r601d_6}','${dataSource[i].b6r601d_7}','${dataSource[i].b6r601e_2}','${dataSource[i].b6r601e_3}','${dataSource[i].b6r601e_4}','${dataSource[i].b6r601e_5}','${dataSource[i].b6r601e_6}','${dataSource[i].b6r601e_7}','${dataSource[i].b6r601f_2}','${dataSource[i].b6r601f_3}','${dataSource[i].b6r601f_4}','${dataSource[i].b6r601f_5}','${dataSource[i].b6r601f_6}','${dataSource[i].b6r601f_7}','${dataSource[i].b6r601g_2}','${dataSource[i].b6r601g_3}','${dataSource[i].b6r601g_4}','${dataSource[i].b6r601g_5}','${dataSource[i].b6r601g_6}','${dataSource[i].b6r601g_7}','${dataSource[i].b6r601h_2}','${dataSource[i].b6r601h_3}',
+                    '${dataSource[i].b6r601h_4}','${dataSource[i].b6r601h_5}','${dataSource[i].b6r601h_6}','${dataSource[i].b6r601h_7}','${dataSource[i].b6r601i_2}','${dataSource[i].b6r601i_3}','${dataSource[i].b6r601i_4}','${dataSource[i].b6r601i_5}','${dataSource[i].b6r601i_6}','${dataSource[i].b6r601i_7}','${dataSource[i].b6r601j_2}','${dataSource[i].b6r601j_3}','${dataSource[i].b6r601j_4}','${dataSource[i].b6r601j_5}','${dataSource[i].b6r601j_6}','${dataSource[i].b6r601j_7}','${dataSource[i].b6r601k_2}','${dataSource[i].b6r601k_3}','${dataSource[i].b6r601k_4}','${dataSource[i].b6r601k_5}','${dataSource[i].b6r601k_6}','${dataSource[i].b6r601k_7}','${dataSource[i].b6r601l_2}','${dataSource[i].b6r601l_3}','${dataSource[i].b6r601l_4}','${dataSource[i].b6r601l_5}','${dataSource[i].b6r601l_6}','${dataSource[i].b6r601l_7}','${dataSource[i].b6r601m_2}','${dataSource[i].b6r601m_3}','${dataSource[i].b6r601m_4}','${dataSource[i].b6r601m_5}','${dataSource[i].b6r601m_6}','${dataSource[i].b6r601m_7}','${dataSource[i].b6r602a}','${dataSource[i].b6r602b}','${dataSource[i].b6r602c}','${dataSource[i].b6r602d}','${dataSource[i].b6r602e}','${dataSource[i].b6r602f}','${dataSource[i].b6r602g}','${dataSource[i].b6r602h}','${dataSource[i].b6r602i}','${dataSource[i].b6r602j}','${dataSource[i].b6r602k}','${dataSource[i].b6r602l}','${dataSource[i].b6r602m}','${dataSource[i].b6r603a}','${dataSource[i].b6r603b}','${dataSource[i].b6r603c}',
+                    '${dataSource[i].b6r604a}','${dataSource[i].b6r604b}','${dataSource[i].b6r604c}','${dataSource[i].b6r604d}','${dataSource[i].b6r605}','${dataSource[i].b6r606}','${dataSource[i].b7r701a}','${dataSource[i].b7r701b}','${dataSource[i].b7r701c}','${dataSource[i].b7r701d}','${dataSource[i].b7r701e}','${dataSource[i].b7r701f}','${dataSource[i].b7r701g}','${dataSource[i].b7r701h}','${dataSource[i].b7r701i}','${dataSource[i].b7r701i_lainnya}','${dataSource[i].b7r702a}','${dataSource[i].b7r702b}','${dataSource[i].b7r702c}','${dataSource[i].b7r702d}','${dataSource[i].b7r702e}','${dataSource[i].b7r702f}','${dataSource[i].b8r801l_1_lainnya}','${dataSource[i].b8r801a_2}','${dataSource[i].b8r801b_2}','${dataSource[i].b8r801c_2}','${dataSource[i].b8r801d_2}','${dataSource[i].b8r801e_2}','${dataSource[i].b8r801f_2}','${dataSource[i].b8r801g_2}','${dataSource[i].b8r801h_2}','${dataSource[i].b8r801i_2}','${dataSource[i].b8r801j_2}','${dataSource[i].b8r801k_2}','${dataSource[i].b8r801l_2}','${dataSource[i].b8r801a_3}','${dataSource[i].b8r801b_3}','${dataSource[i].b8r801c_3}','${dataSource[i].b8r801d_3}','${dataSource[i].b8r801e_3}','${dataSource[i].b8r801f_3}','${dataSource[i].b8r801g_3}','${dataSource[i].b8r801h_3}','${dataSource[i].b8r801i_3}','${dataSource[i].b8r801j_3}','${dataSource[i].b8r801k_3}','${dataSource[i].b8r801l_3}','${dataSource[i].b9r901}','${dataSource[i].b9r902a}',
+                    '${dataSource[i].b9r902a_1}','${dataSource[i].b9r902a_2}','${dataSource[i].b9r902b}','${dataSource[i].b9r902c}','${dataSource[i].b10r1001a}','${dataSource[i].b10r1001b}','${dataSource[i].b10r1001c}','${dataSource[i].b10r1001d}','${dataSource[i].b10r1001e}','${dataSource[i].b10r1001f_1}','${dataSource[i].b10r1001f_2}','${dataSource[i].b10r1001g}','${dataSource[i].b10r1001h}','${dataSource[i].b10r1001i}','${dataSource[i].b10r1001j}','${dataSource[i].b10r1002a}','${dataSource[i].b10r1002b}','${dataSource[i].b10r1002c}','${dataSource[i].b10r1003a}','${dataSource[i].b10r1003b}','${dataSource[i].b10r1003c}','${dataSource[i].b10r1003d}','${dataSource[i].b10r1003e}','${dataSource[i].b10r1003f}','${dataSource[i].b10r1003g}','${dataSource[i].b11catatan}','${dataSource[i].statusDok}','${dataSource[i].operatorCreated}','${dataSource[i].timeCreated}','${dataSource[i].operatorLastMod}','${dataSource[i].timeLastMod}','${dataSource[i].lamaEntri}'                    
+                  )`;
+                await sqlite.run(sql_d_insert);
+                if (r) console.log("row t_samasta1 inserted at i= " + i);
+              } else {
+                var sql_d_update = `UPDATE t_samasta1 SET 
+                  b1r105 = '${dataSource[i].b1r105}', b2r201a = '${dataSource[i].b2r201a}', b2r201b = '${dataSource[i].b2r201b}', b2r202a_dd = '${dataSource[i].b2r202a_dd}', b2r202a_mm = '${dataSource[i].b2r202a_mm}', b2r202a_yy = '${dataSource[i].b2r202a_yy}', b2r202b_dd = '${dataSource[i].b2r202b_dd}', b2r202b_mm = '${dataSource[i].b2r202b_mm}', b2r202b_yy = '${dataSource[i].b2r202b_yy}', b2r203a = '${dataSource[i].b2r203a}', b2r203b = '${dataSource[i].b2r203b}', b3r301 = '${dataSource[i].b3r301}', b3r302_dd = '${dataSource[i].b3r302_dd}', b3r302_mm = '${dataSource[i].b3r302_mm}', b3r302_yy = '${dataSource[i].b3r302_yy}', b3r303 = '${dataSource[i].b3r303}', 
+                  b4r401 = '${dataSource[i].b4r401}', b4r402a = '${dataSource[i].b4r402a}', b4r402b = '${dataSource[i].b4r402b}', b4r402c = '${dataSource[i].b4r402c}', b4r403 = '${dataSource[i].b4r403}', b4r404a = '${dataSource[i].b4r404a}', b4r404b = '${dataSource[i].b4r404b}', b4r404c = '${dataSource[i].b4r404c}', b4r405a = '${dataSource[i].b4r405a}', b4r405b = '${dataSource[i].b4r405b}', b4r405c = '${dataSource[i].b4r405c}', b4r405d = '${dataSource[i].b4r405d}', b4r406 = '${dataSource[i].b4r406}', b4r407a = '${dataSource[i].b4r407a}', 
+                  b4r407b_a = '${dataSource[i].b4r407b_a}', b4r407b_b = '${dataSource[i].b4r407b_b}', b4r407b_c = '${dataSource[i].b4r407b_c}', b4r407b_d = '${dataSource[i].b4r407b_d}', b4r407b_e = '${dataSource[i].b4r407b_e}', b4r407c = '${dataSource[i].b4r407c}', b4r408a = '${dataSource[i].b4r408a}', b4r408b = '${dataSource[i].b4r408b}', b4r408c = '${dataSource[i].b4r408c}', b5r501a = '${dataSource[i].b5r501a}', b5r501b = '${dataSource[i].b5r501b}', b5r502a = '${dataSource[i].b5r502a}', b5r502b = '${dataSource[i].b5r502b}', b5r502c_1 = '${dataSource[i].b5r502c_1}', b5r502c_2 = '${dataSource[i].b5r502c_2}', b5r502c_3 = '${dataSource[i].b5r502c_3}', b5r503a = '${dataSource[i].b5r503a}', b5r503b = '${dataSource[i].b5r503b}', b5r504a = '${dataSource[i].b5r504a}', b5r504b_1 = '${dataSource[i].b5r504b_1}', b5r504b_2 = '${dataSource[i].b5r504b_2}', b5r504b_3 = '${dataSource[i].b5r504b_3}', b6r601a_2 = '${dataSource[i].b6r601a_2}', b6r601a_3 = '${dataSource[i].b6r601a_3}', b6r601a_4 = '${dataSource[i].b6r601a_4}', b6r601a_5 = '${dataSource[i].b6r601a_5}', b6r601a_6 = '${dataSource[i].b6r601a_6}', b6r601a_7 = '${dataSource[i].b6r601a_7}', b6r601b_2 = '${dataSource[i].b6r601b_2}', b6r601b_3 = '${dataSource[i].b6r601b_3}', b6r601b_4 = '${dataSource[i].b6r601b_4}', b6r601b_5 = '${dataSource[i].b6r601b_5}', 
+                  b6r601b_6 = '${dataSource[i].b6r601b_6}', b6r601b_7 = '${dataSource[i].b6r601b_7}', b6r601c_2 = '${dataSource[i].b6r601c_2}', b6r601c_3 = '${dataSource[i].b6r601c_3}', b6r601c_4 = '${dataSource[i].b6r601c_4}', b6r601c_5 = '${dataSource[i].b6r601c_5}', b6r601c_6 = '${dataSource[i].b6r601c_6}', b6r601c_7 = '${dataSource[i].b6r601c_7}', b6r601d_2 = '${dataSource[i].b6r601d_2}', b6r601d_3 = '${dataSource[i].b6r601d_3}', b6r601d_4 = '${dataSource[i].b6r601d_4}', b6r601d_5 = '${dataSource[i].b6r601d_5}', b6r601d_6 = '${dataSource[i].b6r601d_6}', b6r601d_7 = '${dataSource[i].b6r601d_7}', b6r601e_2 = '${dataSource[i].b6r601e_2}', b6r601e_3 = '${dataSource[i].b6r601e_3}', b6r601e_4 = '${dataSource[i].b6r601e_4}', b6r601e_5 = '${dataSource[i].b6r601e_5}', b6r601e_6 = '${dataSource[i].b6r601e_6}', b6r601e_7 = '${dataSource[i].b6r601e_7}', b6r601f_2 = '${dataSource[i].b6r601f_2}', b6r601f_3 = '${dataSource[i].b6r601f_3}', b6r601f_4 = '${dataSource[i].b6r601f_4}', b6r601f_5 = '${dataSource[i].b6r601f_5}', b6r601f_6 = '${dataSource[i].b6r601f_6}', b6r601f_7 = '${dataSource[i].b6r601f_7}', b6r601g_2 = '${dataSource[i].b6r601g_2}', b6r601g_3 = '${dataSource[i].b6r601g_3}', b6r601g_4 = '${dataSource[i].b6r601g_4}', b6r601g_5 = '${dataSource[i].b6r601g_5}', 
+                  b6r601g_6 = '${dataSource[i].b6r601g_6}', b6r601g_7 = '${dataSource[i].b6r601g_7}', b6r601h_2 = '${dataSource[i].b6r601h_2}', b6r601h_3 = '${dataSource[i].b6r601h_3}', b6r601h_4 = '${dataSource[i].b6r601h_4}', b6r601h_5 = '${dataSource[i].b6r601h_5}', b6r601h_6 = '${dataSource[i].b6r601h_6}', b6r601h_7 = '${dataSource[i].b6r601h_7}', b6r601i_2 = '${dataSource[i].b6r601i_2}', b6r601i_3 = '${dataSource[i].b6r601i_3}', b6r601i_4 = '${dataSource[i].b6r601i_4}', b6r601i_5 = '${dataSource[i].b6r601i_5}', b6r601i_6 = '${dataSource[i].b6r601i_6}', b6r601i_7 = '${dataSource[i].b6r601i_7}', b6r601j_2 = '${dataSource[i].b6r601j_2}', b6r601j_3 = '${dataSource[i].b6r601j_3}', b6r601j_4 = '${dataSource[i].b6r601j_4}', b6r601j_5 = '${dataSource[i].b6r601j_5}', b6r601j_6 = '${dataSource[i].b6r601j_6}', b6r601j_7 = '${dataSource[i].b6r601j_7}', b6r601k_2 = '${dataSource[i].b6r601k_2}', b6r601k_3 = '${dataSource[i].b6r601k_3}', b6r601k_4 = '${dataSource[i].b6r601k_4}', b6r601k_5 = '${dataSource[i].b6r601k_5}', b6r601k_6 = '${dataSource[i].b6r601k_6}', b6r601k_7 = '${dataSource[i].b6r601k_7}', b6r601l_2 = '${dataSource[i].b6r601l_2}', b6r601l_3 = '${dataSource[i].b6r601l_3}', b6r601l_4 = '${dataSource[i].b6r601l_4}', b6r601l_5 = '${dataSource[i].b6r601l_5}', 
+                  b6r601l_6 = '${dataSource[i].b6r601l_6}', b6r601l_7 = '${dataSource[i].b6r601l_7}', b6r601m_2 = '${dataSource[i].b6r601m_2}', b6r601m_3 = '${dataSource[i].b6r601m_3}', b6r601m_4 = '${dataSource[i].b6r601m_4}', b6r601m_5 = '${dataSource[i].b6r601m_5}', b6r601m_6 = '${dataSource[i].b6r601m_6}', b6r601m_7 = '${dataSource[i].b6r601m_7}', b6r602a = '${dataSource[i].b6r602a}', b6r602b = '${dataSource[i].b6r602b}', b6r602c = '${dataSource[i].b6r602c}', b6r602d = '${dataSource[i].b6r602d}', b6r602e = '${dataSource[i].b6r602e}', b6r602f = '${dataSource[i].b6r602f}', b6r602g = '${dataSource[i].b6r602g}', b6r602h = '${dataSource[i].b6r602h}', b6r602i = '${dataSource[i].b6r602i}', b6r602j = '${dataSource[i].b6r602j}', b6r602k = '${dataSource[i].b6r602k}', b6r602l = '${dataSource[i].b6r602l}', b6r602m = '${dataSource[i].b6r602m}', b6r603a = '${dataSource[i].b6r603a}', b6r603b = '${dataSource[i].b6r603b}', b6r603c = '${dataSource[i].b6r603c}', b6r604a = '${dataSource[i].b6r604a}', b6r604b = '${dataSource[i].b6r604b}', b6r604c = '${dataSource[i].b6r604c}', b6r604d = '${dataSource[i].b6r604d}', b6r605 = '${dataSource[i].b6r605}', b6r606 = '${dataSource[i].b6r606}', 
+                  b7r701a = '${dataSource[i].b7r701a}', b7r701b = '${dataSource[i].b7r701b}', b7r701c = '${dataSource[i].b7r701c}', b7r701d = '${dataSource[i].b7r701d}', b7r701e = '${dataSource[i].b7r701e}', b7r701f = '${dataSource[i].b7r701f}', b7r701g = '${dataSource[i].b7r701g}', b7r701h = '${dataSource[i].b7r701h}', b7r701i = '${dataSource[i].b7r701i}', b7r701i_lainnya = '${dataSource[i].b7r701i_lainnya}', b7r702a = '${dataSource[i].b7r702a}', b7r702b = '${dataSource[i].b7r702b}', b7r702c = '${dataSource[i].b7r702c}', b7r702d = '${dataSource[i].b7r702d}', b7r702e = '${dataSource[i].b7r702e}', b7r702f = '${dataSource[i].b7r702f}', 
+                  b8r801l_1_lainnya = '${dataSource[i].b8r801l_1_lainnya}', b8r801a_2 = '${dataSource[i].b8r801a_2}', b8r801b_2 = '${dataSource[i].b8r801b_2}', b8r801c_2 = '${dataSource[i].b8r801c_2}', b8r801d_2 = '${dataSource[i].b8r801d_2}', b8r801e_2 = '${dataSource[i].b8r801e_2}', b8r801f_2 = '${dataSource[i].b8r801f_2}', b8r801g_2 = '${dataSource[i].b8r801g_2}', b8r801h_2 = '${dataSource[i].b8r801h_2}', b8r801i_2 = '${dataSource[i].b8r801i_2}', b8r801j_2 = '${dataSource[i].b8r801j_2}', b8r801k_2 = '${dataSource[i].b8r801k_2}', b8r801l_2 = '${dataSource[i].b8r801l_2}', b8r801a_3 = '${dataSource[i].b8r801a_3}', 
+                  b8r801b_3 = '${dataSource[i].b8r801b_3}', b8r801c_3 = '${dataSource[i].b8r801c_3}', b8r801d_3 = '${dataSource[i].b8r801d_3}', b8r801e_3 = '${dataSource[i].b8r801e_3}', b8r801f_3 = '${dataSource[i].b8r801f_3}', b8r801g_3 = '${dataSource[i].b8r801g_3}', b8r801h_3 = '${dataSource[i].b8r801h_3}', b8r801i_3 = '${dataSource[i].b8r801i_3}', b8r801j_3 = '${dataSource[i].b8r801j_3}', b8r801k_3 = '${dataSource[i].b8r801k_3}', b8r801l_3 = '${dataSource[i].b8r801l_3}', 
+                  b9r901 = '${dataSource[i].b9r901}', b9r902a = '${dataSource[i].b9r902a}', b9r902a_1 = '${dataSource[i].b9r902a_1}', b9r902a_2 = '${dataSource[i].b9r902a_2}', b9r902b = '${dataSource[i].b9r902b}', b9r902c = '${dataSource[i].b9r902c}', 
+                  b10r1001a = '${dataSource[i].b10r1001a}', b10r1001b = '${dataSource[i].b10r1001b}', b10r1001c = '${dataSource[i].b10r1001c}', b10r1001d = '${dataSource[i].b10r1001d}', b10r1001e = '${dataSource[i].b10r1001e}', b10r1001f_1 = '${dataSource[i].b10r1001f_1}', b10r1001f_2 = '${dataSource[i].b10r1001f_2}', b10r1001g = '${dataSource[i].b10r1001g}', b10r1001h = '${dataSource[i].b10r1001h}', b10r1001i = '${dataSource[i].b10r1001i}', b10r1001j = '${dataSource[i].b10r1001j}', 
+                  b10r1002a = '${dataSource[i].b10r1002a}', b10r1002b = '${dataSource[i].b10r1002b}', b10r1002c = '${dataSource[i].b10r1002c}', 
+                  b10r1003a = '${dataSource[i].b10r1003a}', b10r1003b = '${dataSource[i].b10r1003b}', b10r1003c = '${dataSource[i].b10r1003c}', b10r1003d = '${dataSource[i].b10r1003d}', b10r1003e = '${dataSource[i].b10r1003e}', b10r1003f = '${dataSource[i].b10r1003f}', b10r1003g = '${dataSource[i].b10r1003g}', 
+                  b11catatan = '${dataSource[i].b11catatan}', 
+                  statusDok = '${dataSource[i].statusDok}', operatorCreated = '${dataSource[i].operatorCreated}', timeCreated = '${dataSource[i].timeCreated}', operatorLastMod = '${dataSource[i].operatorLastMod}', timeLastMod = '${dataSource[i].timeLastMod}', lamaEntri = '${dataSource[i].lamaEntri}'
+                  WHERE kodeProv = '${dataSource[i].kodeProv}' AND kodeKab = '${dataSource[i].kodeKab}' AND kodeKec = '${dataSource[i].kodeKec}' AND kodeDesa = '${dataSource[i].kodeDesa}' AND tahun = '${dataSource[i].tahun}'
+                  `;
+                r = await sqlite.run(sql_d_update);
+                if (r) console.log("row t_samasta1 updated at i= " + i);
+              }
+            }
+          }
+
+          async function gabung_t_samasta3(dataSource_samasta3, dataSource_samasta3_blok4) {
+            // cek dulu ada di db tidak
+            for (i = 0; i < dataSource_samasta3.length; i++) {
+              var sql_d_cek = `SELECT * FROM t_samasta3 
+                WHERE kodeProv = '${dataSource_samasta3[i].kodeProv}' AND kodeKab = '${dataSource_samasta3[i].kodeKab}' AND kodeKec = '${dataSource_samasta3[i].kodeKec}' AND kodeDesa = '${dataSource_samasta3[i].kodeDesa}' AND kodeSLS = '${dataSource_samasta3[i].kodeSLS}' AND tahun = '${dataSource_samasta3[i].tahun}' AND bulan = '${dataSource_samasta3[i].bulan}' 
+                `;
+              var r_d_cek = await sqlite.get(sql_d_cek);
+
+              if (!r_d_cek) {
+                var sql_d_insert = `INSERT INTO t_samasta3 
+                  (kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, tahun, bulan,  
+                  b2r201, b2r202, b2r203, b2r204, b2r205, b2r206,  
+                  b3catatan, kepalaSLS,
+                  statusDok, operatorCreated, timeCreated, operatorLastMod, timeLastMod, lamaEntri,
+                  sum_b4k4, sum_b4k5, sum_b4k6, sum_b4k7, sum_b4k8, sum_b4k9, sum_b4k10, sum_b4k11, sum_b4k12 ,
+                  sum_b4k13, sum_b4k14, sum_b4k15, sum_b4k16, sum_b4k17, sum_b4k18, sum_b4k19, sum_b4k20, sum_b4k21) 
+                  VALUES ('${dataSource_samasta3[i].kodeProv}','${dataSource_samasta3[i].kodeKab}','${dataSource_samasta3[i].kodeKec}','${dataSource_samasta3[i].kodeDesa}','${dataSource_samasta3[i].kodeSLS}','${dataSource_samasta3[i].tahun}','${dataSource_samasta3[i].bulan}',
+                  '${dataSource_samasta3[i].b2r201}','${dataSource_samasta3[i].b2r202}','${dataSource_samasta3[i].b2r203}','${dataSource_samasta3[i].b2r204}','${dataSource_samasta3[i].b2r205}','${dataSource_samasta3[i].b2r206}',
+                  '${dataSource_samasta3[i].b3catatan}','${dataSource_samasta3[i].kepalaSLS}',
+                  '${dataSource_samasta3[i].statusDok}','${dataSource_samasta3[i].operatorCreated}','${dataSource_samasta3[i].timeCreated}','${dataSource_samasta3[i].operatorLastMod}','${dataSource_samasta3[i].timeLastMod}','${dataSource_samasta3[i].lamaEntri}',
+                  '${dataSource_samasta3[i].sum_b4k4}', '${dataSource_samasta3[i].sum_b4k5}', '${dataSource_samasta3[i].sum_b4k6}', '${dataSource_samasta3[i].sum_b4k7}', '${dataSource_samasta3[i].sum_b4k8}', '${dataSource_samasta3[i].sum_b4k9}', 
+                  '${dataSource_samasta3[i].sum_b4k10}', '${dataSource_samasta3[i].sum_b4k11}', '${dataSource_samasta3[i].sum_b4k12}', '${dataSource_samasta3[i].sum_b4k13}', '${dataSource_samasta3[i].sum_b4k14}', '${dataSource_samasta3[i].sum_b4k15}', 
+                  '${dataSource_samasta3[i].sum_b4k16}', '${dataSource_samasta3[i].sum_b4k17}', '${dataSource_samasta3[i].sum_b4k18}', '${dataSource_samasta3[i].sum_b4k19}', '${dataSource_samasta3[i].sum_b4k20}', '${dataSource_samasta3[i].sum_b4k21}')
+                  `;
+                await sqlite.run(sql_d_insert);
+                if (r) {
+                  console.log("row t_samasta3 inserted at i= " + i);
+                  // gabung data art dan data kk
+                  await gabung_t_samasta3_blok4(dataSource_samasta3_blok4, dataSource_samasta3[i], "insert");
+                }
+              } else {
+                var sql_d_update = `UPDATE t_samasta3
+                  SET b2r201 = '${dataSource_samasta3[i].b2r201}', b2r202 = '${dataSource_samasta3[i].b2r202}', b2r203 = '${dataSource_samasta3[i].b2r203}', 
+                  b2r204 = '${dataSource_samasta3[i].b2r204}', b2r205 = '${dataSource_samasta3[i].b2r205}', b2r206 = '${dataSource_samasta3[i].b2r206}', 
+                  b3catatan = '${dataSource_samasta3[i].b3catatan}', kepalaSLS = '${dataSource_samasta3[i].kepalaSLS}',
+                  statusDok = '${dataSource_samasta3[i].statusDok}', operatorCreated = '${dataSource_samasta3[i].operatorCreated}', timeCreated = '${dataSource_samasta3[i].timeCreated}', 
+                  operatorLastMod = '${dataSource_samasta3[i].operatorLastMod}', timeLastMod = '${dataSource_samasta3[i].timeLastMod}', lamaEntri = '${dataSource_samasta3[i].lamaEntri}',
+                  sum_b4k4 = '${dataSource_samasta3[i].sum_b4k4}', sum_b4k5 = '${dataSource_samasta3[i].sum_b4k5}', sum_b4k6 = '${dataSource_samasta3[i].sum_b4k6}', sum_b4k7 = '${dataSource_samasta3[i].sum_b4k7}', sum_b4k8 = '${dataSource_samasta3[i].sum_b4k8}', 
+                  sum_b4k9 = '${dataSource_samasta3[i].sum_b4k9}', sum_b4k10 = '${dataSource_samasta3[i].sum_b4k10}', sum_b4k11 = '${dataSource_samasta3[i].sum_b4k11}', sum_b4k12 = '${dataSource_samasta3[i].sum_b4k12}', sum_b4k13 = '${dataSource_samasta3[i].sum_b4k13}',
+                  sum_b4k14 = '${dataSource_samasta3[i].sum_b4k14}', sum_b4k15 = '${dataSource_samasta3[i].sum_b4k15}', sum_b4k16 = '${dataSource_samasta3[i].sum_b4k16}', sum_b4k17 = '${dataSource_samasta3[i].sum_b4k17}', sum_b4k18 = '${dataSource_samasta3[i].sum_b4k18}', 
+                  sum_b4k19 = '${dataSource_samasta3[i].sum_b4k19}', sum_b4k20 = '${dataSource_samasta3[i].sum_b4k20}', sum_b4k21 = '${dataSource_samasta3[i].sum_b4k21}'
+                  WHERE kodeProv = '${dataSource_samasta3[i].kodeProv}' AND kodeKab = '${dataSource_samasta3[i].kodeKab}' AND kodeKec = '${dataSource_samasta3[i].kodeKec}' AND kodeDesa = '${dataSource_samasta3[i].kodeDesa}' AND kodeSLS = '${dataSource_samasta3[i].kodeSLS}' AND tahun = '${dataSource_samasta3[i].tahun}' AND bulan = '${dataSource_samasta3[i].bulan}'
+                  `;
+                r = await sqlite.run(sql_d_update);
+                if (r) {
+                  console.log("row t_samasta3 updated at i= " + i);
+                  // gabung data art dan data kk
+                  await gabung_t_samasta3_blok4(dataSource_samasta3_blok4, dataSource_samasta3[i], "update");
+                }
+              }
+            }
+          }
+          async function gabung_t_samasta3_blok4(dataSource_samasta3_blok4, dataSource_samasta3, mode) {
+            for (a = 0; a < dataSource_samasta3_blok4.length; a++) {
+              if (dataSource_samasta3_blok4[a].kodeProv == dataSource_samasta3.kodeProv && dataSource_samasta3_blok4[a].kodeKab == dataSource_samasta3.kodeKab && dataSource_samasta3_blok4[a].kodeKec == dataSource_samasta3.kodeKec && dataSource_samasta3_blok4[a].kodeDesa == dataSource_samasta3.kodeDesa && dataSource_samasta3_blok4[a].kodeSLS == dataSource_samasta3.kodeSLS && dataSource_samasta3_blok4[a].tahun == dataSource_samasta3.tahun && dataSource_samasta3_blok4[a].bulan == dataSource_samasta3.bulan) {
+                if (mode == "insert") {
+                  var sql_d_insert = `INSERT INTO t_samasta3_blok4 
+                    (kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, tahun, bulan,  
+                    b4k1, b4k2, b4k3, b4k4, b4k5, b4k6, b4k7, b4k8, b4k9, b4k10, b4k11,
+                    b4k12, b4k13, b4k14, b4k15, b4k16, b4k17, b4k18, b4k19, b4k20, b4k21) 
+                    VALUES 
+                    ('${dataSource_samasta3_blok4[a].kodeProv}','${dataSource_samasta3_blok4[a].kodeKab}','${dataSource_samasta3_blok4[a].kodeKec}','${dataSource_samasta3_blok4[a].kodeDesa}','${dataSource_samasta3_blok4[a].kodeSLS}','${dataSource_samasta3_blok4[a].tahun}','${dataSource_samasta3_blok4[a].bulan}',
+                    '${dataSource_samasta3_blok4[a].b4k1}','${dataSource_samasta3_blok4[a].b4k2}','${dataSource_samasta3_blok4[a].b4k3}','${dataSource_samasta3_blok4[a].b4k4}',
+                    '${dataSource_samasta3_blok4[a].b4k5}','${dataSource_samasta3_blok4[a].b4k6}','${dataSource_samasta3_blok4[a].b4k7}','${dataSource_samasta3_blok4[a].b4k8}',
+                    '${dataSource_samasta3_blok4[a].b4k9}','${dataSource_samasta3_blok4[a].b4k10}','${dataSource_samasta3_blok4[a].b4k11}','${dataSource_samasta3_blok4[a].b4k12}',
+                    '${dataSource_samasta3_blok4[a].b4k13}','${dataSource_samasta3_blok4[a].b4k14}','${dataSource_samasta3_blok4[a].b4k15}','${dataSource_samasta3_blok4[a].b4k16}',
+                    '${dataSource_samasta3_blok4[a].b4k17}','${dataSource_samasta3_blok4[a].b4k18}','${dataSource_samasta3_blok4[a].b4k19}','${dataSource_samasta3_blok4[a].b4k20}',
+                    '${dataSource_samasta3_blok4[a].b4k21}'`;
+                  await sqlite.run(sql_d_insert);
+                  if (r) console.log("row t_samasta3_blok4 inserted at a= " + i);
+                }
+                if (mode == "update") {
+                  var sql_d_update = `UPDATE t_samasta3_blok4 SET
+                    kodeProv = '${dataSource_samasta3_blok4[a].kodeProv}', kodeKab = '${dataSource_samasta3_blok4[a].kodeKab}', kodeKec = '${dataSource_samasta3_blok4[a].kodeKec}', kodeDesa = '${dataSource_samasta3_blok4[a].kodeDesa}', kodeSLS = '${dataSource_samasta3_blok4[a].kodeSLS}', tahun = '${dataSource_samasta3_blok4[a].tahun}', bulan = '${dataSource_samasta3_blok4[a].bulan}', 
+                    b4k1 = '${dataSource_samasta3_blok4[a].b4k1}', b4k2 = '${dataSource_samasta3_blok4[a].b4k2}', b4k3 = '${dataSource_samasta3_blok4[a].b4k3}', b4k4 = '${dataSource_samasta3_blok4[a].b4k4}', b4k5 = '${dataSource_samasta3_blok4[a].b4k5}', b4k6 = '${dataSource_samasta3_blok4[a].b4k6}', b4k7 = '${dataSource_samasta3_blok4[a].b4k7}', b4k8 = '${dataSource_samasta3_blok4[a].b4k8}', b4k9 = '${dataSource_samasta3_blok4[a].b4k9}', b4k10 = '${dataSource_samasta3_blok4[a].b4k10}', b4k11 = '${dataSource_samasta3_blok4[a].b4k11}', 
+                    b4k12 = '${dataSource_samasta3_blok4[a].b4k12}', b4k13 = '${dataSource_samasta3_blok4[a].b4k13}', b4k14 = '${dataSource_samasta3_blok4[a].b4k14}', b4k15 = '${dataSource_samasta3_blok4[a].b4k15}', b4k16 = '${dataSource_samasta3_blok4[a].b4k16}', b4k17 = '${dataSource_samasta3_blok4[a].b4k17}', b4k18 = '${dataSource_samasta3_blok4[a].b4k18}', b4k19 = '${dataSource_samasta3_blok4[a].b4k19}', b4k20 = '${dataSource_samasta3_blok4[a].b4k20}', b4k21 = '${dataSource_samasta3_blok4[a].b4k21}'
+                    WHERE kodeProv = '${dataSource_samasta3_blok4[a].kodeProv}' AND kodeKab = '${dataSource_samasta3_blok4[a].kodeKab}' AND kodeKec = '${dataSource_samasta3_blok4[a].kodeKec}' AND kodeDesa = '${dataSource_samasta3_blok4[a].kodeDesa}' AND kodeSLS = '${dataSource_samasta3_blok4[a].kodeSLS}' AND tahun = '${dataSource_samasta3_blok4[a].tahun}' AND bulan = '${dataSource_samasta3_blok4[a].bulan}' AND b4k1 = '${dataSource_samasta3_blok4[a].b4k1}'
+                    `;
+                  await sqlite.run(sql_d_update);
+                  if (r) console.log("row t_samasta3_blok4 updated at a= " + i);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    async function XmakeDBConnection(pathdb) {
+      // -------------- for async connection
+      var sqlite3 = require('sqlite3').verbose();
+      db = new sqlite3.Database(pathdb);
+
+      // -------------- for sync connection
+      const fs = require("fs");
+      sqlite = require("aa-sqlite");
+
+      async function opendb() {
+        try { // check if pathdb exist
+          if (fs.existsSync(pathdb)) {
+            console.log("pathdb gabung exist");
+            await sqlite.open(pathdb); // open db connection
+          } else {
+            console.error("pathdb gabung not exist");
+          }
+        } catch (err) {
+          console.error("pathdb gabung not exist")
+        }
+      }
+
+      opendb();
+    }
+  }
+</script>
+
+<script>
+  async function areaFilter() {
+    strAreaFilter = ` WHERE kodeProv = '${dlKodeProv}'`;
+    if (dlKodeKab != "00") {
+      strAreaFilter += ` AND kodeKab = '${dlKodeKab}'`;
+      if (dlKodeKec != "000") {
+        strAreaFilter += ` AND kodeKec = '${dlKodeKec}'`;
+        if (dlKodeDesa != "000") {
+          strAreaFilter += ` AND kodeDesa = '${dlKodeDesa}'`;
+          if (dlKodeSLS != "00") {
+            strAreaFilter += ` AND kodeSLS = '${dlKodeSLS}'`;
+          }
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+
+  async function areaFilterD() {
+    strAreaFilter = ` WHERE kodeProv = '${dlKodeProv}'`;
+    if (dlKodeKab != "00") {
+      strAreaFilter += ` AND kodeKab = '${dlKodeKab}'`;
+      if (dlKodeKec != "000") {
+        strAreaFilter += ` AND kodeKec = '${dlKodeKec}'`;
+        if (dlKodeDesa != "000") {
+          strAreaFilter += ` AND kodeDesa = '${dlKodeDesa}'`;
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+</script>

@@ -1,0 +1,210 @@
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Masters / Wilayah</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Provinsi</th>
+                    </tr>
+                    <tr>
+                      <th>Kode</th>
+                      <th>Nama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyProvinsi">
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Kabupaten</th>
+                    </tr>
+                    <tr>
+                      <th>Kode</th>
+                      <th>Nama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyKabupaten">
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-2">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Kecamatan</th>
+                    </tr>
+                    <tr>
+                      <th>Kode</th>
+                      <th>Nama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyKecamatan">
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-2">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Desa/Kelurahan</th>
+                    </tr>
+                    <tr>
+                      <th>Kode</th>
+                      <th>Nama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyDesa">
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-2">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Dusun/Lingkungan</th>
+                    </tr>
+                    <tr>
+                      <th>Kode</th>
+                      <th>Nama</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyDusun">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadProv();
+  });
+</script>
+
+<script>
+  async function loadProv() {
+    sql = `SELECT * FROM m_prov`;
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        $('#tbodyProvinsi').append(`<tr ondblclick="loadKab('${row.kodeProv}')"><td>`
+          + row.kodeProv + `</td><td>`
+          + row.namaProv + `</td></td></tr>`);
+      });
+    }
+  }
+
+  async function loadKab(kodeProv) {
+    document.getElementById("tbodyKabupaten").innerHTML = "";
+    document.getElementById("tbodyKecamatan").innerHTML = "";
+    document.getElementById("tbodyDesa").innerHTML = "";
+    document.getElementById("tbodyDusun").innerHTML = "";
+    sql = `SELECT * FROM m_kab WHERE kodeProv='${kodeProv}'`;
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        $('#tbodyKabupaten').append(`<tr ondblclick="loadKec('${kodeProv}','${row.kodeKab}')"><td>`
+          + row.kodeKab + `</td><td>`
+          + row.namaKab + `</td></td></tr>`);
+      });
+    }
+  }
+
+  async function loadKec(kodeProv, kodeKab) {
+    document.getElementById("tbodyKecamatan").innerHTML = "";
+    document.getElementById("tbodyDesa").innerHTML = "";
+    document.getElementById("tbodyDusun").innerHTML = "";
+    sql = `SELECT * FROM m_kec WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}'`;
+    r = await sqlite.all(sql, []);
+    if (r.length > 0) {
+      r.forEach(row => {
+        $('#tbodyKecamatan').append(`<tr ondblclick="loadDesa('${kodeProv}','${kodeKab}','${row.kodeKec}')"><td>`
+          + row.kodeKec + `</td><td>`
+          + row.namaKec + `</td></td></tr>`);
+      });
+    } else {
+      $('#tbodyKecamatan').append(`<tr><td colspan='2'>Tidak ditemukan</td></tr>`);
+    }
+  }
+
+  async function loadDesa(kodeProv, kodeKab, kodeKec) {
+    document.getElementById("tbodyDesa").innerHTML = "";
+    document.getElementById("tbodyDusun").innerHTML = "";
+    sql = `SELECT * FROM m_desa WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}'`;
+    r = await sqlite.all(sql, []);
+    if (r.length > 0) {
+      r.forEach(row => {
+        $('#tbodyDesa').append(`<tr ondblclick="loadDusun('${kodeProv}','${kodeKab}','${kodeKec}','${row.kodeDesa}')"><td>`
+          + row.kodeDesa + `</td><td>`
+          + row.namaDesa + `</td></td></tr>`);
+      });
+    } else {
+      $('#tbodyDesa').append(`<tr><td colspan='2'>Tidak ditemukan</td></tr>`);
+    }
+  }
+
+  async function loadDusun(kodeProv, kodeKab, kodeKec, kodeDesa) {
+    document.getElementById("tbodyDusun").innerHTML = "";
+    sql = `SELECT * FROM m_sls WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' AND kodeDesa='${kodeDesa}'`;
+    r = await sqlite.all(sql, []);
+    if (r.length > 0) {
+      r.forEach(row => {
+        $('#tbodyDusun').append(`<tr><td>`
+          + row.kodeSLS + `</td><td>`
+          + row.namaSLS + `</td></td></tr>`);
+      });
+    } else {
+      $('#tbodyDusun').append(`<tr><td colspan='2'>Tidak ditemukan</td></tr>`);
+    }
+  }
+</script>
+
+<!-- script menampilkan row operator -->
+<script>
+  highlight_row();
+  function highlight_row(idTabel) {
+    var table = document.getElementById('tbodyProvinsi');
+    var cells = table.getElementsByTagName('td');
+
+    for (var i = 0; i < cells.length; i++) {
+      // Take each cell
+      var cell = cells[i];
+      // do something on onclick event for cell
+      cell.onclick = function () {
+        // Get the row id where the cell exists
+        var rowId = this.parentNode.rowIndex;
+
+        var rowsNotSelected = table.getElementsByTagName('tr');
+        for (var row = 0; row < rowsNotSelected.length; row++) {
+          rowsNotSelected[row].style.backgroundColor = "";
+          rowsNotSelected[row].classList.remove('selected');
+        }
+        var rowSelected = table.getElementsByTagName('tr')[rowId];
+        rowSelected.style.backgroundColor = "yellow";
+        rowSelected.className += " selected";
+
+        msg = 'The ID of the company is: ' + rowSelected.cells[0].innerHTML;
+        msg += '\nThe cell value is: ' + this.innerHTML;
+        alert(msg);
+      }
+    }
+  }
+</script>

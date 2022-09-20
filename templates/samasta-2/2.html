@@ -1,0 +1,780 @@
+<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,1)" tabindex="-1">1</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,3)" tabindex="-1">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,4)" tabindex="-1">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,5)" tabindex="-1">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,6)" tabindex="-1">6</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,7)" tabindex="-1">7</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(2,8)" tabindex="-1">8</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrian()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+
+              <div class="col-sm-12 d-none d-md-block">
+                <table id="tableHal2Blok4" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th class="judulBlokKuesioner" colspan="11">
+                        <div class="row">
+                          <div class="col-sm-12 d-none d-md-block">BLOK IV. KETERANGAN ANGGOTA RUMAH TANGGA
+                            <button id="btnTambahART" class="btn btn-success btn-sm pull-right" type="button"
+                              onclick="tambahART()">
+                              <i class="icon icon-plus"></i> ART
+                            </button>
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2" style="width: 40px">No urut ART</th>
+                      <th rowspan="2" style="width: 350px">Nama Lengkap Anggota Rumah Tangga sesuai KTP/Kartu Keluarga
+                      </th>
+                      <th rowspan="2">Apakah hubungan (nama) dengan kepala rumah tangga?
+                        <br><br><b>(Kode)</b></th>
+                      <th rowspan="2">Nomor urut Kepala Keluarga <i>(nama)?</i></th>
+                      <th rowspan="2">Apakah hubungan (nama) dengan Kepala Keluarga?
+                        <br><br><b>(Kode)</b></th>
+                      <th rowspan="2">Apakah <i>(nama)</i> biasanya tinggal di rumah tangga ini?
+                        <br><br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                      <th colspan="3">Jika tidak tinggal di rumah tangga ini</th>
+                      <th colspan="2">Apakah jenis kelamin <i>(nama)</i>?
+                        <br>
+                        ya= √<br>
+                        tidak = -
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Provinsi domisili saat ini?</th>
+                      <th>Kabupaten domisili saat ini?</th>
+                      <th>Alasan utama tidak tinggal di rumah tangga ini?<br>
+                        <b>(Kode)</b>
+                      </th>
+                      <th>Laki-laki</th>
+                      <th>Perem-puan</th>
+                    </tr>
+                    <tr class="nomorKolomKuesioner">
+                      <th>(401)</th>
+                      <th>(402)</th>
+                      <th>(403)</th>
+                      <th>(404)</th>
+                      <th>(405)</th>
+                      <th>(406)</th>
+                      <th>(407)</th>
+                      <th>(408)</th>
+                      <th>(409)</th>
+                      <th>(410)</th>
+                      <th>(411)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyBarisART">
+                    <tr class="barisART">
+                      <td style="width: 40px">
+                        <input class="form-control form-kuesioner text-center text-middle nuArt" id='nuArt[0]' value="1"
+                          style="width: 40px" tabindex="-1" disabled></input>
+                        <input type="hidden" class="form-control form-kuesioner nuArtGuid" id='nuArtGuid[0]'></input>
+                      </td>
+                      <td style="width: 350px"><input class="form-control form-kuesioner k402" id='k402[0]'
+                          tabindex="-1" disabled></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k403" id='k403[0]' tabindex="1"
+                          maxlength='1' onfocus='this.select();'></input></td>
+                      <td><input class="form-control form-kuesioner text-center k404" id='k404[0]' tabindex="2"
+                          maxlength='2' onfocus='this.select();' onchange='changeKK();'></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k405" id='k405[0]' tabindex="3"
+                          maxlength='1' onfocus='this.select();'></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k406 nolSatu" id='k406[0]' tabindex="4"
+                          maxlength='1' onfocus='this.select();' onkeypress='changeK406(0, event)'></input>
+                      </td>
+                      <td style="width: 150px"><select class="form-control form-kuesioner text-center k407" id='k407[0]'
+                          tabindex="5" maxlength='2' data-placeholder='Pilih Provinsi'></select>
+                      </td>
+                      <td style="width: 150px"><select class="form-control form-kuesioner text-center k408" id='k408[0]'
+                          tabindex="6" maxlength='2' data-placeholder='Pilih Kabupaten'></select>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k409" id='k409[0]' tabindex="7"
+                          maxlength='1' onfocus='this.select();'></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k410 nolSatu" id='k410[0]' tabindex="8"
+                          maxlength='1' onfocus='this.select();'></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center k411 nolSatu" id='k411[0]' tabindex="9"
+                          maxlength='1' onfocus='this.select();' onkeypress='nextPage(0, event)'></input>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-12 d-none d-md-block">
+                <button id="btnSetKK" class="btn btnSetKK" type="button" onclick="setKK()">
+                  <i class="icon icon-user"></i>&nbsp;&nbsp;Set Kepala Keluarga
+                </button>
+              </div>
+              <div class="col-sm-6 d-none d-md-block"><br>
+                <b>Kode Kolom 403 dan Kolom 405: Hubungan ART dengan Kepala</b>
+              </div>
+              <div class="col-sm-6 d-none d-md-block">
+                <br>
+                <b>Kode 409: Alasan utama tidak tinggal di rumah tangga</b>
+              </div>
+              <div class="col-sm-2 d-none d-md-block">
+                <ol>
+                  <li>Kepala</li>
+                  <li>Istri/suami</li>
+                  <li>Anak kandung/tiri</li>
+                  <li>Anak angkat</li>
+                  <li>Menantu</li>
+                </ol>
+              </div>
+              <div class="col-sm-4 d-none d-md-block">
+                <ol start="6">
+                  <li>Cucu</li>
+                  <li>Orang tua/mertua</li>
+                  <li>Pembantu/sopir</li>
+                  <li>Lainnya (family lain, orang yang tidak ada hubungan family dengan KRT)</li>
+                </ol>
+              </div>
+              <div class="col-sm-6 d-none d-md-block">
+                <ol>
+                  <li>Bekerja</li>
+                  <li>Mengurus rumah tangga</li>
+                  <li>Sekolah/kuliah</li>
+                  <li>Pindah/meninggal</li>
+                  <li>Lainnya</li>
+                </ol>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+<select id="listlist" class="listlist"></select>
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutupEntrian('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="tutupEntrian('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal hapusArtModal -->
+<div class="modal fade" id="hapusArtModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda yakin ingin menghapus ART ini?<br>
+        <p id="msgHapus"></p>
+        Peringatan! Ini akan menghapus semua entrian dari halaman 2 sampai halaman 8 untuk ART tersebut.
+        <br> Setelah menghapus ART, cek kembali isian kolom 404 baris ART lainnya.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"
+          onclick="hapusART('konfirmyes', nuartDihapus)">Hapus</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="hapusART('konfirmno', nuartDihapus)">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+    if (document.getElementsByClassName('k402')[0].value != artPage2_kk[0].k402) {
+      set_kk = 0;
+      $('#btnSetKK').addClass('btn-primary');
+    }
+    document.getElementById("btnSetKK").tabIndex = 10 * (artPage2.length - 1) + 10;
+  });
+</script>
+
+<script>
+  var namaFile;
+  var statusEntrian;
+  var RTdata;
+  var nuartDihapus;
+  var artPage2_kk = [];
+  var set_kk;
+
+  function loadEntrian() {
+    getEntriSessionData();
+    bacaIsiJsonRT();
+
+    for (var i = 0; i < artPage2.length; i++) {
+      if (i == 0) {
+        document.getElementById('nuArtGuid[0]').value = artPage2[i].nuArtGuid;
+        document.getElementById('k402[0]').value = b1r106;
+        document.getElementById('k403[0]').value = artPage2[i].k403;
+        document.getElementById('k404[0]').value = artPage2[i].k404;
+        document.getElementById('k405[0]').value = artPage2[i].k405;
+        document.getElementById('k406[0]').value = artPage2[i].k406;
+        document.getElementById('k407[0]').value = artPage2[i].k407;
+        document.getElementById('k408[0]').value = artPage2[i].k408;
+        document.getElementById('k409[0]').value = artPage2[i].k409;
+        document.getElementById('k410[0]').value = artPage2[i].k410;
+        document.getElementById('k411[0]').value = artPage2[i].k411;
+      }
+      if (i >= 1) {
+        $('#tbodyBarisART').append(`<tr class='barisART'>`
+          + `<td><span class='d-inline-block myPopover' data-toggle='myPopover' onclick="hapusART('pilihArt', ${i + 1})">
+                <input class='form-control text-center text-middle nuArt' value='${i + 1}' id='nuArt[${i}]' disabled>
+                </span></input>
+                <input type='hidden' class='form-control form-kuesioner nuArtGuid' id='nuArtGuid[${i}]' value='${artPage2[i].nuArtGuid}'></input>
+              </td>`
+          + `<td><input class='form-control form-kuesioner k402' id='k402[${i}]' value='${artPage2[i].k402}' tabindex='${10 * (i)}' onfocus='this.select();' onchange='changeKK();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k403' id='k403[${i}]' value='${artPage2[i].k403}' tabindex='${10 * (i) + 1}' maxlength='1' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k404' id='k404[${i}]' value='${artPage2[i].k404}' tabindex='${10 * (i) + 2}' maxlength='2' onfocus='this.select();' onchange='changeKK();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k405' id='k405[${i}]' value='${artPage2[i].k405}' tabindex='${10 * (i) + 3}' maxlength='1' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k406 nolSatu' id='k406[${i}]' value='${artPage2[i].k406}' tabindex='${10 * (i) + 4}' maxlength='1' onfocus='this.select();' onkeypress='changeK406(${i}, event)'></input></td>`
+          + `<td><select class='form-control form-kuesioner text-center k407' id='k407[${i}]' value='${artPage2[i].k407}' tabindex='${10 * (i) + 5}' maxlength='2' data-placeholder='Pilih Provinsi'></select></td>`
+          + `<td><select class='form-control form-kuesioner text-center k408' id='k408[${i}]' value='${artPage2[i].k408}' tabindex='${10 * (i) + 6}' maxlength='2' data-placeholder='Pilih Kabupaten'></select></td>`
+          + `<td><input class='form-control form-kuesioner text-center k409' id='k409[${i}]' value='${artPage2[i].k409}' tabindex='${10 * (i) + 7}' maxlength='1' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k410 nolSatu' id='k410[${i}]' value='${artPage2[i].k410}' tabindex='${10 * (i) + 8}' maxlength='1' onfocus='this.select();'></input></td>`
+          + `<td><input class='form-control form-kuesioner text-center k411 nolSatu' id='k411[${i}]' value='${artPage2[i].k411}' tabindex='${10 * (i) + 9}' maxlength='1' onfocus='this.select();' onkeypress='nextPage(${i}, event)'></input></td>`
+          + `</tr>`);
+      }
+    }
+    document.getElementsByClassName("k403")[0].focus();
+    tabindexFix();
+    cek_setKK();
+  }
+
+  function pindahHalaman(from, to) {
+    if (from == 2) {
+      updateIsiJsonRT();
+    }
+    location.href = `#/samasta-2/${to}/`;
+  }
+
+  function tambahART() {
+    updateIsiJsonRT();
+    bacaIsiJsonRT();
+    nurtBaru = artPage2.length + 1;
+
+    artPage2.push({
+      'nuArt': nurtBaru, 'nuArtGuid': getGuid(), 'k402': '', 'k403': '', 'k404': '', 'k405': '', 'k406': '', 'k407': '', 'k408': '', 'k409': '', 'k410': '', 'k411': ''
+    });
+    artPage3.push({
+      'k412_dd': '', 'k412_mm': '', 'k412_yy': '', 'k413': '', 'k414': '', 'k415': '', 'k416': '', 'k417': '', 'k418': '', 'k419': '', 'k420': '', 'k421': '', 'k422': '', 'k423': '', 'k424': '', 'k425': '', 'k426': '', 'k427': ''
+    });
+    artPage4.push({
+      'k428': '', 'k429': '', 'k430': '', 'k431': '', 'k432': '', 'k433': '', 'k434': '', 'k435': '', 'k436': ''
+    });
+    artPage5.push({
+      'k437': '', 'k438': '', 'k439': '', 'k440': '', 'k441': '', 'k442': '', 'k443': '', 'k444': '', 'k445': '', 'k446': '', 'k447': '', 'k448': '', 'k449': ''
+    });
+    artPage6.push({
+      'k450': '', 'k451': '', 'k452': '', 'k453': '', 'k454': '', 'k455': '', 'k456': '', 'k457': '', 'k458': '', 'k459': '', 'k460': '', 'k461': '', 'k462': '', 'k463': ''
+    });
+
+    $('#btnSetKK').addClass('btn-primary');
+    set_kk = 0;
+    RTdata.set_kk = 0;
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+
+    $('#tbodyBarisART').append(`<tr class='barisART'>`
+      + `<td><span class='d-inline-block myPopover' data-toggle='myPopover' onclick="hapusART('pilihArt', ${nurtBaru})">
+          <input class='form-control text-center text-middle nuArt' value='${nurtBaru}' id='nuArt[${nurtBaru - 1}]' disabled>
+          </span></input>
+          <input type='hidden' class='form-control form-kuesioner nuArtGuid' id='nuArtGuid[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].nuArtGuid}'></input>
+          </td>`
+      + `<td><input class='form-control form-kuesioner k402' id='k402[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k402}' tabindex='${10 * (nurtBaru - 1)}' onfocus='this.select();' onchange='changeKK()'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k403' id='k403[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k403}' tabindex='${10 * (nurtBaru - 1) + 1}' maxlength='1' onfocus='this.select();'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k404' id='k404[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k404}' tabindex='${10 * (nurtBaru - 1) + 2}' maxlength='2' onfocus='this.select();' onchange='changeKK();'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k405' id='k405[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k405}' tabindex='${10 * (nurtBaru - 1) + 3}' maxlength='1' onfocus='this.select();'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k406 nolSatu' id='k406[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k406}' tabindex='${10 * (nurtBaru - 1) + 4}' maxlength='1' onfocus='this.select();' onkeypress='changeK406(${nurtBaru - 1}, event)'></input></td>`
+      + `<td><select class='form-control form-kuesioner text-center k407' id='k407[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k407}' tabindex='${10 * (nurtBaru - 1) + 5}' maxlength='2' data-placeholder='Pilih Provinsi'></select></td>`
+      + `<td><select class='form-control form-kuesioner text-center k408' id='k408[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k408}' tabindex='${10 * (nurtBaru - 1) + 6}' maxlength='2' data-placeholder='Pilih Kabupaten'></select></td>`
+      + `<td><input class='form-control form-kuesioner text-center k409' id='k409[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k409}' tabindex='${10 * (nurtBaru - 1) + 7}' maxlength='1' onfocus='this.select();'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k410 nolSatu' id='k410[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k410}' tabindex='${10 * (nurtBaru - 1) + 8}' maxlength='1' onfocus='this.select();'></input></td>`
+      + `<td><input class='form-control form-kuesioner text-center k411 nolSatu' id='k411[${nurtBaru - 1}]' value='${artPage2[nurtBaru - 1].k411}' tabindex='${10 * (nurtBaru - 1) + 9}' maxlength='1' onfocus='this.select();' onkeypress='nextPage(${nurtBaru - 1}, event)'></input></td>`
+      + `</tr>`);
+    document.getElementById('btnSetKK').tabIndex = 10 * (nurtBaru - 1) + 9 + 1;
+    writeListWilayah(nurtBaru - 1);    
+    document.getElementsByClassName('k403')[0].focus();
+    tabindexFix();
+  }
+
+  async function hapusART(mode, nuart) {
+    nuartDihapus = nuart; // i+1
+
+    updateIsiJsonRT();
+    bacaIsiJsonRT();
+
+    if (mode == 'pilihArt') {
+      namaartDihapus = document.getElementsByClassName('k402')[nuartDihapus - 1].value.toUpperCase();
+      msgHapus = "No. urut ART: <strong>" + nuartDihapus + "</strong>";
+      msgHapus += "<br>Nama ART: <strong>" + namaartDihapus + "</strong>";
+      document.getElementById('msgHapus').innerHTML = msgHapus;
+      $(".myPopover").popover({
+        content: '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapusArtModal">X Hapus</button>',
+        html: true
+      });
+    }
+
+    if (mode == 'konfirmyes') {
+      $(".myPopover").popover('hide');
+
+      for (i = 0; i < kkPage7.length; i++) {
+        if (kkPage7[i].k501 == nuartDihapus) {
+          if (kkPage7.length <= 1) {
+            kkPage7[0] = {
+              'k501': '', 'nuArtGuid': '', 'k502': '', 'k503': '', 'k504': '', 'k505': '', 'k506': '', 'k507': '', 'k508': '', 'k509': '', 'k510': '', 'k511': '', 'k512': '', 'k513': '', 'k514': '', 'k515': '', 'k516': '', 'k517': '', 'k518': '', 'k519': '', 'k520': '', 'k521': '', 'k522': '', 'k523': '', 'k524': ''
+            };
+            kkPage8[0] = {
+              'k525': '', 'k526': '', 'k527': '', 'k528': '', 'k529': '', 'k530': '', 'k531': '', 'k532': '', 'k533': '', 'k534': '', 'k535': '', 'k536': '', 'k537': '', 'k538': '', 'k539': '', 'k540': '', 'k541': '', 'k542': '', 'k543': '', 'k544': '', 'k545': '', 'k546': '', 'k547': '', 'k548': '', 'k549': '', 'k550': ''
+            };
+          } else {
+            kkPage7.splice(i, 1);
+            kkPage8.splice(i, 1);
+          }
+        }
+      }
+
+      artPage2.splice(nuartDihapus - 1, 1);
+      artPage3.splice(nuartDihapus - 1, 1);
+      artPage4.splice(nuartDihapus - 1, 1);
+      artPage5.splice(nuartDihapus - 1, 1);
+      artPage6.splice(nuartDihapus - 1, 1);
+
+      var table = document.getElementById('tbodyBarisART');
+      if (table.rows.length > 0) {
+        table.deleteRow(nuartDihapus - 1);
+        for (i = 0; i < document.getElementsByClassName('nuArt').length; i++) {
+          document.getElementsByClassName('nuArt')[i].value = i + 1;
+        }
+      }
+      set_kk = 0;
+      RTdata.set_kk = 0;
+      RTdata.artPage2 = artPage2;
+      RTdata.artPage3 = artPage3;
+      RTdata.artPage4 = artPage4;
+      RTdata.artPage5 = artPage5;
+      RTdata.artPage6 = artPage6;
+      RTdata.kkPage7 = kkPage7;
+      RTdata.kkPage8 = kkPage8;
+      fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+
+      function deleteAllRows() {
+        var table = document.getElementById('tbodyBarisART');
+        var baris = document.getElementsByClassName('nuArt');
+        
+        for (i = baris.length - 1; i > 0; i--) {
+          table.deleteRow(i);
+        }
+      }
+      deleteAllRows();
+      await loadEntrian();
+      document.getElementById('btnSetKK').tabIndex = 10 * (artPage2.length - 1) + 9 + 1;
+      writeListWilayah(0);
+    }
+
+    if (mode == 'konfirmno') {
+      return false;
+    }
+  }
+
+  // =====================================================================================================//
+
+  function updateIsiJsonRT() {
+    // artPage2 diupdate berdasarkan entrian, Page yang lainnya tetap sesuai yang tersimpan di file RT Json
+    var barisART = document.getElementsByClassName('barisART');
+    artPage2 = [];
+
+    for (i = 0; i < barisART.length; i++) {
+      artPage2.push({
+        'nuArt': i + 1,
+        'nuArtGuid': document.getElementsByClassName('nuArtGuid')[i].value,
+        'k402': document.getElementsByClassName('k402')[i].value.toUpperCase(),
+        'k403': document.getElementsByClassName('k403')[i].value,
+        'k404': document.getElementsByClassName('k404')[i].value,
+        'k405': document.getElementsByClassName('k405')[i].value,
+        'k406': document.getElementsByClassName('k406')[i].value,
+        'k407': document.getElementsByClassName('k407')[i].value,
+        'k408': document.getElementsByClassName('k408')[i].value,
+        'k409': document.getElementsByClassName('k409')[i].value,
+        'k410': document.getElementsByClassName('k410')[i].value,
+        'k411': document.getElementsByClassName('k411')[i].value
+      });
+    }
+
+    RTdata.artPage2 = artPage2;
+    RTdata.artPage3 = artPage3;
+    RTdata.artPage4 = artPage4;
+    RTdata.artPage5 = artPage5;
+    RTdata.artPage6 = artPage6;
+    RTdata.kkPage7 = kkPage7;
+    RTdata.kkPage8 = kkPage8;
+    RTdata.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+  }
+
+  function changeKK() {
+    bacaIsiJsonRT();
+
+    var cnuArt = document.getElementsByClassName('nuArt');
+    var ck402 = document.getElementsByClassName('k402');
+    var ck404 = document.getElementsByClassName('k404');
+
+    var beda = 0;
+    for (i = 0; i < artPage2.length; i++) {
+      if (i >= artPage2_kk.length) {
+        beda++;
+      }
+      if (artPage2_kk[i]) {
+        if (artPage2_kk[i].nuArt == artPage2_kk[i].k404) { // cek yang sebelumnya art adalah kk
+          if (ck402[i].value != artPage2_kk[i].k402) beda++; // ada perubahan nama ART
+          if (ck404[i].value != artPage2_kk[i].k404) beda++; // ada perubahan status hub dgn kk
+        }
+        if (artPage2_kk[i].nuArt != artPage2_kk[i].k404) { // cek yang sebelumnya art adalah kk
+          if (ck404[i].value == cnuArt[i].value) beda++; // ada perubahan status hub dgn kk menjadi sama dengan nuArt-nya
+        }
+      }
+    }
+    if (beda > 0) {
+      $('#btnSetKK').addClass('btn-primary'); // set button to primary, set_kk to 0
+      RTdata.set_kk = 0;
+      updateIsiJsonRT();
+    }
+  }
+
+  function setKK() {
+    updateIsiJsonRT();
+    bacaIsiJsonRT();
+
+    newkkPage7 = [];
+    newkkPage8 = [];
+    for (i = 0; i < artPage2.length; i++) {
+      if (artPage2[i].k402 == '' || artPage2[i].k404 == '') {
+        alert('Gagal! \n\nAda kolom 402 atau kolom 404 yang masih belum terisi');
+        set_kk = 1;
+        $('#btnSetKK').addClass('btn-primary');
+        return false;
+      }
+      if (artPage2[i].k404 > artPage2.length) {
+        alert('Gagal! \n\nAda isian kolom 404 yang di luar nomor urut ART');
+        set_kk = 1;
+        $('#btnSetKK').addClass('btn-primary');
+        return false;
+      }
+      for (j = 0; j < artPage2.length; j++) {
+        if (artPage2[i].k404 == artPage2[j].nuArt) {
+          if (artPage2[j].k404 != artPage2[j].nuArt) {
+            alert('Gagal! \n\nAda ART yang menjadi Kepala Keluarga ART yang lain, tapi kolom 401 tidak sama dengan kolom 404');
+            set_kk = 1;
+            $('#btnSetKK').addClass('btn-primary');
+            return false;
+          }
+        }
+      }
+    }
+
+    for (i = 0; i < artPage2.length; i++) {
+      if (artPage2[i].nuArt == artPage2[i].k404) {
+        var x = 0;
+        kkPage7.forEach(kk => {
+          if (Object.values(kk).indexOf(artPage2[i].nuArtGuid) >= 0) {
+            for (j = 0; j < kkPage7.length; j++) {
+              if (artPage2[i].nuArtGuid == kkPage7[j].nuArtGuid) {
+                newkkPage7.push({
+                  'k501': artPage2[i].nuArt, 'nuArtGuid': artPage2[i].nuArtGuid, 'k502': artPage2[i].k402, 'k503': kkPage7[j].k503, 'k504': kkPage7[j].k504, 'k505': kkPage7[j].k505, 'k506': kkPage7[j].k506, 'k507': kkPage7[j].k507, 'k508': kkPage7[j].k508, 'k509': kkPage7[j].k509, 'k510': kkPage7[j].k510, 'k511': kkPage7[j].k511, 'k512': kkPage7[j].k512, 'k513': kkPage7[j].k513, 'k514': kkPage7[j].k514, 'k515': kkPage7[j].k515, 'k516': kkPage7[j].k516, 'k517': kkPage7[j].k517, 'k518': kkPage7[j].k518, 'k519': kkPage7[j].k519, 'k520': kkPage7[j].k520, 'k521': kkPage7[j].k521, 'k522': kkPage7[j].k522, 'k523': kkPage7[j].k523, 'k524': kkPage7[j].k524
+                });
+                newkkPage8.push({
+                  'k525': kkPage8[j].k525, 'k526': kkPage8[j].k526, 'k527': kkPage8[j].k527, 'k528': kkPage8[j].k528, 'k529': kkPage8[j].k529, 'k530': kkPage8[j].k530, 'k531': kkPage8[j].k531, 'k532': kkPage8[j].k532, 'k533': kkPage8[j].k533, 'k534': kkPage8[j].k534, 'k535': kkPage8[j].k535, 'k536': kkPage8[j].k536, 'k537': kkPage8[j].k537, 'k538': kkPage8[j].k538, 'k539': kkPage8[j].k539, 'k540': kkPage8[j].k540, 'k541': kkPage8[j].k541, 'k542': kkPage8[j].k542, 'k543': kkPage8[j].k543, 'k544': kkPage8[j].k544, 'k545': kkPage8[j].k545, 'k546': kkPage8[j].k546, 'k547': kkPage8[j].k547, 'k548': kkPage8[j].k548, 'k549': kkPage8[j].k549, 'k550': kkPage8[j].k550
+                });
+              }
+            }
+            x = 0;
+          } else {
+            x++;
+          }
+          if (x == kkPage7.length) {
+            newkkPage7.push({
+              'k501': artPage2[i].nuArt, 'nuArtGuid': artPage2[i].nuArtGuid, 'k502': artPage2[i].k402, 'k503': '', 'k504': '', 'k505': '', 'k506': '', 'k507': '', 'k508': '', 'k509': '', 'k510': '', 'k511': '', 'k512': '', 'k513': '', 'k514': '', 'k515': '', 'k516': '', 'k517': '', 'k518': '', 'k519': '', 'k520': '', 'k521': '', 'k522': '', 'k523': '', 'k524': ''
+            });
+            newkkPage8.push({
+              'k525': '', 'k526': '', 'k527': '', 'k528': '', 'k529': '', 'k530': '', 'k531': '', 'k532': '', 'k533': '', 'k534': '', 'k535': '', 'k536': '', 'k537': '', 'k538': '', 'k539': '', 'k540': '', 'k541': '', 'k542': '', 'k543': '', 'k544': '', 'k545': '', 'k546': '', 'k547': '', 'k548': '', 'k549': '', 'k550': ''
+            });
+          }
+        });
+      } 
+    }
+    if (newkkPage7.length == 0) {
+      alert('Gagal! \n\nKolom 404 Nomor Urut Kepala Keluarga tidak ada yang sesuai dengan kolom 401 Nomor Urut ART');
+      set_kk = 1;
+      $('#btnSetKK').addClass('btn-primary');
+      return false;
+    }
+
+    artPage2_kk = artPage2;
+    set_kk = 1;
+    kkPage7 = newkkPage7;
+    kkPage8 = newkkPage8;
+    RTdata.set_kk = set_kk;
+    RTdata.kkPage7 = newkkPage7;
+    RTdata.kkPage8 = newkkPage8;
+    fs.writeFileSync(dlPathData + `entriSamasta2/${namaFile}.json`, JSON.stringify(RTdata));
+    $('#btnSetKK').removeClass('btn-primary');
+    $('#btnSetKK').addClass('btn-default');
+
+    alert('Berhasil! \n\nSet Kepala Keluarga berhasil dilakukan.');
+    pindahHalaman(2,3);
+  }
+
+  async function cek_setKK() {
+    btnSetKKClass = (set_kk == 0) ? "btn-primary" : "btn-default";
+    $('#btnSetKK').addClass(btnSetKKClass);
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    writeListWilayah(0);
+  });
+</script>
+
+<script>
+  async function writeListWilayah(x) {
+    if (x == 0) {
+      for (i = 0; i < document.getElementsByClassName('k407').length; i++) {
+        await writeListProvinsi(i);
+        await writeListKabupaten(i);
+      }
+    } else {
+      await writeListProvinsi(x);
+      await writeListKabupaten(x);
+    }
+
+    async function writeListProvinsi(i) {
+      sql = "SELECT * FROM m_prov ORDER BY kodeProv ASC";
+      listProv = await sqlite.all(sql, []);
+
+      var select = document.getElementsByClassName('k407')[i];
+      select.innerHTML = '';
+      $(".k407").eq(i).append(`<option value=''></option>`);
+
+      listProv.forEach(function (prov) {
+        $(".k407").eq(i).append(`<option value='${prov.kodeProv}'>${prov.namaProv}</option>`);
+        if (prov.kodeProv == artPage2[i].k407) {
+          $(`.k407  option[value=${prov.kodeProv}]`).eq(i).prop('selected', true);
+        }
+      });
+
+      $(".k407").eq(i).chosen({
+        no_results_text: "Wilayah tidak ditemukan!",
+        search_contains: "true",
+        placeholder_text_single: "Pilih Provinsi",
+        width: "150px",
+        allow_single_deselect: true
+      });
+
+      document.getElementsByClassName('k407')[i].onchange = function () {
+        var kodeProvSelected = $('option:selected', this).attr('value');
+        changeListKabupaten(kodeProvSelected, i);
+      };
+
+      if (artPage2[i].k406 == 1) {
+        $('.k407').eq(i).prop('disabled', true).trigger("chosen:updated");
+        $('.k408').eq(i).prop('disabled', true).trigger("chosen:updated");
+        document.getElementsByClassName('k409')[i].disabled = true;
+      }
+      if (artPage2[i].k406 == 0) {
+        $('.k407').eq(i).prop('disabled', false).trigger("chosen:updated");
+        $('.k408').eq(i).prop('disabled', false).trigger("chosen:updated");
+        document.getElementsByClassName('k409')[i].disabled = false;
+      }
+    }
+
+    async function writeListKabupaten(i) {
+      if (artPage2[i].k407 == '') {
+        var select = document.getElementsByClassName('k408')[i];
+        select.innerHTML = '';
+        $(".k408").eq(i).append(`<option value=''></option>`);
+      }
+      if (artPage2[i].k407 != '') {
+
+        kodeProvSelected = artPage2[i].k407;
+        sql = `SELECT * FROM m_kab WHERE kodeProv = '${kodeProvSelected}'`;
+        listKab = await sqlite.all(sql, []);
+
+        var select = document.getElementsByClassName('k408')[i];
+        select.innerHTML = '';
+        $(".k408").eq(i).append(`<option value=""></option>`);
+        listKab.forEach(function (kab) {
+          var selected = "";
+          if (kab.kodeKab == artPage2[i].k408) selected = "selected";
+          $(".k408").eq(i).append(`<option value='${kab.kodeKab}' ${selected}>${kab.namaKab}</option>`);
+        });
+      }
+      $('.k408').eq(i).chosen({
+        no_results_text: "Wilayah tidak ditemukan!",
+        search_contains: "true",
+        placeholder_text_single: "Pilih Kabupaten",
+        width: "150px"
+      });
+    }
+
+    async function changeListKabupaten(kodeProvSelected, i) {
+      sql = `SELECT * FROM m_kab WHERE kodeProv = '${kodeProvSelected}'`;
+      listKab = await sqlite.all(sql, []);
+
+      var select = document.getElementsByClassName('k408')[i];
+      select.innerHTML = '';
+      $(".k408").eq(i).append(`<option value=""></option>`);
+      listKab.forEach(function (kab) {
+        $(".k408").eq(i).append(`<option value='${kab.kodeKab}'>${kab.namaKab}</option>`);
+      });
+
+      $('.k408').eq(i).chosen({
+        no_results_text: "Wilayah tidak ditemukan!",
+        search_contains: "true",
+        placeholder_text_single: "Pilih Kabupaten",
+        width: "100%"
+      });
+      $('.k408').eq(i).trigger('chosen:updated');
+    }
+  }
+</script>
+
+<script>
+  function changeK406(i, e) {
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k406')[i].value == 1) {
+        $('.k407').eq(i).val('').trigger("chosen:updated");
+        $('.k408').eq(i).val('').trigger("chosen:updated");
+        document.getElementsByClassName('k409')[i].value = "";
+        $('.k407').eq(i).prop('disabled', true).trigger("chosen:updated");
+        $('.k408').eq(i).prop('disabled', true).trigger("chosen:updated");
+        document.getElementsByClassName('k409')[i].disabled = true;
+        document.getElementsByClassName('k410')[i].focus();
+      }
+      if (document.getElementsByClassName('k406')[i].value == 0) {
+        $('.k407').eq(i).prop('disabled', false).trigger("chosen:updated");
+        $('.k408').eq(i).prop('disabled', false).trigger("chosen:updated");
+        document.getElementsByClassName('k409')[i].disabled = false;
+        document.getElementsByClassName('k407')[i].focus();
+      }
+    }
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = 10 * (artPage2.length - 1) + 9;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementsByClassName('k411')[i].tabIndex == maxTabIndex) {
+        if (set_kk == 0) {
+          alert("Kepala Keluarga belum diset");
+          document.getElementsByClassName("k411")[i].focus();
+        } else {
+          updateIsiJsonRT();
+          location.href = `#/samasta-2/3/`;
+        }
+      }
+    }
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".nolSatu").inputFilter(function (value) {
+      return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 1);
+    });
+    $(".k402").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+    $(".k403").inputFilter(function (value) {
+      return /^[1-9]*$/i.test(value);
+    });
+    $(".k404").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+    $(".k405").inputFilter(function (value) {
+      return /^[1-9]*$/i.test(value);
+    });
+    $(".k409").inputFilter(function (value) {
+      return /^[1-5]*$/i.test(value);
+    });
+  });
+</script>

@@ -1,0 +1,1056 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Utilities / Revalidasi</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 d-none d-md-block bg-light border">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <br>
+                    <table class="table table-responsive-sm table-sm table-borderless">
+                      <tbody>
+                        <tr>
+                          <td style="width: 40%">Provinsi:</td>
+                          <td>
+                            <select class="form-control" id="selProvinsi" name="selProvinsi"
+                              onchange="populate(this.id,'selKabupaten','prov2kab')">
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kabupaten/Kota:</td>
+                          <td>
+                            <select class="form-control" id="selKabupaten" name="selKabupaten"
+                              onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kecamatan:</td>
+                          <td>
+                            <select class="form-control" id="selKecamatan" name="selKecamatan"
+                              onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Desa/Kelurahan:</td>
+                          <td>
+                            <select class="form-control" id="selDesa" name="selDesa"
+                              onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Dusun/Lingkungan:</td>
+                          <td>
+                            <select class="form-control" id="selDusun" name="selDusun">
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <p>
+                      <button id="btnSet" class="btn btn-primary" type="button" onclick="setWilayah()">
+                        Set Wilayah </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8 d-none d-md-block">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <table id="tabelRevalidasi" class="table table-responsive-sm table-bordered table-striped table-sm">
+                      <thead>
+                        <tr>
+                          <th>Kuesioner</th>
+                          <th>Clean</th>
+                          <th>Error</th>
+                          <th>Belum</th>
+                          <th>Total</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbodyRevalidasi">
+                        <tr>
+                          <td class="text-center">Samasta-1</td>
+                          <td class="text-center text-success" id="s1-clean"></td>
+                          <td class="text-center text-danger" id="s1-error"></td>
+                          <td class="text-center" id="s1-belum"></td>
+                          <td class="text-center text-primary" id="s1-total"></td>
+                          <td class="text-center" id="s1-action">
+                            <button id="btnRevalSamasta1" class="btn btn-success" type="button"
+                              onclick="revalSamasta1()">
+                              Revalidasi </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="text-center">Samasta-2</td>
+                          <td class="text-center text-success" id="s2-clean"></td>
+                          <td class="text-center text-danger" id="s2-error"></td>
+                          <td class="text-center" id="s2-belum">-</td>
+                          <td class="text-center text-primary" id="s2-total"></td>
+                          <td class="text-center" id="s2-action">
+                            <button id="btnRevalSamasta2" class="btn btn-success" type="button"
+                              onclick="revalSamasta2()">
+                              Revalidasi </button>
+                          </td>
+                        </tr>
+                        <!-- <tr>
+                          <td class="text-center">Samasta-3</td>
+                          <td class="text-center text-success" id="s3-clean"></td>
+                          <td class="text-center text-danger" id="s3-error"></td>
+                          <td class="text-center" id="s3-belum"></td>
+                          <td class="text-center text-primary" id="s3-total"></td>
+                          <td class="text-center" id="s3-action">
+                            <button id="btnRevalSamasta3" class="btn btn-success" type="button"
+                              onclick="revalSamasta3()">
+                              Revalidasi </button>
+                          </td>
+                        </tr> -->
+                      </tbody>
+                    </table>
+                    <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="col-sm-12 d-none d-md-block" id="logReval" style="width:100%;"></div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+  });
+</script>
+
+<!-- onload value select box -->
+<script>
+  async function loadPage() {
+    if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+    if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+    if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+    if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+    if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+    sql = "SELECT * FROM m_prov ORDER BY kodeProv ASC";
+    r = await sqlite.all(sql, []);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeProv == dlKodeProv) selected = "selected";
+        $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kab WHERE kodeProv='${dlKodeProv}' ORDER BY kodeKab ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKabupaten').append(`<option value='00'>00 - SELURUH KABUPATEN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKab == dlKodeKab) selected = "selected";
+        $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_kec WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' ORDER BY kodeKec ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selKecamatan').append(`<option value='000'>000 - SELURUH KECAMATAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeKec == dlKodeKec) selected = "selected";
+        $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_desa WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' ORDER BY kodeDesa ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeDesa == dlKodeDesa) selected = "selected";
+        $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+      });
+    }
+
+    sql = `SELECT * FROM m_sls WHERE kodeProv='${dlKodeProv}' AND kodeKab='${dlKodeKab}' AND kodeKec='${dlKodeKec}' AND kodeDesa='${dlKodeDesa}' ORDER BY kodeSLS ASC`;
+    r = await sqlite.all(sql, []);
+    $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+    if (r) {
+      r.forEach(row => {
+        var selected = "";
+        if (row.kodeSLS == dlKodeSLS) selected = "selected";
+        $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+      });
+    }
+    await setWilayah();
+  }
+</script>
+
+<!-- dynamic select option wilayah operator -->
+<script>
+  function populate(s1, s2, level) {
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+
+    function splitOption(optionArray) {
+      for (var option in optionArray) {
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[0] + " - " + pair[1];
+        s2.options.add(newOption);
+      }
+    }
+
+    if (level == "prov2kab") {
+      db.serialize(function () {
+        let sql = `SELECT * FROM m_kab WHERE kodeProv='${s1.value}'`;
+        var optionArray = ["00|SELURUH KABUPATEN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKab}|${wil.namaKab}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selKecamatan").innerHTML = "";
+            document.getElementById("selDesa").innerHTML = "";
+            document.getElementById("selDusun").innerHTML = "";
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kab2kec") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        let sql = `SELECT * FROM m_kec WHERE kodeProv='${sProv.value}' AND kodeKab='${s1.value}'`;
+        var optionArray = ["000|SELURUH KECAMATAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeKec}|${wil.namaKec}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDesa").innerHTML = "";
+            $('#selDesa').append(`<option value='000'>000 - SELURUH DESA/KELURAHAN</option>`);
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "kec2desa") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        let sql = `SELECT * FROM m_desa WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${s1.value}'`;
+        var optionArray = ["000|SELURUH DESA/KELURAHAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeDesa}|${wil.namaDesa}`);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value='00'>00 - SELURUH DUSUN/LINGKUNGAN</option>`);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+
+    if (level == "desa2dusun") {
+      db.serialize(function () {
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        let sql = `SELECT * FROM m_sls WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${sKec.value}' AND kodeDesa='${s1.value}'`;
+        var optionArray = ["00|SELURUH DUSUN/LINGKUNGAN"];
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          if (rows) {
+            rows.forEach(wil => {
+              optionArray.push(`${wil.kodeSLS}|${wil.namaSLS}`);
+            });
+            splitOption(optionArray);
+          } else {
+            console.log("tidak ada data/hasil");
+          }
+        });
+      });
+    }
+  }
+</script>
+
+<!-- script menampilkan row operator -->
+<script>
+  async function areaFilter() {
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+    var sDusun = document.getElementById("selDusun");
+
+    strAreaFilter = ` WHERE kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND kodeDesa = '${sDesa.value}'`;
+          if (sDusun.value != "00") {
+            strAreaFilter += ` AND kodeSLS = '${sDusun.value}'`;
+          }
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+  async function areaFilterD() {
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+
+    strAreaFilter = ` WHERE kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND kodeDesa = '${sDesa.value}'`;
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+
+  async function setWilayah() {
+    var aFd = await areaFilterD();
+    var aF = await areaFilter();
+
+    sql = `SELECT ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s2_clean,
+          ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s2_error,
+          (SELECT ifnull(sum(case when a.statusDok = 'C' then 1 else 0 end),0) FROM t_samasta3 a ${aF} AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS s3_clean,
+          (SELECT ifnull(sum(case when a.statusDok = 'E' then 1 else 0 end),0) FROM t_samasta3 a ${aF} AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS s3_error,
+          (SELECT ifnull(sum(case when statusDOk IS NULL then 1 else 0 end),0)
+            FROM (SELECT a.*, (SELECT statusDok FROM t_samasta3 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND b.kodeSLS = a.kodeSLS AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}') AS statusDok FROM m_sls a ${aF}) ) AS s3_belum,
+          (SELECT ifnull(sum(case when a.statusDok = 'C' then 1 else 0 end),0) FROM t_samasta1 a ${aFd} AND a.tahun = '${dlTahunSamasta1}') AS s1_clean,
+          (SELECT ifnull(sum(case when a.statusDok = 'E' then 1 else 0 end),0) FROM t_samasta1 a ${aFd} AND a.tahun = '${dlTahunSamasta1}') AS s1_error,
+          (SELECT ifnull(sum(case when statusDOk IS NULL then 1 else 0 end),0)
+            FROM (SELECT a.*, (SELECT statusDok FROM t_samasta1 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND tahun = '${dlTahunSamasta1}') AS statusDok FROM m_desa a ${aFd}) ) AS s1_belum
+          FROM t_rt s ${aF} AND tahun = '${dlTahunSamasta2}'`;
+    r = await sqlite.get(sql);
+    
+    document.getElementById('s1-clean').innerHTML = r.s1_clean;
+    document.getElementById('s1-error').innerHTML = r.s1_error;
+    document.getElementById('s1-belum').innerHTML = r.s1_belum;
+    document.getElementById('s1-total').innerHTML = r.s1_clean + r.s1_error + r.s1_belum;
+    document.getElementById('s2-clean').innerHTML = r.s2_clean;
+    document.getElementById('s2-error').innerHTML = r.s2_error;
+    document.getElementById('s2-total').innerHTML = r.s2_clean + r.s2_error;
+    /* document.getElementById('s3-clean').innerHTML = r.s3_clean;
+    document.getElementById('s3-error').innerHTML = r.s3_error;
+    document.getElementById('s3-belum').innerHTML = r.s3_belum;
+    document.getElementById('s3-total').innerHTML = r.s3_clean + r.s3_error + r.s3_belum; */
+    if(r.s1_clean + r.s1_error + r.s1_belum == 0){
+      document.getElementById('btnRevalSamasta1').disabled = true;
+    }else{
+      document.getElementById('btnRevalSamasta1').disabled = false;
+    }
+    if(r.s2_clean + r.s2_error == 0){
+      document.getElementById('btnRevalSamasta2').disabled = true;      
+    }else{
+      document.getElementById('btnRevalSamasta2').disabled = false;  
+    }
+    /* if(r.s3_clean + r.s3_error + r.s3_belum == 0){
+      document.getElementById('btnRevalSamasta3').disabled = true;
+    }else{
+      document.getElementById('btnRevalSamasta3').disabled = false;
+    } */
+  }
+</script>
+
+<script>
+  // revalidasi Samasta-1
+  function getSamasta1(desa, cb) {
+    sqlDesa = `SELECT * FROM t_samasta1 WHERE kodeProv = '${desa.kodeProv}' AND kodeKab  = '${desa.kodeKab}' AND kodeKec = '${desa.kodeKec}' AND kodeDesa = '${desa.kodeDesa}' AND tahun='${dlTahunSamasta1}'`;
+    db.all(sqlDesa, [], (errDesa, rowsDesa) => {
+      if (errDesa || rowsDesa == null) {
+        cb(errDesa, null);
+      }
+      if (rowsDesa) {
+        cb(null, rowsDesa);
+      }
+    });
+  }
+  async function revalSamasta1() {
+    //document.getElementById("loader").style.display = "block";
+    $(".overlay").show();
+    var aFd = await areaFilterD();
+
+    document.getElementById('logReval').innerHTML = '';
+    $('#logReval').append("<b>Start<br>[Revalidasi Samasta 1]</b><br>");
+
+    //sql = `SELECT * FROM t_samasta1 ${aFd} AND tahun = ${dlTahunSamasta1} ORDER BY kodeProv ASC, kodeKab ASC, kodeKec ASC, kodeDesa ASC`;
+    sql = `SELECT * FROM m_desa ${aFd} ORDER BY kodeProv ASC, kodeKab ASC, kodeKec ASC, kodeDesa ASC`;
+    db.all(sql, [], (err, rows) => {
+      var i = 1;
+      var numExecutedTarget = rows.length;
+      rows.forEach((rDesa) => {
+        getSamasta1(rDesa, function (err, rSamasta1) {
+          if (rSamasta1.length == 0) {
+            statusDok = 'B';
+            $('#logReval').append(i + " " + rDesa.kodeProv + rDesa.kodeKab + rDesa.kodeKec + rDesa.kodeDesa);
+            $('#logReval').append(" " + rDesa.namaDesa + " status: " + statusDok + "<br>");
+            i++;
+            numExecutedTarget--;
+            if (numExecutedTarget == 0) {
+              $('#logReval').append("<b>End</b>");
+              var sql = `SELECT ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s1_clean,
+                    ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s1_error,
+                    (SELECT sum(case when statusDOk IS NULL then 1 else 0 end)
+                      FROM (SELECT a.*, (SELECT statusDok FROM t_samasta1 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND tahun = '${dlTahunSamasta1}') AS statusDok FROM m_desa a ${aFd})) AS s1_belum
+                    FROM t_samasta1 s ${aFd} AND tahun = '${dlTahunSamasta1}'`;
+              db.get(sql, (err, row) => {
+                document.getElementById('s1-clean').innerHTML = row.s1_clean;
+                document.getElementById('s1-error').innerHTML = row.s1_error;
+                document.getElementById('s1-belum').innerHTML = row.s1_belum;
+                document.getElementById('s1-total').innerHTML = row.s1_clean + row.s1_error + row.s1_belum;
+                //document.getElementById("loader").style.display = "none";
+                $(".overlay").hide();
+              });
+            }
+          } else {
+            createSamasta1(rSamasta1, function (x) {
+              new_statusDok = "";
+              bacaIsiSamasta1(x);
+              runRuleValidasiSamasta1();
+
+              if (error_samasta1.length > 0) {
+                new_statusDok = 'E';
+              } else {
+                new_statusDok = 'C';
+              }
+
+              async function updateStatusDok(dataS1, statusDok, cb) {
+                sql = `UPDATE t_samasta1 SET statusDok = '${statusDok}' 
+                WHERE kodeProv = '${dataS1.kodeProv}' AND kodeKab = '${dataS1.kodeKab}' AND kodeKec = '${dataS1.kodeKec}' AND kodeDesa = '${dataS1.kodeDesa}' AND tahun = '${dlTahunSamasta1}'`;
+                r = await sqlite.run(sql);
+                if (r) {
+                  $('#logReval').append(i + " " + rDesa.kodeProv + rDesa.kodeKab + rDesa.kodeKec + rDesa.kodeDesa);
+                  $('#logReval').append(" " + rDesa.namaDesa + " status: " + dataS1.statusDok + " -> " + statusDok + "<br>");
+                  i++;
+                  cb(r);
+                }
+              }
+
+              updateStatusDok(x, new_statusDok, function (y) {
+                if (y == true) {
+                  numExecutedTarget--;
+                  if (numExecutedTarget == 0) {
+                    $('#logReval').append("<b>End</b>");
+                    var sql = `SELECT count(*) AS s1_total,
+                    ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s1_clean,
+                    ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s1_error,
+                    (SELECT sum(case when statusDOk IS NULL then 1 else 0 end)
+                      FROM (SELECT a.*, (SELECT statusDok FROM t_samasta1 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND tahun = '${dlTahunSamasta1}') AS statusDok FROM m_desa a ${aFd})) AS s1_belum
+                    FROM t_samasta1 s ${aFd} AND tahun = '${dlTahunSamasta1}'`;
+                    db.get(sql, (err, row) => {
+                      document.getElementById('s1-clean').innerHTML = row.s1_clean;
+                      document.getElementById('s1-error').innerHTML = row.s1_error;
+                      document.getElementById('s1-belum').innerHTML = row.s1_belum;
+                      document.getElementById('s1-total').innerHTML = row.s1_clean + row.s1_error + row.s1_belum;
+                      //document.getElementById("loader").style.display = "none";
+                      $(".overlay").hide();
+                    });
+                  }
+                }
+              });
+            });
+          }
+        });
+      });
+    });
+  }
+
+  async function createSamasta1(dataDesa, cb) {
+    row = dataDesa;
+    var desaPage2 = [];
+    var desaPage3 = [];
+    var desaPage4 = [];
+    var desaPage5 = [];
+    var desaPage6 = [];
+    var dataDesa = [];
+
+    desaPage2.push({
+      'b4r401': row[0].b4r401, 'b4r402a': row[0].b4r402a, 'b4r402b': row[0].b4r402b, 'b4r402c': row[0].b4r402c, 'b4r403': row[0].b4r403,
+      'b4r404a': row[0].b4r404a, 'b4r404b': row[0].b4r404b, 'b4r404c': row[0].b4r404c, 'b4r405a': row[0].b4r405a, 'b4r405b': row[0].b4r405b, 'b4r405c': row[0].b4r405c, 'b4r405d': row[0].b4r405d,
+      'b4r406': row[0].b4r406, 'b4r407a': row[0].b4r407a, 'b4r407b_a': row[0].b4r407b_a, 'b4r407b_b': row[0].b4r407b_b, 'b4r407b_c': row[0].b4r407b_c, 'b4r407b_d': row[0].b4r407b_d, 'b4r407b_e': row[0].b4r407b_e, 'b4r407c': row[0].b4r407c,
+      'b4r408a': row[0].b4r408a, 'b4r408b': row[0].b4r408b, 'b4r408c': row[0].b4r408c,
+      'b5r501a': row[0].b5r501a, 'b5r501b': row[0].b5r501b, 'b5r502a': row[0].b5r502a, 'b5r502b': row[0].b5r502b, 'b5r502c_1': row[0].b5r502c_1, 'b5r502c_2': row[0].b5r502c_2, 'b5r502c_3': row[0].b5r502c_3
+    });
+    desaPage3.push({
+      'b5r503a': row[0].b5r503a, 'b5r503b': row[0].b5r503b, 'b5r504a': row[0].b5r504a, 'b5r504b_1': row[0].b5r504b_1, 'b5r504b_2': row[0].b5r504b_2, 'b5r504b_3': row[0].b5r504b_3,
+      'b6r601a_2': row[0].b6r601a_2, 'b6r601a_3': row[0].b6r601a_3, 'b6r601a_4': row[0].b6r601a_4, 'b6r601a_5': row[0].b6r601a_5, 'b6r601a_6': row[0].b6r601a_6, 'b6r601a_7': row[0].b6r601a_7,
+      'b6r601b_2': row[0].b6r601b_2, 'b6r601b_3': row[0].b6r601b_3, 'b6r601b_4': row[0].b6r601b_4, 'b6r601b_5': row[0].b6r601b_5, 'b6r601b_6': row[0].b6r601b_6, 'b6r601b_7': row[0].b6r601b_7,
+      'b6r601c_2': row[0].b6r601c_2, 'b6r601c_3': row[0].b6r601c_3, 'b6r601c_4': row[0].b6r601c_4, 'b6r601c_5': row[0].b6r601c_5, 'b6r601c_6': row[0].b6r601c_6, 'b6r601c_7': row[0].b6r601c_7,
+      'b6r601d_2': row[0].b6r601d_2, 'b6r601d_3': row[0].b6r601d_3, 'b6r601d_4': row[0].b6r601d_4, 'b6r601d_5': row[0].b6r601d_5, 'b6r601d_6': row[0].b6r601d_6, 'b6r601d_7': row[0].b6r601d_7,
+      'b6r601e_2': row[0].b6r601e_2, 'b6r601e_3': row[0].b6r601e_3, 'b6r601e_4': row[0].b6r601e_4, 'b6r601e_5': row[0].b6r601e_5, 'b6r601e_6': row[0].b6r601e_6, 'b6r601e_7': row[0].b6r601e_7,
+      'b6r601f_2': row[0].b6r601f_2, 'b6r601f_3': row[0].b6r601f_3, 'b6r601f_4': row[0].b6r601f_4, 'b6r601f_5': row[0].b6r601f_5, 'b6r601f_6': row[0].b6r601f_6, 'b6r601f_7': row[0].b6r601f_7,
+      'b6r601g_2': row[0].b6r601g_2, 'b6r601g_3': row[0].b6r601g_3, 'b6r601g_4': row[0].b6r601g_4, 'b6r601g_5': row[0].b6r601g_5, 'b6r601g_6': row[0].b6r601g_6, 'b6r601g_7': row[0].b6r601g_7,
+      'b6r601h_2': row[0].b6r601h_2, 'b6r601h_3': row[0].b6r601h_3, 'b6r601h_4': row[0].b6r601h_4, 'b6r601h_5': row[0].b6r601h_5, 'b6r601h_6': row[0].b6r601h_6, 'b6r601h_7': row[0].b6r601h_7,
+      'b6r601i_2': row[0].b6r601i_2, 'b6r601i_3': row[0].b6r601i_3, 'b6r601i_4': row[0].b6r601i_4, 'b6r601i_5': row[0].b6r601i_5, 'b6r601i_6': row[0].b6r601i_6, 'b6r601i_7': row[0].b6r601i_7,
+      'b6r601j_2': row[0].b6r601j_2, 'b6r601j_3': row[0].b6r601j_3, 'b6r601j_4': row[0].b6r601j_4, 'b6r601j_5': row[0].b6r601j_5, 'b6r601j_6': row[0].b6r601j_6, 'b6r601j_7': row[0].b6r601j_7,
+      'b6r601k_2': row[0].b6r601k_2, 'b6r601k_3': row[0].b6r601k_3, 'b6r601k_4': row[0].b6r601k_4, 'b6r601k_5': row[0].b6r601k_5, 'b6r601k_6': row[0].b6r601k_6, 'b6r601k_7': row[0].b6r601k_7,
+      'b6r601l_2': row[0].b6r601l_2, 'b6r601l_3': row[0].b6r601l_3, 'b6r601l_4': row[0].b6r601l_4, 'b6r601l_5': row[0].b6r601l_5, 'b6r601l_6': row[0].b6r601l_6, 'b6r601l_7': row[0].b6r601l_7,
+      'b6r601m_2': row[0].b6r601m_2, 'b6r601m_3': row[0].b6r601m_3, 'b6r601m_4': row[0].b6r601m_4, 'b6r601m_5': row[0].b6r601m_5, 'b6r601m_6': row[0].b6r601m_6, 'b6r601m_7': row[0].b6r601m_7,
+      'b6r602a': row[0].b6r602a, 'b6r602b': row[0].b6r602b, 'b6r602c': row[0].b6r602c, 'b6r602d': row[0].b6r602d, 'b6r602e': row[0].b6r602e, 'b6r602f': row[0].b6r602f,
+      'b6r602g': row[0].b6r602g, 'b6r602h': row[0].b6r602h, 'b6r602i': row[0].b6r602i, 'b6r602j': row[0].b6r602j, 'b6r602k': row[0].b6r602k, 'b6r602l': row[0].b6r602l, 'b6r602m': row[0].b6r602m,
+      'b6r603a': row[0].b6r603a, 'b6r603b': row[0].b6r603b, 'b6r603c': row[0].b6r603c
+    });
+    desaPage4.push({
+      'b6r604a': row[0].b6r604a, 'b6r604b': row[0].b6r604b, 'b6r604c': row[0].b6r604c, 'b6r604d': row[0].b6r604d, 'b6r605': row[0].b6r605, 'b6r606': row[0].b6r606,
+      'b7r701a': row[0].b7r701a, 'b7r701b': row[0].b7r701b, 'b7r701c': row[0].b7r701c, 'b7r701d': row[0].b7r701d, 'b7r701e': row[0].b7r701e, 'b7r701f': row[0].b7r701f,
+      'b7r701g': row[0].b7r701g, 'b7r701h': row[0].b7r701h, 'b7r701i': row[0].b7r701i, 'b7r701i_lainnya': row[0].b7r701i_lainnya,
+      'b7r702a': row[0].b7r702a, 'b7r702b': row[0].b7r702b, 'b7r702c': row[0].b7r702c, 'b7r702d': row[0].b7r702d, 'b7r702e': row[0].b7r702e, 'b7r702f': row[0].b7r702f,
+      'b8r801l_1_lainnya': row[0].b8r801l_1_lainnya, 'b8r801a_2': row[0].b8r801a_2, 'b8r801b_2': row[0].b8r801b_2, 'b8r801c_2': row[0].b8r801c_2, 'b8r801d_2': row[0].b8r801d_2, 'b8r801e_2': row[0].b8r801e_2, 'b8r801f_2': row[0].b8r801f_2,
+      'b8r801g_2': row[0].b8r801g_2, 'b8r801h_2': row[0].b8r801h_2, 'b8r801i_2': row[0].b8r801i_2, 'b8r801j_2': row[0].b8r801j_2, 'b8r801k_2': row[0].b8r801k_2, 'b8r801l_2': row[0].b8r801l_2,
+      'b8r801a_3': row[0].b8r801a_3, 'b8r801b_3': row[0].b8r801b_3, 'b8r801c_3': row[0].b8r801c_3, 'b8r801d_3': row[0].b8r801d_3, 'b8r801e_3': row[0].b8r801e_3, 'b8r801f_3': row[0].b8r801f_3,
+      'b8r801g_3': row[0].b8r801g_3, 'b8r801h_3': row[0].b8r801h_3, 'b8r801i_3': row[0].b8r801i_3, 'b8r801j_3': row[0].b8r801j_3, 'b8r801k_3': row[0].b8r801k_3, 'b8r801l_3': row[0].b8r801l_3
+    });
+    b9r901_i = Math.floor(row[0].b9r901);
+    b9r901_ii = (row[0].b9r901 - b9r901_i).toFixed(2).substring(2);
+    b9r902a_i = Math.floor(row[0].b9r902a);
+    b9r902a_ii = (row[0].b9r902a - b9r902a_i).toFixed(2).substring(2);
+    b9r902a_1_i = Math.floor(row[0].b9r902a_1);
+    b9r902a_1_ii = (row[0].b9r902a_1 - b9r902a_1_i).toFixed(2).substring(2);
+    b9r902a_2_i = Math.floor(row[0].b9r902a_2);
+    b9r902a_2_ii = (row[0].b9r902a_2 - b9r902a_2_i).toFixed(2).substring(2);
+    b9r902b_i = Math.floor(row[0].b9r902b);
+    b9r902b_ii = (row[0].b9r902b - b9r902b_i).toFixed(2).substring(2);
+    b9r902c_i = Math.floor(row[0].b9r902c);
+    b9r902c_ii = (row[0].b9r902c - b9r902c_i).toFixed(2).substring(2);
+    desaPage5.push({
+      'b9r901_i': b9r901_i, 'b9r901_ii': b9r901_ii, 'b9r902a_i': b9r902a_i, 'b9r902a_ii': b9r902a_ii, 'b9r902a_1_i': b9r902a_1_i, 'b9r902a_1_ii': b9r902a_1_ii,
+      'b9r902a_2_i': b9r902a_2_i, 'b9r902a_2_ii': b9r902a_2_ii, 'b9r902b_i': b9r902b_i, 'b9r902b_ii': b9r902b_ii, 'b9r902c_i': b9r902c_i, 'b9r902c_ii': b9r902c_ii,
+      'b10r1001a': row[0].b10r1001a, 'b10r1001b': row[0].b10r1001b, 'b10r1001c': row[0].b10r1001c, 'b10r1001d': row[0].b10r1001d, 'b10r1001e': row[0].b10r1001e,
+      'b10r1001f_1': row[0].b10r1001f_1, 'b10r1001f_2': row[0].b10r1001f_2, 'b10r1001g': row[0].b10r1001g, 'b10r1001h': row[0].b10r1001h, 'b10r1001i': row[0].b10r1001i, 'b10r1001j': row[0].b10r1001j,
+      'b10r1002a': row[0].b10r1002a, 'b10r1002b': row[0].b10r1002b, 'b10r1002c': row[0].b10r1002c,
+      'b10r1003a': row[0].b10r1003a, 'b10r1003b': row[0].b10r1003b, 'b10r1003c': row[0].b10r1003c, 'b10r1003d': row[0].b10r1003d,
+      'b10r1003e': row[0].b10r1003e, 'b10r1003f': row[0].b10r1003f, 'b10r1003g': row[0].b10r1003g
+    });
+    desaPage6.push({
+      'b11catatan': row[0].b11catatan
+    });
+
+    dataSamasta1 = {
+      kodeProv: row[0].kodeProv,
+      kodeKab: row[0].kodeKab,
+      kodeKec: row[0].kodeKec,
+      kodeDesa: row[0].kodeDesa,
+      tahun: row[0].tahun,
+      b1r105: row[0].b1r105,
+      b2r201a: row[0].b2r201a,
+      b2r201b: row[0].b2r201b,
+      b2r202a_dd: row[0].b2r202a_dd,
+      b2r202a_mm: row[0].b2r202a_mm,
+      b2r202a_yy: row[0].b2r202a_yy,
+      b2r202b_dd: row[0].b2r202b_dd,
+      b2r202b_mm: row[0].b2r202b_mm,
+      b2r202b_yy: row[0].b2r202b_yy,
+      b2r203a: row[0].b2r203a,
+      b2r203b: row[0].b2r203b,
+      b3r301: row[0].b3r301,
+      b3r302_dd: row[0].b3r302_dd,
+      b3r302_mm: row[0].b3r302_mm,
+      b3r302_yy: row[0].b3r302_yy,
+      b3r303: row[0].b3r303,
+      statusDok: row[0].statusDok,
+      operatorCreated: row[0].operatorCreated,
+      timeCreated: row[0].timeCreated,
+      operatorLastMod: row[0].operatorLastMod,
+      timeLastMod: row[0].timeLastMod,
+      lamaEntri: row[0].lamaEntri,
+      desaPage2: desaPage2,
+      desaPage3: desaPage3,
+      desaPage4: desaPage4,
+      desaPage5: desaPage5,
+      desaPage6: desaPage6
+    };
+
+    cb(dataSamasta1);
+  }
+
+  async function bacaIsiSamasta1(dataDesa) {
+    kodeProv = dataDesa.kodeProv;
+    kodeKab = dataDesa.kodeKab;
+    kodeKec = dataDesa.kodeKec;
+    kodeDesa = dataDesa.kodeDesa;
+    tahun = dataDesa.tahun;
+    b1r105 = dataDesa.b1r105;
+    b2r201a = dataDesa.b2r201a;
+    b2r201b = dataDesa.b2r201b;
+    b2r202a_dd = dataDesa.b2r202a_dd;
+    b2r202a_mm = dataDesa.b2r202a_mm;
+    b2r202a_yy = dataDesa.b2r202a_yy;
+    b2r202b_dd = dataDesa.b2r202b_dd;
+    b2r202b_mm = dataDesa.b2r202b_mm;
+    b2r202b_yy = dataDesa.b2r202b_yy;
+    b2r203a = dataDesa.b2r203a;
+    b2r203b = dataDesa.b2r203b;
+    b3r301 = dataDesa.b3r301;
+    b3r302_dd = dataDesa.b3r302_dd;
+    b3r302_mm = dataDesa.b3r302_mm;
+    b3r302_yy = dataDesa.b3r302_yy;
+    b3r303 = dataDesa.b3r303;
+    statusDok = dataDesa.statusDok;
+    operatorCreated = dataDesa.operatorCreated;
+    timeCreated = dataDesa.timeCreated;
+    operatorLastMod = dataDesa.operatorLastMod;
+    timeLastMod = dataDesa.timeLastMod;
+    lamaEntri = dataDesa.lamaEntri;
+    desaPage2 = dataDesa.desaPage2;
+    desaPage3 = dataDesa.desaPage3;
+    desaPage4 = dataDesa.desaPage4;
+    desaPage5 = dataDesa.desaPage5;
+    desaPage6 = dataDesa.desaPage6;
+  }
+
+  // revalidasi Samasta-2
+  function getArt(ruta, cb) {
+    sqlArt = `SELECT * FROM t_art WHERE kodeProv = '${ruta.kodeProv}' AND kodeKab  = '${ruta.kodeKab}' AND kodeKec = '${ruta.kodeKec}' AND kodeDesa = '${ruta.kodeDesa}' AND kodeSLS = '${ruta.kodeSLS}' AND tahun='${dlTahunSamasta2}' AND nurt = '${ruta.nurt}'`;
+    db.all(sqlArt, [], (errArt, rowsArt) => {
+      cb(rowsArt);
+    });
+  }
+  function getKK(ruta, cb) {
+    sqlKK = `SELECT * FROM t_kk WHERE kodeProv = '${ruta.kodeProv}' AND kodeKab  = '${ruta.kodeKab}' AND kodeKec = '${ruta.kodeKec}' AND kodeDesa = '${ruta.kodeDesa}' AND kodeSLS = '${ruta.kodeSLS}' AND tahun='${dlTahunSamasta2}' AND nurt = '${ruta.nurt}'`;
+    db.all(sqlKK, [], (errKK, rowsKK) => {
+      cb(rowsKK);
+    });
+  }
+  async function revalSamasta2() {
+    //document.getElementById("loader").style.display = "block";
+    $(".overlay").show();
+    // menampilkan ruta dari database sesuai onload filter wilayah    
+    var aF = await areaFilter();
+
+    document.getElementById('logReval').innerHTML = '';
+    $('#logReval').append("<b>Start<br>[Revalidasi Samasta 2]</b><br>");
+
+    sql = `SELECT * FROM t_rt ${aF} AND tahun = ${dlTahunSamasta2} ORDER BY kodeProv ASC, kodeKab ASC, kodeKec ASC, kodeDesa ASC, kodeSLS ASC, nurt ASC`;
+    db.all(sql, [], (err, rows) => {
+      console.log(rows)
+      var i = 1;
+      var numExecutedTarget = rows.length;
+      rows.forEach((rRT) => {
+        getArt(rRT, function (rART) {
+          getKK(rRT, function (rKK) {
+            createSamasta2(rRT, rART, rKK, function (x) {
+              new_statusDok = "";
+              bacaIsiSamasta2(x);
+              runRuleValidasiSamasta2();
+
+              if (error_samasta2.length > 0) {
+                new_statusDok = 'E';
+              } else {
+                new_statusDok = 'C';
+              }
+
+              async function updateStatusDok(dataRT, statusDok, cb) {
+                sql = `UPDATE t_rt SET statusDok = '${statusDok}' 
+                    WHERE kodeProv = '${dataRT.kodeProv}' AND kodeKab = '${dataRT.kodeKab}' AND kodeKec = '${dataRT.kodeKec}' AND kodeDesa = '${dataRT.kodeDesa}' AND kodeSLS = '${dataRT.kodeSLS}' AND nurt = '${dataRT.nurt}' AND tahun = '${dlTahunSamasta2}'`;
+                r = await sqlite.run(sql);
+                if (r) {
+                  $('#logReval').append(i + " " + dataRT.kodeProv + dataRT.kodeKab + dataRT.kodeKec + dataRT.kodeDesa + dataRT.kodeSLS + " " + dataRT.nurt);
+                  $('#logReval').append(" " + dataRT.b1r106 + " status: " + dataRT.statusDok + " -> " + statusDok + "<br>");
+                  i++;
+                  cb(r);
+                }
+              }
+              updateStatusDok(rRT, new_statusDok, function (y) {
+                if (y == true) {
+                  numExecutedTarget--;
+                  if (numExecutedTarget == 0) {
+                    $('#logReval').append("<b>End</b>");
+                    var sql = `SELECT count(*) AS s2_total,
+                        ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s2_clean,
+                        ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s2_error
+                        FROM t_rt s ${aF} AND tahun = '${dlTahunSamasta2}'`;
+                    db.get(sql, (err, row) => {
+                      document.getElementById('s2-clean').innerHTML = row.s2_clean;
+                      document.getElementById('s2-error').innerHTML = row.s2_error;
+                      document.getElementById('s2-total').innerHTML = row.s2_total;
+                      //document.getElementById("loader").style.display = "none";
+                      $(".overlay").hide();
+                    });
+                  }
+                }
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+
+  async function createSamasta2(dataRT, dataART, dataKK, cb) {
+    row2 = dataRT;
+
+    var dataSamasta2 = [];
+    var artPage2_kk = [];
+    var artPage2 = [];
+    var artPage3 = [];
+    var artPage4 = [];
+    var artPage5 = [];
+    var artPage6 = [];
+    async function allART() {
+      dataART.forEach(function (rowART) {
+        artPage2.push({
+          'nuArt': rowART.nuArt, 'nuArtGuid': rowART.nuArtGuid, 'k402': rowART.k402, 'k403': rowART.k403, 'k404': rowART.k404, 'k405': rowART.k405, 'k406': rowART.k406, 'k407': rowART.k407, 'k408': rowART.k408, 'k409': rowART.k409, 'k410': rowART.k410, 'k411': rowART.k411
+        });
+        artPage3.push({
+          'k412_dd': rowART.k412_dd, 'k412_mm': rowART.k412_mm, 'k412_yy': rowART.k412_yy, 'k413': rowART.k413, 'k414': rowART.k414, 'k415': rowART.k415, 'k416': rowART.k416, 'k417': rowART.k417, 'k418': rowART.k418, 'k419': rowART.k419, 'k420': rowART.k420, 'k421': rowART.k421, 'k422': rowART.k422, 'k423': rowART.k423, 'k424': rowART.k424, 'k425': rowART.k425, 'k426': rowART.k426, 'k427': rowART.k427
+        });
+        artPage4.push({
+          'k428': rowART.k428, 'k429': rowART.k429, 'k430': rowART.k430, 'k431': rowART.k431, 'k432': rowART.k432, 'k433': rowART.k433, 'k434': rowART.k434, 'k435': rowART.k435, 'k436': rowART.k436
+        });
+        artPage5.push({
+          'k437': rowART.k437, 'k438': rowART.k438, 'k439': rowART.k439, 'k440': rowART.k440, 'k441': rowART.k441, 'k442': rowART.k442, 'k443': rowART.k443, 'k444': rowART.k444, 'k445': rowART.k445, 'k446': rowART.k446, 'k447': rowART.k447, 'k448': rowART.k448, 'k449': rowART.k449
+        });
+        artPage6.push({
+          'k450': rowART.k450, 'k451': rowART.k451, 'k452': rowART.k452, 'k453': rowART.k453, 'k454': rowART.k454, 'k455': rowART.k455, 'k456': rowART.k456, 'k457': rowART.k457, 'k458': rowART.k458, 'k459': rowART.k459, 'k460': rowART.k460, 'k461': rowART.k461, 'k462': rowART.k462, 'k463': rowART.k463
+        });
+      })
+    }
+    await allART();
+
+    var kkPage7 = [];
+    var kkPage8 = [];
+    async function allKK() {
+      dataKK.forEach(function (rowKK) {
+        kkPage7.push({
+          'k501': rowKK.k501, 'nuArtGuid': rowKK.nuArtGuid, 'k502': rowKK.k502, 'k503': rowKK.k503, 'k504': rowKK.k504, 'k505': rowKK.k505, 'k506': rowKK.k506, 'k507': rowKK.k507, 'k508': rowKK.k508, 'k509': rowKK.k509, 'k510': rowKK.k510, 'k511': rowKK.k511, 'k512': rowKK.k512, 'k513': rowKK.k513, 'k514': rowKK.k514, 'k515': rowKK.k515, 'k516': rowKK.k516, 'k517': rowKK.k517, 'k518': rowKK.k518, 'k519': rowKK.k519, 'k520': rowKK.k520, 'k521': rowKK.k521, 'k522': rowKK.k522, 'k523': rowKK.k523, 'k524': rowKK.k524
+        });
+        kkPage8.push({
+          'k525': rowKK.k525, 'k526': rowKK.k526, 'k527': rowKK.k527, 'k528': rowKK.k528, 'k529': rowKK.k529, 'k530': rowKK.k530, 'k531': rowKK.k531, 'k532': rowKK.k532, 'k533': rowKK.k533, 'k534': rowKK.k534, 'k535': rowKK.k535, 'k536': rowKK.k536, 'k537': rowKK.k537, 'k538': rowKK.k538, 'k539': rowKK.k539, 'k540': rowKK.k540, 'k541': rowKK.k541, 'k542': rowKK.k542, 'k543': rowKK.k543, 'k544': rowKK.k544, 'k545': rowKK.k545, 'k546': rowKK.k546, 'k547': rowKK.k547, 'k548': rowKK.k548, 'k549': rowKK.k549, 'k550': rowKK.k550
+        });
+      })
+    }
+    await allKK();
+
+    dataSamasta2 = {
+      kodeProv: row2.kodeProv,
+      kodeKab: row2.kodeKab,
+      kodeKec: row2.kodeKec,
+      kodeDesa: row2.kodeDesa,
+      kodeSLS: row2.kodeSLS,
+      tahun: row2.tahun,
+      nurt: row2.nurt,
+      nurtGuid: row2.nurtGuid,
+      b1r106: row2.b1r106,
+      b1r107: row2.b1r107,
+      b1r108: row2.b1r108,
+      b1r109: row2.b1r109,
+      b2r201a: row2.b2r201a,
+      b2r201b: row2.b2r201b,
+      b2r202a_dd: row2.b2r202a_dd,
+      b2r202a_mm: row2.b2r202a_mm,
+      b2r202a_yy: row2.b2r202a_yy,
+      b2r202b_dd: row2.b2r202b_dd,
+      b2r202b_mm: row2.b2r202b_mm,
+      b2r202b_yy: row2.b2r202b_yy,
+      b3catatan: row2.b3catatan,
+      set_kk: row2.set_kk,
+      statusDok: row2.statusDok,
+      operatorCreated: row2.operatorCreated,
+      timeCreated: row2.timeCreated,
+      operatorLastMod: row2.operatorLastMod,
+      timeLastMod: row2.timeLastMod,
+      lamaEntri: row2.lamaEntri,
+      artPage2_kk: artPage2,
+      artPage2: artPage2,
+      artPage3: artPage3,
+      artPage4: artPage4,
+      artPage5: artPage5,
+      artPage6: artPage6,
+      kkPage7: kkPage7,
+      kkPage8: kkPage8
+    };
+    cb(dataSamasta2);
+  }
+
+  async function bacaIsiSamasta2(RTdata) {
+    kodeProv = RTdata.kodeProv;
+    kodeKab = RTdata.kodeKab;
+    kodeKec = RTdata.kodeKec;
+    kodeDesa = RTdata.kodeDesa;
+    kodeSLS = RTdata.kodeSLS;
+    tahun = RTdata.tahun;
+    nurt = RTdata.nurt;
+    nurtGuid = RTdata.nurtGuid;
+    b1r106 = RTdata.b1r106;
+    b1r107 = RTdata.b1r107;
+    b1r108 = RTdata.b1r108;
+    b1r109 = RTdata.b1r109;
+    b2r201a = RTdata.b2r201a;
+    b2r201b = RTdata.b2r201b;
+    b2r202a_dd = RTdata.b2r202a_dd;
+    b2r202a_mm = RTdata.b2r202a_mm;
+    b2r202a_yy = RTdata.b2r202a_yy;
+    b2r202b_dd = RTdata.b2r202b_dd;
+    b2r202b_mm = RTdata.b2r202b_mm;
+    b2r202b_yy = RTdata.b2r202b_yy;
+    b3catatan = RTdata.b3catatan;
+    set_kk = RTdata.set_kk;
+    statusDok = RTdata.statusDok;
+    operatorCreated = RTdata.operatorCreated;
+    timeCreated = RTdata.timeCreated;
+    operatorLastMod = RTdata.operatorLastMod;
+    timeLastMod = RTdata.timeLastMod;
+    lamaEntri = RTdata.lamaEntri;
+    artPage2_kk = RTdata.artPage2_kk;
+    artPage2 = RTdata.artPage2;
+    artPage3 = RTdata.artPage3;
+    artPage4 = RTdata.artPage4;
+    artPage5 = RTdata.artPage5;
+    artPage6 = RTdata.artPage6;
+    kkPage7 = RTdata.kkPage7;
+    kkPage8 = RTdata.kkPage8;
+  }
+
+  // revalidasi Samasta-3
+  /* function getSamasta3(sls, cb) {
+    sqlSamasta3 = `SELECT * FROM t_samasta3 WHERE kodeProv = '${sls.kodeProv}' AND kodeKab  = '${sls.kodeKab}' AND kodeKec = '${sls.kodeKec}' AND kodeDesa = '${sls.kodeDesa}' AND kodeSLS = '${sls.kodeSLS}' AND tahun='${dlTahunSamasta3}' AND bulan='${dlBulanSamasta3}'`;
+    db.all(sqlSamasta3, [], (errSamasta3, rowsSamasta3) => {
+      if (errSamasta3 || rowsSamasta3 == null) {
+        cb(errSamasta3, null);
+      }
+      if (rowsSamasta3) {
+        cb(null, rowsSamasta3);
+      }
+    });
+  }
+  function getSamasta3Blok4(sls, cb) {
+    sqlSamasta3Blok4 = `SELECT * FROM t_samasta3_blok4 WHERE kodeProv = '${sls.kodeProv}' AND kodeKab  = '${sls.kodeKab}' AND kodeKec = '${sls.kodeKec}' AND kodeDesa = '${sls.kodeDesa}' AND kodeSLS = '${sls.kodeSLS}' AND tahun='${dlTahunSamasta3}' AND bulan='${dlBulanSamasta3}'`;
+    db.all(sqlSamasta3Blok4, [], (errSamasta3Blok4, rowsSamasta3Blok4) => {
+      if (errSamasta3Blok4 || rowsSamasta3Blok4 == null) {
+        cb(errSamasta3Blok4, null);
+      }
+      if (rowsSamasta3Blok4) {
+        cb(null, rowsSamasta3Blok4);
+      }
+    });
+  }
+  async function revalSamasta3() {
+    //document.getElementById("loader").style.display = "block";
+    $(".overlay").show();
+    var aF = await areaFilter();
+
+    document.getElementById('logReval').innerHTML = '';
+    $('#logReval').append("<b>Start<br>[Revalidasi Samasta 3]</b><br>");
+
+    sql = `SELECT * FROM m_sls ${aF} ORDER BY kodeProv || kodeKab || kodeKec || kodeDesa || kodeSLS ASC`;
+    db.all(sql, [], (err, rows) => {
+      var i = 1;
+      var numExecutedTarget = rows.length;
+      rows.forEach((rSLS) => {
+        getSamasta3(rSLS, function (err, rSamasta3) {
+          getSamasta3Blok4(rSLS, function (err, rBlok4) {
+            if (rSamasta3.length == 0) {
+              statusDok = 'B';
+              $('#logReval').append(i + " " + rSLS.kodeProv + rSLS.kodeKab + rSLS.kodeKec + rSLS.kodeDesa + rSLS.kodeSLS);
+              $('#logReval').append(" " + rSLS.namaSLS + " status: " + statusDok + "<br>");
+              i++;
+              numExecutedTarget--;
+              if (numExecutedTarget == 0) {
+                $('#logReval').append("<b>End</b>");
+                var sql = `SELECT 
+                                ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s3_clean,
+                                ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s3_error,
+                                (SELECT sum(case when statusDOk IS NULL then 1 else 0 end)
+                                  FROM (SELECT a.*, (SELECT statusDok FROM t_samasta3 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND b.kodeSLS = a.kodeSLS AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}') AS statusDok FROM m_sls a ${aF})) AS s3_belum
+                                FROM t_samasta3 s ${aF} AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+                db.get(sql, (err, row) => {
+                  document.getElementById('s3-clean').innerHTML = row.s3_clean;
+                  document.getElementById('s3-error').innerHTML = row.s3_error;
+                  document.getElementById('s3-belum').innerHTML = row.s3_belum;
+                  document.getElementById('s3-total').innerHTML = row.s3_clean + row.s3_error + row.s3_belum;
+                  //document.getElementById("loader").style.display = "none";
+                  $(".overlay").hide();
+                });
+              }
+            } else {
+              createSamasta3(rSamasta3, rBlok4, function (x) {
+                new_statusDok = "";
+                bacaIsiSamasta3(x);
+                runRuleValidasiSamasta3();
+
+                if (error_samasta3.length > 0) {
+                  new_statusDok = 'E';
+                } else {
+                  new_statusDok = 'C';
+                }
+
+                async function updateStatusDok(dataS3, statusDok, cb) {
+                  sql = `UPDATE t_samasta3 SET statusDok = '${statusDok}' 
+                WHERE kodeProv = '${dataS3.kodeProv}' AND kodeKab = '${dataS3.kodeKab}' AND kodeKec = '${dataS3.kodeKec}' AND kodeDesa = '${dataS3.kodeDesa}' AND kodeSLS = '${dataS3.kodeSLS}' AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+                  r = await sqlite.run(sql);
+                  if (r) {
+                    $('#logReval').append(i + " " + rSLS.kodeProv + rSLS.kodeKab + rSLS.kodeKec + rSLS.kodeDesa + rSLS.kodeSLS);
+                    $('#logReval').append(" " + rSLS.namaSLS + " status: " + dataS3.statusDok + " -> " + statusDok + "<br>");
+                    i++;
+                    cb(r);
+                  }
+                }
+
+                updateStatusDok(x, new_statusDok, function (y) {
+                  if (y == true) {
+                    numExecutedTarget--;
+                    if (numExecutedTarget == 0) {
+                      $('#logReval').append("<b>End</b>");
+                      var sql = `SELECT 
+                                ifnull(sum(case when s.statusDok = 'C' then 1 else 0 end),0) AS s3_clean,
+                                ifnull(sum(case when s.statusDok = 'E' then 1 else 0 end),0) AS s3_error,
+                                (SELECT sum(case when statusDOk IS NULL then 1 else 0 end)
+                                  FROM (SELECT a.*, (SELECT statusDok FROM t_samasta3 b WHERE b.kodeProv = a.kodeProv AND b.kodeKab = a.kodeKab AND b.kodeKec = a.kodeKec AND b.kodeDesa = a.kodeDesa AND b.kodeSLS = a.kodeSLS AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}') AS statusDok FROM m_sls a ${aF})) AS s3_belum
+                                FROM t_samasta3 s ${aF} AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+                       
+                      db.get(sql, (err, row) => {
+                        document.getElementById('s3-clean').innerHTML = row.s3_clean;
+                        document.getElementById('s3-error').innerHTML = row.s3_error;
+                        document.getElementById('s3-belum').innerHTML = row.s3_belum;
+                        document.getElementById('s3-total').innerHTML = row.s3_clean + row.s3_error + row.s3_belum;
+                        //document.getElementById("loader").style.display = "none";
+                        $(".overlay").hide();
+                      });
+                    }
+                  }
+                });
+              });
+            }
+          });
+        });
+      });
+    });
+  }
+
+  async function createSamasta3(dataSLS, dataSamasta3Blok4, cb) {
+    var samasta3Page2 = [];
+    var samasta3SumBlok4 = [];
+
+    async function allBlok4() {
+      dataSamasta3Blok4.forEach(function (row) {
+        samasta3Page2.push({
+          'b4k1': row.b4k1, 'b4k2': row.b4k2, 'b4k3': row.b4k3, 'b4k4': row.b4k4, 'b4k5': row.b4k5,
+          'b4k6': row.b4k6, 'b4k7': row.b4k7, 'b4k8': row.b4k8, 'b4k9': row.b4k9, 'b4k10': row.b4k10,
+          'b4k11': row.b4k11, 'b4k12': row.b4k12, 'b4k13': row.b4k13, 'b4k14': row.b4k14, 'b4k15': row.b4k15,
+          'b4k16': row.b4k16, 'b4k17': row.b4k17, 'b4k18': row.b4k18, 'b4k19': row.b4k19, 'b4k20': row.b4k20, 'b4k21': row.b4k21
+        });
+      });
+    }
+    await allBlok4();
+
+    samasta3SumBlok4.push({
+      'sum_b4k4': dataSLS[0].sum_b4k4, 'sum_b4k5': dataSLS[0].sum_b4k5, 'sum_b4k6': dataSLS[0].sum_b4k6, 'sum_b4k7': dataSLS[0].sum_b4k7, 'sum_b4k8': dataSLS[0].sum_b4k8, 'sum_b4k9': dataSLS[0].sum_b4k9,
+      'sum_b4k10': dataSLS[0].sum_b4k10, 'sum_b4k11': dataSLS[0].sum_b4k11, 'sum_b4k12': dataSLS[0].sum_b4k12, 'sum_b4k13': dataSLS[0].sum_b4k13, 'sum_b4k14': dataSLS[0].sum_b4k14, 'sum_b4k15': dataSLS[0].sum_b4k15,
+      'sum_b4k16': dataSLS[0].sum_b4k16, 'sum_b4k17': dataSLS[0].sum_b4k17, 'sum_b4k18': dataSLS[0].sum_b4k18, 'sum_b4k19': dataSLS[0].sum_b4k19, 'sum_b4k20': dataSLS[0].sum_b4k20, 'sum_b4k21': dataSLS[0].sum_b4k21
+    });
+
+    dataSamasta3 = {
+      kodeProv: dataSLS[0].kodeProv,
+      kodeKab: dataSLS[0].kodeKab,
+      kodeKec: dataSLS[0].kodeKec,
+      kodeDesa: dataSLS[0].kodeDesa,
+      kodeSLS: dataSLS[0].kodeSLS,
+      tahun: dataSLS[0].tahun,
+      bulan: dataSLS[0].bulan,
+      b2r201: dataSLS[0].b2r201,
+      b2r202: dataSLS[0].b2r202,
+      b2r203: dataSLS[0].b2r203,
+      b2r204: dataSLS[0].b2r204,
+      b2r205: dataSLS[0].b2r205,
+      b2r206: dataSLS[0].b2r206,
+      b3catatan: dataSLS[0].b3catatan,
+      kepalaSLS: dataSLS[0].kepalaSLS,
+      statusDok: dataSLS[0].statusDok,
+      operatorCreated: dataSLS[0].operatorCreated,
+      timeCreated: dataSLS[0].timeCreated,
+      operatorLastMod: dataSLS[0].operatorLastMod,
+      timeLastMod: dataSLS[0].timeLastMod,
+      lamaEntri: dataSLS[0].lamaEntri,
+      samasta3Page2: samasta3Page2,
+      samasta3SumBlok4: samasta3SumBlok4
+    };
+
+    cb(dataSamasta3);
+  }
+
+  async function bacaIsiSamasta3(dataSLS) {
+    kodeProv = dataSLS.kodeProv;
+    kodeKab = dataSLS.kodeKab;
+    kodeKec = dataSLS.kodeKec;
+    kodeDesa = dataSLS.kodeDesa;
+    kodeSLS = dataSLS.kodeSLS;
+    tahun = dataSLS.tahun;
+    bulan = dataSLS.bulan;
+    b2r201 = dataSLS.b2r201;
+    b2r202 = dataSLS.b2r202;
+    b2r203 = dataSLS.b2r203;
+    b2r204 = dataSLS.b2r204;
+    b2r205 = dataSLS.b2r205;
+    b2r206 = dataSLS.b2r206;
+    b3catatan = dataSLS.b3catatan;
+    kepalaSLS = dataSLS.kepalaSLS;
+    statusDok = dataSLS.statusDok;
+    operatorCreated = dataSLS.operatorCreated;
+    timeCreated = dataSLS.timeCreated;
+    operatorLastMod = dataSLS.operatorLastMod;
+    timeLastMod = dataSLS.timeLastMod;
+    lamaEntri = dataSLS.lamaEntri;
+    samasta3Page2 = dataSLS.samasta3Page2;
+    samasta3SumBlok4 = dataSLS.samasta3SumBlok4;
+  } */
+</script>

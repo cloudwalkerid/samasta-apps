@@ -1,0 +1,677 @@
+<script>
+    getLoginData();
+</script><!-- Breadcrumb-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Reports</li>
+    <li class="breadcrumb-item">Progress</li>
+</ol>
+
+<div class="container-fluid">
+    <div class="animated fadeIn">
+        <!-- /.row-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Provinsi:</td>
+                                            <td>
+                                                <select class="form-control" id="selProvinsi" name="selProvinsi"
+                                                    onchange="populate(this.id,'selKabupaten','prov2kab')">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kabupaten/Kota:</td>
+                                            <td>
+                                                <select class="form-control" id="selKabupaten" name="selKabupaten"
+                                                    onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Kecamatan:</td>
+                                            <td>
+                                                <select class="form-control" id="selKecamatan" name="selKecamatan"
+                                                    onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Desa/Kelurahan:</td>
+                                            <td>
+                                                <select class="form-control" id="selDesa" name="selDesa"
+                                                    onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 d-none d-md-block bg-light">
+                                <table class="table table-responsive-sm table-sm table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%">Dusun/Lingkungan:</td>
+                                            <td>
+                                                <select class="form-control" id="selDusun" name="selDusun">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <button id="btnTampil" class="btn btn-primary btn-block" type="button"
+                                                    onclick="setFilter()">Set</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 d-none d-md-block">
+
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="samasta-1-tab" data-toggle="tab"
+                                            href="#samasta-1" role="tab" aria-controls="samasta-1"
+                                            aria-selected="true">Samasta-1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="samasta-2-tab" data-toggle="tab" href="#samasta-2"
+                                            role="tab" aria-controls="samasta-2" aria-selected="false">Samasta-2</a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" id="samasta-3-tab" data-toggle="tab" href="#samasta-3"
+                                            role="tab" aria-controls="samasta-3" aria-selected="false">Samasta-3</a>
+                                    </li> -->
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="samasta-1" role="tabpanel"
+                                        aria-labelledby="samasta-1-tab">
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" style="padding-bottom: 5px">
+                                                <select class="form-control" id="selectsamasta-1"
+                                                    onchange="tampilSamasta1(this.options[this.selectedIndex].value)">
+                                                    <option value="1-1" selected>1.1 Progress Input Data</option>
+                                                    <option value="1-2">1.2 Rekap Operator</option>
+                                                    <option value="1-3">1.3 Rekap Pendata</option>
+                                                    <option value="1-4">1.4 Rekap Pemeriksa</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" id="samasta-1-tabel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="samasta-2" role="tabpanel"
+                                        aria-labelledby="samasta-2-tab">
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" style="padding-bottom: 5px">
+                                                <select class="form-control" id="selectsamasta-2"
+                                                    onchange="tampilSamasta2(this.options[this.selectedIndex].value)">
+                                                    <option value="2-1" selected>2.1 Progress Input Data</option>
+                                                    <option value="2-2">2.2 Rekap Operator</option>
+                                                    <option value="2-3">2.3 Rekap Pendata</option>
+                                                    <option value="2-4">2.4 Rekap Pemeriksa</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" id="samasta-2-tabel">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="tab-pane fade" id="samasta-3" role="tabpanel"
+                                        aria-labelledby="samasta-3-tab">
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" style="padding-bottom: 5px">
+                                                <select class="form-control" id="selectsamasta-3"
+                                                    onchange="tampilSamasta3(this.options[this.selectedIndex].value)">
+                                                    <option value="3-1" selected>3.1 Progress Input Data</option>
+                                                    <option value="3-2">3.2 Rekap Operator</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 d-none d-md-block" id="samasta-3-tabel">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.row-->
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-->
+        </div>
+        <!-- /.row-->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        loadPage();
+        $(this).scrollTop(0);
+        document.getElementById("loader").style.display = "none";
+    });
+</script>
+
+<!-- onload filter wilayah, sesuai wilayah user didaftarkan -->
+<script>
+    var lastArea;
+
+    if (lastArea) {
+        kodeProv = lastArea.kodeProv;
+        kodeKab = lastArea.kodeKab;
+        kodeKec = lastArea.kodeKec;
+        kodeDesa = lastArea.kodeDesa;
+        kodeSLS = lastArea.kodeSLS;
+    } else {
+        kodeProv = dlKodeProv;
+        kodeKab = dlKodeKab;
+        kodeKec = dlKodeKec;
+        kodeDesa = dlKodeDesa;
+        kodeSLS = dlKodeSLS;
+    }
+
+    async function loadPage() {
+        // dl=data login user. 
+        if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+        if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+        if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+        if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+        if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+        // wilayah provinsi
+        sql = `SELECT * FROM m_prov ORDER BY kodeProv ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeProv == lastArea.kodeProv) selected = "selected";
+            } else if (row.kodeProv == dlKodeProv) selected = "selected";
+            $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+        });
+
+        // wilayah kabupaten
+        $('#selKabupaten').append(`<option value='00'>00 - SEMUA KABUPATEN</option>`);
+        sql = `SELECT * FROM m_kab WHERE kodeProv='${kodeProv}' ORDER BY kodeKab ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeKab == lastArea.kodeKab) selected = "selected";
+            } else if (row.kodeKab == dlKodeKab) selected = "selected";
+            $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+        });
+
+        // wilayah kecamatan
+        $('#selKecamatan').append(`<option value='000'>000 - SEMUA KECAMATAN</option>`);
+        sql = `SELECT * FROM m_kec WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' ORDER BY kodeKec ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeKec == lastArea.kodeKec) selected = "selected";
+            } else if (row.kodeKec == dlKodeKec) selected = "selected";
+            $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+        });
+
+        // wilayah desa/kelurahan
+        $('#selDesa').append(`<option value='000'>000 - SEMUA DESA/KELURAHAN</option>`);
+        sql = `SELECT * FROM m_desa WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' ORDER BY kodeDesa ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeDesa == lastArea.kodeDesa) selected = "selected";
+            } else if (row.kodeDesa == dlKodeDesa) selected = "selected";
+            $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+        });
+
+        // wilayah dusun/lingkungan
+        $('#selDusun').append(`<option value='00'>00 - SEMUA DUSUN/LINGKUNGAN</option>`);
+        sql = `SELECT * FROM m_sls WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' AND kodeDesa='${kodeDesa}' ORDER BY kodeSLS ASC`;
+        r = await sqlite.each(sql, [], function (row) {
+            var selected = "";
+            if (lastArea) {
+                if (row.kodeSLS == lastArea.kodeSLS) selected = "selected";
+            } else if (row.kodeSLS == dlKodeSLS) selected = "selected";
+            $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+        });
+        tampilSamasta1("1-1");
+        tampilSamasta2("2-1");
+        //tampilSamasta3("3-1");
+    }
+
+    async function areaFilter() {
+        // membuat string areaFilter untuk fetching data selanjutnya
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        var sDesa = document.getElementById("selDesa");
+
+        strAreaFilter = `a.kodeProv = '${sProv.value}'`;
+        if (sKab.value != "00") {
+            strAreaFilter += ` AND a.kodeKab = '${sKab.value}'`;
+            if (sKec.value != "000") {
+                strAreaFilter += ` AND a.kodeKec = '${sKec.value}'`;
+                if (sDesa.value != "000") {
+                    strAreaFilter += ` AND a.kodeDesa = '${sDesa.value}'`;
+                }
+            }
+        }
+        return strAreaFilter;
+    }
+
+    async function areaFilterS() {
+        // membuat string areaFilter untuk fetching data selanjutnya
+        var sProv = document.getElementById("selProvinsi");
+        var sKab = document.getElementById("selKabupaten");
+        var sKec = document.getElementById("selKecamatan");
+        var sDesa = document.getElementById("selDesa");
+
+        strAreaFilter = `s.kodeProv = '${sProv.value}'`;
+        if (sKab.value != "00") {
+            strAreaFilter += ` AND s.kodeKab = '${sKab.value}'`;
+            if (sKec.value != "000") {
+                strAreaFilter += ` AND s.kodeKec = '${sKec.value}'`;
+                if (sDesa.value != "000") {
+                    strAreaFilter += ` AND s.kodeDesa = '${sDesa.value}'`;
+                }
+            }
+        }
+        return strAreaFilter;
+    }
+
+    async function areaFilterX() {
+        strAreaFilterX = ``;
+        return strAreaFilterX;
+    }
+</script>
+
+<script>
+    async function setFilter() {
+        var target = $("ul#myTab a.active").attr('href');
+
+        if (target == "#samasta-1") {
+            var e = document.getElementById("selectsamasta-1");
+            var optSelected = e.options[e.selectedIndex].value;
+            tampilSamasta1(optSelected);
+        }
+        if (target == "#samasta-2") {
+            var e = document.getElementById("selectsamasta-2");
+            var optSelected = e.options[e.selectedIndex].value;
+            tampilSamasta2(optSelected);
+        }
+    }
+</script>
+
+<!-- TAMPIL _menampilkan ruta dengan mengklik tombol Tampil -->
+<script>
+    async function tampilSamasta1(optSelected) {
+        // menampilkan ruta dari database sesuai onload filter wilayah    
+        var aF = await areaFilter();
+        var aFx = await areaFilterX();
+        var aFs = await areaFilterS();
+        document.getElementById('samasta-1-tabel').innerHTML = ``;
+
+        if (optSelected == "1-1") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_samasta1 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.tahun = '${dlTahunSamasta1}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_samasta1 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.tahun = '${dlTahunSamasta1}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_samasta1 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.tahun = '${dlTahunSamasta1}') AS jml_error
+            FROM m_desa s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC`;
+
+            $('#samasta-1-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Nama Desa/Kelurahan</th><th>Clean</th><th>Error</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="samasta-1-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-1-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa}</td>`
+                    + `<td>${row.namaDesa}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-1-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "1-2") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_samasta1 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta1}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_samasta1 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta1}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_samasta1 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta1}') AS jml_error
+            FROM m_user s
+            WHERE levelUser BETWEEN 2 AND 3 ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC`;
+
+            $('#samasta-1-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Username</th><th>Nama Lengkap</th><th>Clean</th><th>Error</th><th>Total</th></tr>`
+                + `</thead><tbody id="samasta-1-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-1-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa}</td>`
+                    + `<td>${row.namaUser}</td>`
+                    + `<td>${row.namaLengkapUser}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_clean + row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-1-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "1-3") {
+            sql = `SELECT
+            s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa,
+            s.b2r201a, count(*) as jml_total,
+            sum(case when s.statusDok = "C" then 1 else 0 end) AS jml_clean,
+            sum(case when s.statusDok = "E" then 1 else 0 end) AS jml_error
+            FROM t_samasta1 s WHERE ${aFs} AND s.tahun = '${dlTahunSamasta1}' GROUP BY s.b2r201a, s.kodeDesa ORDER BY s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.b2r201a ASC`;
+            
+            $('#samasta-1-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>Prov</th><th>Kab</th><th>Kec</th><th>Desa</th><th>Nama Pendata</th><th>Total</th><th>Clean</th><th>Error</th></tr>`
+                + `</thead><tbody id="samasta-1-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-1-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv}</td>`
+                    + `<td class="text-center">${row.kodeKab}</td>`
+                    + `<td class="text-center">${row.kodeKec}</td>`
+                    + `<td class="text-center">${row.kodeDesa}</td>`
+                    + `<td>${row.b2r201a}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-1-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "1-4") {
+            sql = `SELECT
+            s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa,
+            s.b2r201b, count(*) as jml_total,
+            sum(case when s.statusDok = "C" then 1 else 0 end) AS jml_clean,
+            sum(case when s.statusDok = "E" then 1 else 0 end) AS jml_error
+            FROM t_samasta1 s WHERE ${aFs} AND s.tahun = '${dlTahunSamasta1}' GROUP BY s.b2r201b, s.kodeDesa ORDER BY s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.b2r201b ASC`;
+            
+            $('#samasta-1-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>Prov</th><th>Kab</th><th>Kec</th><th>Desa</th><th>Nama Pemeriksa</th><th>Total</th><th>Clean</th><th>Error</th></tr>`
+                + `</thead><tbody id="samasta-1-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-1-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv}</td>`
+                    + `<td class="text-center">${row.kodeKab}</td>`
+                    + `<td class="text-center">${row.kodeKec}</td>`
+                    + `<td class="text-center">${row.kodeDesa}</td>`
+                    + `<td>${row.b2r201b}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-1-tabel').append(`</tbody></table>`);
+        }
+    }
+</script>
+
+<script>
+    async function tampilSamasta2(optSelected) {
+        var aF = await areaFilter();
+        var aFx = await areaFilterX();
+        var aFs = await areaFilterS();
+        document.getElementById('samasta-2-tabel').innerHTML = ``;
+
+        if (optSelected == "2-1") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_rt a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_rt a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_rt a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta2}') AS jml_error
+            FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#samasta-2-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Nama SLS</th><th>Clean</th><th>Error</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="samasta-2-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-2-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-2-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-2") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_rt a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta2}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_rt a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta2}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_rt a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta2}') AS jml_error
+            FROM m_user s
+            WHERE levelUser BETWEEN 2 AND 3 ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#samasta-2-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Username</th><th>Nama Lengkap</th><th>Clean</th><th>Error</th><th>Total</th></tr>`
+                + `</thead><tbody id="samasta-2-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-2-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS}</td>`
+                    + `<td>${row.namaUser}</td>`
+                    + `<td>${row.namaLengkapUser}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_clean + row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-2-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-3") {
+            sql = `SELECT
+            s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.kodeSLS,
+            s.b2r201a, count(*) as jml_total,
+            sum(case when s.statusDok = "C" then 1 else 0 end) AS jml_clean,
+            sum(case when s.statusDok = "E" then 1 else 0 end) AS jml_error
+            FROM t_rt s WHERE ${aFs} AND s.tahun = '${dlTahunSamasta2}' GROUP BY s.b2r201a, s.kodeSLS ORDER BY s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.kodeSLS, s.b2r201a ASC`;
+            
+            $('#samasta-2-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>Prov</th><th>Kab</th><th>Kec</th><th>Desa</th><th>SLS</th><th>Nama Pendata</th><th>Total</th><th>Clean</th><th>Error</th></tr>`
+                + `</thead><tbody id="samasta-2-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-2-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv}</td>`
+                    + `<td class="text-center">${row.kodeKab}</td>`
+                    + `<td class="text-center">${row.kodeKec}</td>`
+                    + `<td class="text-center">${row.kodeDesa}</td>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.b2r201a}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-2-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "2-4") {
+            sql = `SELECT
+            s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.kodeSLS,
+            s.b2r201b, count(*) as jml_total,
+            sum(case when s.statusDok = "C" then 1 else 0 end) AS jml_clean,
+            sum(case when s.statusDok = "E" then 1 else 0 end) AS jml_error
+            FROM t_rt s WHERE ${aFs} AND s.tahun = '${dlTahunSamasta2}' GROUP BY s.b2r201b, s.kodeSLS ORDER BY s.kodeProv, s.kodeKab, s.kodeKec, s.kodeDesa, s.kodeSLS, s.b2r201b ASC`;
+            
+            $('#samasta-2-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>Prov</th><th>Kab</th><th>Kec</th><th>Desa</th><th>SLS</th><th>Nama Pemeriksa</th><th>Total</th><th>Clean</th><th>Error</th></tr>`
+                + `</thead><tbody id="samasta-2-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-2-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv}</td>`
+                    + `<td class="text-center">${row.kodeKab}</td>`
+                    + `<td class="text-center">${row.kodeKec}</td>`
+                    + `<td class="text-center">${row.kodeDesa}</td>`
+                    + `<td class="text-center">${row.kodeSLS}</td>`
+                    + `<td>${row.b2r201b}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-2-tabel').append(`</tbody></table>`);
+        }
+    }
+</script>
+
+<script>
+    /* async function tampilSamasta3(optSelected) {
+        var aF = await areaFilter();
+        var aFx = await areaFilterX();
+        var aFs = await areaFilterS();
+        document.getElementById('samasta-3-tabel').innerHTML = ``;
+
+        if (optSelected == "3-1") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_samasta3 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_samasta3 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_samasta3 a WHERE a.kodeProv = s.kodeProv AND a.kodeKab = s.kodeKab AND a.kodeKec = s.kodeKec AND a.kodeDesa = s.kodeDesa AND a.kodeSLS = s.kodeSLS AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_error
+            FROM m_sls s WHERE ${aFs} ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#samasta-3-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Nama SLS</th><th>Clean</th><th>Error</th><th>Jumlah</th></tr>`
+                + `</thead><tbody id="samasta-3-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-3-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS}</td>`
+                    + `<td>${row.namaSLS}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_total}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-3-tabel').append(`</tbody></table>`);
+        }
+
+        if (optSelected == "3-2") {
+            sql = `SELECT s.*,
+            (SELECT ifnull(count(*),0) FROM t_samasta3 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_total,
+            (SELECT ifnull(sum(case when a.statusDok = "C" then 1 else 0 end),0) FROM t_samasta3 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_clean,
+            (SELECT ifnull(sum(case when a.statusDok = "E" then 1 else 0 end),0) FROM t_samasta3 a WHERE ${aF} AND a.operatorCreated = s.namaUser AND a.tahun = '${dlTahunSamasta3}' AND a.bulan = '${dlBulanSamasta3}') AS jml_error
+            FROM m_user s
+            WHERE levelUser BETWEEN 1 AND 3 ORDER BY s.kodeProv ASC, s.kodeKab ASC, s.kodeKec ASC, s.kodeDesa ASC, s.kodeSLS ASC`;
+
+            $('#samasta-3-tabel').append(`<table class="table table-responsive-sm table-bordered table-striped table-sm">`
+                + `<thead><tr><th>ID Wilayah</th><th>Username</th><th>Nama Lengkap</th><th>Clean</th><th>Error</th><th>Total</th></tr>`
+                + `</thead><tbody id="samasta-3-tabel-tbody">`);
+            r = await sqlite.each(sql, [], function (row) {
+                $('#samasta-3-tabel-tbody').append(
+                    `<tr>`
+                    + `<td class="text-center">${row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS}</td>`
+                    + `<td>${row.namaUser}</td>`
+                    + `<td>${row.namaLengkapUser}</td>`
+                    + `<td class="text-center">${row.jml_clean}</td>`
+                    + `<td class="text-center">${row.jml_error}</td>`
+                    + `<td class="text-center">${row.jml_clean + row.jml_error}</td>`
+                    + `</tr>`);
+            });
+            $('#samasta-3-tabel').append(`</tbody></table>`);
+        }
+    } */
+</script>
+
+<!-- populate: fungsi untuk populate filter wilayah -->
+<script>
+    async function populate(s1, s2, level) {
+        var s1 = document.getElementById(s1);
+        var s2 = document.getElementById(s2);
+        s2.innerHTML = "";
+
+        function splitOption(optionArray) {
+            for (var option in optionArray) {
+                var pair = optionArray[option].split("|");
+                var newOption = document.createElement("option");
+                newOption.value = pair[0];
+                newOption.innerHTML = pair[0] + " - " + pair[1];
+                s2.options.add(newOption);
+            }
+        }
+
+        if (level == "prov2kab") {
+            var optionArray = ["00|SEMUA KABUPATEN"];
+            sql = `SELECT * FROM m_kab WHERE kodeProv = '${s1.value}'`;
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeKab}| ${wil.namaKab} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selKecamatan").innerHTML = "";
+            document.getElementById("selDesa").innerHTML = "";
+            document.getElementById("selDusun").innerHTML = "";
+        }
+
+        if (level == "kab2kec") {
+            var optionArray = ["000|SEMUA KECAMATAN"];
+            var sProv = document.getElementById("selProvinsi");
+            sql = `SELECT * FROM m_kec WHERE kodeProv = '${sProv.value}' AND kodeKab = '${s1.value}'`;
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeKec}| ${wil.namaKec} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDesa").innerHTML = "";
+            $('#selDesa').append(`<option value = '000'> 000 - SEMUA DESA / KELURAHAN</option> `);
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value = '00'> 00 - SEMUA DUSUN / LINGKUNGAN</option> `);
+        }
+
+        if (level == "kec2desa") {
+            var optionArray = ["000|SEMUA DESA/KELURAHAN"];
+            var sProv = document.getElementById("selProvinsi");
+            var sKab = document.getElementById("selKabupaten");
+            sql = `SELECT * FROM m_desa WHERE kodeProv = '${sProv.value}' AND kodeKab = '${sKab.value}' AND kodeKec = '${s1.value}'`;
+
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeDesa}| ${wil.namaDesa} `);
+            });
+            splitOption(optionArray);
+
+            document.getElementById("selDusun").innerHTML = "";
+            $('#selDusun').append(`<option value = '00'> 00 - SEMUA DUSUN / LINGKUNGAN</option> `);
+        }
+
+        if (level == "desa2dusun") {
+            var optionArray = ["00|SEMUA DUSUN/LINGKUNGAN"];
+            var sProv = document.getElementById("selProvinsi");
+            var sKab = document.getElementById("selKabupaten");
+            var sKec = document.getElementById("selKecamatan");
+            sql = `SELECT * FROM m_sls WHERE kodeProv = '${sProv.value}' AND kodeKab = '${sKab.value}' AND kodeKec = '${sKec.value}' AND kodeDesa = '${s1.value}'`;
+
+            r = await sqlite.each(sql, [], function (wil) {
+                optionArray.push(`${wil.kodeSLS}| ${wil.namaSLS}`);
+            });
+            splitOption(optionArray);
+        }
+    }
+</script>

@@ -1,0 +1,600 @@
+﻿<!-- Breadcrumb-->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-fixed">
+    <li class="breadcrumb-item">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#">Halaman</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,1)">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,2)">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,3)">3</a>
+          </li>
+          <li class="page-item active">
+            <a class="page-link" href="#">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,5)">5</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" onclick="pindahHalaman(4,6)">6</a>
+          </li>
+        </ul>
+      </nav>
+    </li>
+    <li class="ml-auto">
+      <div class="btn-group" role="group" style="padding-right: 50px">
+        <button class="btn btn-success" onclick="simpanEntrianSamasta1()">Simpan</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#tutupEntrianModal">Tutup</button>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body" style="margin-top: 50px">
+            <div class="row">
+              <div class="col-sm-12 d-none d-md-block">
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <tbody id="tbodyOperator">
+
+                    <tr>
+                      <td class="text-center" rowspan="5" style="width: 50px">604</td>
+                      <td colspan="2">Jumlah tenaga kesehatan yang tinggal/menetap di desa/kelurahan: </td>
+                      <td style="width: 200px"></td>
+                    </tr>
+
+                    <tr>
+                      <td>a. Dokter umum/spesialis: </td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center regexJumlah" autofocus onfocus='this.select();'
+                              id="b6r604a" tabindex="1" maxlength="2"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block">orang</div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>b. Dokter gigi (tidak termasuk tukang gigi): </td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b6r604b"
+                              tabindex="2" maxlength="2"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block">orang</div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>c. Bidan: </td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b6r604c"
+                              tabindex="3" maxlength="2"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block">orang</div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>d. Tenaga kesehatan lainnya: <br>
+                        (misalnya: apoteker/asisten apoteker, tenaga kesehatan masyarakat, tenaga gizi, perawat, dll.)
+                      </td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b6r604d"
+                              tabindex="4" maxlength="2"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block">orang</div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center">605</td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-4 d-none d-md-block"> Keberadaan bidan desa (BDD): </div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Ada – 1</div>
+                          <div class="col-sm-3 d-none d-md-block text-right">Tidak ada – 2</div>
+                          <div class="col-sm-2 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b6r605"
+                              tabindex="5" maxlength="1"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block"></div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center">606</td>
+                      <td>Jumlah dukun bayi/dukun bersalin/paraji yang tinggal/menetap di desa/kelurahan: </td>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-sm-7 d-none d-md-block text-right">
+                            <input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b6r606"
+                              tabindex="6" maxlength="2"></input>
+                          </div>
+                          <div class="col-sm-5 d-none d-md-block">orang</div>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="4">VII. SOSIAL BUDAYA</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="text-center" rowspan="10" style="width: 50px">701</td>
+                      <td colspan="2">Jumlah tempat ibadah di desa/kelurahan: </td>
+                      <td style="width: 100px"></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">a. Masjid </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701a"
+                          tabindex="7" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">b. Surau/Langgar/Musala </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701b"
+                          tabindex="8" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">c. Gereja Kristen </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701c"
+                          tabindex="9" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">d. Gereja Katolik </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701d"
+                          tabindex="10" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">e. Kapel </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701e"
+                          tabindex="11" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">f. Pura </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701f"
+                          tabindex="12" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">g. Wihara </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701g"
+                          tabindex="13" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">h. Kelenteng </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701h"
+                          tabindex="14" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 200px">i. Lainnya,</td>
+                      <td><input class="form-control form-kuesioner"
+                          placeholder="(tuliskan, misalnya: Balai Basarah, dll.)" onfocus='this.select();'
+                          id="b7r701i_lainnya" tabindex="15" maxlength="50"></input></td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r701i"
+                          tabindex="16" maxlength="2"></input></td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="text-center" rowspan="7">702</td>
+                      <td colspan="2">Jumlah jenis lembaga kemasyarakatan desa: </td>
+                      <td></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">a. PKK </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702a"
+                          tabindex="17" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">b. Karang taruna </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702b"
+                          tabindex="18" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">c. Lembaga adat </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702c"
+                          tabindex="19" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">d. Kelompok tani </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702d"
+                          tabindex="20" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">e. Lembaga pengelolaan air </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702e"
+                          tabindex="21" maxlength="2"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">f. Kelompok masyarakat (pokmas) </td>
+                      <td><input class="form-control form-kuesioner text-center regexJumlah" onfocus='this.select();' id="b7r702f"
+                          tabindex="22" maxlength="2"></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table id="dtHorizontalVerticalExample" class="table table-bordered table-sm table-hover">
+                  <thead>
+                    <tr class="judulBlokKuesioner">
+                      <th colspan="5">VIII. OLAH RAGA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center" rowspan="15" style="width: 50px">801</td>
+                      <td colspan="4">Ketersediaan fasilitas/lapangan dan kelompok kegiatan olahraga di desa/kelurahan:
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" style="width: 600px" colspan="2">Jenis olahraga </td>
+                      <td class="text-center">Fasilitas/lapangan olahraga<br>
+                        Ada - 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tidak ada - 2
+                      </td>
+                      <td class="text-center">Kelompok Kegiatan<br>
+                        Ada - 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tidak ada - 2
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center" colspan="2">(1)</td>
+                      <td class="text-center">(2)</td>
+                      <td class="text-center">(3)</td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">a. Sepak bola </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801a_2"
+                          tabindex="23" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801a_3"
+                          tabindex="24" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">b. Bola voli </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801b_2"
+                          tabindex="25" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801b_3"
+                          tabindex="26" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">c. Bulu tangkis </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801c_2"
+                          tabindex="27" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801c_3"
+                          tabindex="28" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">d. Bola basket </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801d_2"
+                          tabindex="29" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801d_3"
+                          tabindex="30" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">e. Tenis lapangan </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801e_2"
+                          tabindex="31" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801e_3"
+                          tabindex="32" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">f. Tenis meja </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801f_2"
+                          tabindex="33" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801f_3"
+                          tabindex="34" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">g. Futsal </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801g_2"
+                          tabindex="35" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801g_3"
+                          tabindex="36" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">h. Renang </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801h_2"
+                          tabindex="37" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801h_3"
+                          tabindex="38" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">i. Bela diri (pencak silat, karate, dll.) </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801i_2"
+                          tabindex="39" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801i_3"
+                          tabindex="40" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">j. Bilyard </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801j_2"
+                          tabindex="41" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801j_3"
+                          tabindex="42" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">k. Fitnes, aerobik, dll. </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801k_2"
+                          tabindex="43" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801k_3"
+                          tabindex="44" maxlength="1"></input></td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 200px">l. Lainnya </td>
+                      <td><input class="form-control form-kuesioner" placeholder="(tuliskan)" onfocus='this.select();'
+                          id="b8r801l_1_lainnya" tabindex="45" maxlength="50"></input>
+                      </td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801l_2"
+                          tabindex="46" maxlength="1"></input></td>
+                      <td><input class="form-control form-kuesioner text-center satuDua" onfocus='this.select();' id="b8r801l_3"
+                          tabindex="47" maxlength="1" onkeypress='nextPage(this.tabIndex, event)'></input></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal tutupEntrianModal -->
+<div class="modal fade" id="tutupEntrianModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda ingin menyimpan perubahan data?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('yes')">Simpan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+          onclick="tutupEntrianSamasta1('no')">Tidak</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //$('.sidebar-toggler').click();
+    loadEntrian();
+  });
+</script>
+
+<script>
+  async function loadEntrian() {
+    // jika statusEntrian new, load dari json
+    await getEntriSessionDataSamasta1();
+    //if (statusEntrian == 'new') {
+    await bacaIsiJsonSamasta1();
+    document.getElementById('b6r604a').value = desaPage4[0].b6r604a;
+    document.getElementById('b6r604b').value = desaPage4[0].b6r604b;
+    document.getElementById('b6r604c').value = desaPage4[0].b6r604c;
+    document.getElementById('b6r604d').value = desaPage4[0].b6r604d;
+    document.getElementById('b6r605').value = desaPage4[0].b6r605;
+    document.getElementById('b6r606').value = desaPage4[0].b6r606;
+    document.getElementById('b7r701a').value = desaPage4[0].b7r701a;
+    document.getElementById('b7r701b').value = desaPage4[0].b7r701b;
+    document.getElementById('b7r701c').value = desaPage4[0].b7r701c;
+    document.getElementById('b7r701d').value = desaPage4[0].b7r701d;
+    document.getElementById('b7r701e').value = desaPage4[0].b7r701e;
+    document.getElementById('b7r701f').value = desaPage4[0].b7r701f;
+    document.getElementById('b7r701g').value = desaPage4[0].b7r701g;
+    document.getElementById('b7r701h').value = desaPage4[0].b7r701h;
+    document.getElementById('b7r701i').value = desaPage4[0].b7r701i;
+    document.getElementById('b7r701i_lainnya').value = desaPage4[0].b7r701i_lainnya;
+    document.getElementById('b7r702a').value = desaPage4[0].b7r702a;
+    document.getElementById('b7r702b').value = desaPage4[0].b7r702b;
+    document.getElementById('b7r702c').value = desaPage4[0].b7r702c;
+    document.getElementById('b7r702d').value = desaPage4[0].b7r702d;
+    document.getElementById('b7r702e').value = desaPage4[0].b7r702e;
+    document.getElementById('b7r702f').value = desaPage4[0].b7r702f;
+    document.getElementById('b8r801l_1_lainnya').value = desaPage4[0].b8r801l_1_lainnya;
+    document.getElementById('b8r801a_2').value = desaPage4[0].b8r801a_2;
+    document.getElementById('b8r801b_2').value = desaPage4[0].b8r801b_2;
+    document.getElementById('b8r801c_2').value = desaPage4[0].b8r801c_2;
+    document.getElementById('b8r801d_2').value = desaPage4[0].b8r801d_2;
+    document.getElementById('b8r801e_2').value = desaPage4[0].b8r801e_2;
+    document.getElementById('b8r801f_2').value = desaPage4[0].b8r801f_2;
+    document.getElementById('b8r801g_2').value = desaPage4[0].b8r801g_2;
+    document.getElementById('b8r801h_2').value = desaPage4[0].b8r801h_2;
+    document.getElementById('b8r801i_2').value = desaPage4[0].b8r801i_2;
+    document.getElementById('b8r801j_2').value = desaPage4[0].b8r801j_2;
+    document.getElementById('b8r801k_2').value = desaPage4[0].b8r801k_2;
+    document.getElementById('b8r801l_2').value = desaPage4[0].b8r801l_2;
+    document.getElementById('b8r801a_3').value = desaPage4[0].b8r801a_3;
+    document.getElementById('b8r801b_3').value = desaPage4[0].b8r801b_3;
+    document.getElementById('b8r801c_3').value = desaPage4[0].b8r801c_3;
+    document.getElementById('b8r801d_3').value = desaPage4[0].b8r801d_3;
+    document.getElementById('b8r801e_3').value = desaPage4[0].b8r801e_3;
+    document.getElementById('b8r801f_3').value = desaPage4[0].b8r801f_3;
+    document.getElementById('b8r801g_3').value = desaPage4[0].b8r801g_3;
+    document.getElementById('b8r801h_3').value = desaPage4[0].b8r801h_3;
+    document.getElementById('b8r801i_3').value = desaPage4[0].b8r801i_3;
+    document.getElementById('b8r801j_3').value = desaPage4[0].b8r801j_3;
+    document.getElementById('b8r801k_3').value = desaPage4[0].b8r801k_3;
+    document.getElementById('b8r801l_3').value = desaPage4[0].b8r801l_3;
+    
+    document.getElementById("b6r604a").focus();
+  }
+
+  function updateIsiJsonSamasta1() {
+    desaPage4 = [];
+    desaPage4.push({
+      'b6r604a': document.getElementById('b6r604a').value,
+      'b6r604b': document.getElementById('b6r604b').value,
+      'b6r604c': document.getElementById('b6r604c').value,
+      'b6r604d': document.getElementById('b6r604d').value,
+      'b6r605': document.getElementById('b6r605').value,
+      'b6r606': document.getElementById('b6r606').value,
+      'b7r701a': document.getElementById('b7r701a').value,
+      'b7r701b': document.getElementById('b7r701b').value,
+      'b7r701c': document.getElementById('b7r701c').value,
+      'b7r701d': document.getElementById('b7r701d').value,
+      'b7r701e': document.getElementById('b7r701e').value,
+      'b7r701f': document.getElementById('b7r701f').value,
+      'b7r701g': document.getElementById('b7r701g').value,
+      'b7r701h': document.getElementById('b7r701h').value,
+      'b7r701i': document.getElementById('b7r701i').value,
+      'b7r701i_lainnya': document.getElementById('b7r701i_lainnya').value.toUpperCase(),
+      'b7r702a': document.getElementById('b7r702a').value,
+      'b7r702b': document.getElementById('b7r702b').value,
+      'b7r702c': document.getElementById('b7r702c').value,
+      'b7r702d': document.getElementById('b7r702d').value,
+      'b7r702e': document.getElementById('b7r702e').value,
+      'b7r702f': document.getElementById('b7r702f').value,
+      'b8r801l_1_lainnya': document.getElementById('b8r801l_1_lainnya').value.toUpperCase(),
+      'b8r801a_2': document.getElementById('b8r801a_2').value,
+      'b8r801b_2': document.getElementById('b8r801b_2').value,
+      'b8r801c_2': document.getElementById('b8r801c_2').value,
+      'b8r801d_2': document.getElementById('b8r801d_2').value,
+      'b8r801e_2': document.getElementById('b8r801e_2').value,
+      'b8r801f_2': document.getElementById('b8r801f_2').value,
+      'b8r801g_2': document.getElementById('b8r801g_2').value,
+      'b8r801h_2': document.getElementById('b8r801h_2').value,
+      'b8r801i_2': document.getElementById('b8r801i_2').value,
+      'b8r801j_2': document.getElementById('b8r801j_2').value,
+      'b8r801k_2': document.getElementById('b8r801k_2').value,
+      'b8r801l_2': document.getElementById('b8r801l_2').value,
+      'b8r801a_3': document.getElementById('b8r801a_3').value,
+      'b8r801b_3': document.getElementById('b8r801b_3').value,
+      'b8r801c_3': document.getElementById('b8r801c_3').value,
+      'b8r801d_3': document.getElementById('b8r801d_3').value,
+      'b8r801e_3': document.getElementById('b8r801e_3').value,
+      'b8r801f_3': document.getElementById('b8r801f_3').value,
+      'b8r801g_3': document.getElementById('b8r801g_3').value,
+      'b8r801h_3': document.getElementById('b8r801h_3').value,
+      'b8r801i_3': document.getElementById('b8r801i_3').value,
+      'b8r801j_3': document.getElementById('b8r801j_3').value,
+      'b8r801k_3': document.getElementById('b8r801k_3').value,
+      'b8r801l_3': document.getElementById('b8r801l_3').value
+    });
+
+    dataDesa.desaPage2 = desaPage2;
+    dataDesa.desaPage3 = desaPage3;
+    dataDesa.desaPage4 = desaPage4;
+    dataDesa.desaPage5 = desaPage5;
+    dataDesa.desaPage6 = desaPage6;
+    dataDesa.statusDok = statusDok;
+    fs.writeFileSync(dlPathData + `entriSamasta1/${namaFile}.json`, JSON.stringify(dataDesa));
+  }
+</script>
+
+<script>
+  function pindahHalaman(from, to) {
+    if (from == 4) {
+      updateIsiJsonSamasta1();
+    }
+    location.href = `#/samasta-1/${to}/`;
+  }
+</script>
+
+<script>
+  function nextPage(i, e) {
+    var maxTabIndex = i;
+    var keycode = (e.keyCode ? e.keyCode : e.which);
+    if (keycode == '13') {
+      if (document.getElementById('b8r801l_3').tabIndex == maxTabIndex) {
+        updateIsiJsonSamasta1();
+        location.href = `#/samasta-1/5/`;
+      }
+    }
+  }
+</script>
+
+<script>
+  tabindexFix();
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Install input filters.
+    $(".regexJumlah").inputFilter(function (value) {
+      return /^[0-9]*$/i.test(value);
+    });
+    $(".satuDua").inputFilter(function (value) {
+      return /^[1-2]*$/i.test(value);
+    });
+    $("#b7r701i_lainnya").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+    $("#b8r801l_1_lainnya").inputFilter(function (value) {
+      return /^[a-zA-Z\s]*$/i.test(value);
+    });
+  });
+</script>

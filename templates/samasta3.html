@@ -1,0 +1,543 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header text-white" style="background-color: rgb(252, 181, 49)">Input Data / Samasta-3</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 d-none d-md-block bg-light border">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <br>
+                    <table class="table table-responsive-sm table-sm table-borderless">
+                      <tbody>
+                        <tr>
+                          <td style="width: 40%">Tahun Pelaporan:</td>
+                          <td>
+                            <input class="form-control" id="selTahunData" name="selTahunData" disabled></input>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="width: 40%">Bulan Pelaporan:</td>
+                          <td>
+                            <select class="form-control" id="selBulanData" name="selBulanData" disabled></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="width: 40%">Provinsi:</td>
+                          <td>
+                            <select class="form-control" id="selProvinsi" name="selProvinsi"
+                              onchange="populate(this.id,'selKabupaten','prov2kab')">
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kabupaten/Kota:</td>
+                          <td>
+                            <select class="form-control" id="selKabupaten" name="selKabupaten"
+                              onchange="populate(this.id,'selKecamatan','kab2kec')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Kecamatan:</td>
+                          <td>
+                            <select class="form-control" id="selKecamatan" name="selKecamatan"
+                              onchange="populate(this.id,'selDesa','kec2desa')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Desa/Kelurahan:</td>
+                          <td>
+                            <select class="form-control" id="selDesa" name="selDesa"
+                              onchange="populate(this.id,'selDusun','desa2dusun')"></select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Dusun/Lingkungan:</td>
+                          <td>
+                            <select class="form-control" id="selDusun" name="selDusun">
+                            </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <button id="btnTampilRT" class="btn btn-primary btn-block" type="button"
+                              onclick="viewSamasta3()">Tampil</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8 d-none d-md-block">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-md-block">
+                    <table id="tabelOperator" class="table table-responsive-sm table-bordered table-striped table-sm">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Nama Dusun/Lingkungan</th>
+                          <th>R201</th>
+                          <th>R202</th>
+                          <th>R203</th>
+                          <th>R204</th>
+                          <th>R205</th>
+                          <th>R206</th>
+                          <th>Flag</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbodySamasta3">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row-->
+          </div>
+        </div>
+      </div>
+      <!-- /.col-->
+    </div>
+    <!-- /.row-->
+  </div>
+</div>
+
+<!-- modal hapusRTModal -->
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah anda yakin ingin menghapus isian Samasta-3 dusun/lingkungan ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="runHapusSamasta3('yes')">Hapus</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="runHapusSamasta3('no')">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    loadPage();
+    $(this).scrollTop(0);
+    //document.getElementById("loader").style.display = "none";
+    $(".overlay").hide();
+  });
+</script>
+
+<!-- onload filter wilayah, sesuai wilayah user didaftarkan -->
+<script>
+  var lastArea;
+  var idRTDihapus = '';
+  if (lastArea) {
+    kodeProv = lastArea.kodeProv;
+    kodeKab = lastArea.kodeKab;
+    kodeKec = lastArea.kodeKec;
+    kodeDesa = lastArea.kodeDesa;
+    kodeSLS = lastArea.kodeSLS;
+  } else {
+    kodeProv = dlKodeProv;
+    kodeKab = dlKodeKab;
+    kodeKec = dlKodeKec;
+    kodeDesa = dlKodeDesa;
+    kodeSLS = dlKodeSLS;
+  }
+
+  async function loadPage() {
+    // dl=data login user. 
+    if (dlKodeProv != '00') document.getElementById("selProvinsi").disabled = true;
+    if (dlKodeKab != '00') document.getElementById("selKabupaten").disabled = true;
+    if (dlKodeKec != '000') document.getElementById("selKecamatan").disabled = true;
+    if (dlKodeDesa != '000') document.getElementById("selDesa").disabled = true;
+    if (dlKodeSLS != '00') document.getElementById("selDusun").disabled = true;
+
+    // menampilkan info tahun dan bulan data
+    document.getElementById('selTahunData').value = dlTahunSamasta3;
+    arrayBulan = {
+      1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
+      7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+    };
+    for (var key in arrayBulan) {
+      var selected = '';
+      if (key == dlBulanSamasta3) { selected = 'selected'; }
+      $('#selBulanData').append(`<option value='${key}' ${selected}>${key} - ${arrayBulan[key]}</option>`);
+    }
+
+    // wilayah provinsi
+    sql = `SELECT * FROM m_prov ORDER BY kodeProv ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      var selected = "";
+      if (lastArea) {
+        if (row.kodeProv == lastArea.kodeProv) selected = "selected";
+      } else if (row.kodeProv == dlKodeProv) selected = "selected";
+      $('#selProvinsi').append(`<option value='${row.kodeProv}' ${selected}>${row.kodeProv} - ${row.namaProv}</option>`);
+    });
+
+    // wilayah kabupaten
+    $('#selKabupaten').append(`<option value='00'>00 - SEMUA KABUPATEN</option>`);
+    sql = `SELECT * FROM m_kab WHERE kodeProv='${kodeProv}' ORDER BY kodeKab ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      var selected = "";
+      if (lastArea) {
+        if (row.kodeKab == lastArea.kodeKab) selected = "selected";
+      } else if (row.kodeKab == dlKodeKab) selected = "selected";
+      $('#selKabupaten').append(`<option value='${row.kodeKab}' ${selected}>${row.kodeKab} - ${row.namaKab}</option>`);
+    });
+
+    // wilayah kecamatan
+    $('#selKecamatan').append(`<option value='000'>000 - SEMUA KECAMATAN</option>`);
+    sql = `SELECT * FROM m_kec WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' ORDER BY kodeKec ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      var selected = "";
+      if (lastArea) {
+        if (row.kodeKec == lastArea.kodeKec) selected = "selected";
+      } else if (row.kodeKec == dlKodeKec) selected = "selected";
+      $('#selKecamatan').append(`<option value='${row.kodeKec}' ${selected}>${row.kodeKec} - ${row.namaKec}</option>`);
+    });
+
+    // wilayah desa/kelurahan
+    $('#selDesa').append(`<option value='000'>000 - SEMUA DESA/KELURAHAN</option>`);
+    sql = `SELECT * FROM m_desa WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' ORDER BY kodeDesa ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      var selected = "";
+      if (lastArea) {
+        if (row.kodeDesa == lastArea.kodeDesa) selected = "selected";
+      } else if (row.kodeDesa == dlKodeDesa) selected = "selected";
+      $('#selDesa').append(`<option value='${row.kodeDesa}' ${selected}>${row.kodeDesa} - ${row.namaDesa}</option>`);
+    });
+
+    // wilayah dusun/lingkungan
+    $('#selDusun').append(`<option value='00'>00 - SEMUA DUSUN/LINGKUNGAN</option>`);
+    sql = `SELECT * FROM m_sls WHERE kodeProv='${kodeProv}' AND kodeKab='${kodeKab}' AND kodeKec='${kodeKec}' AND kodeDesa='${kodeDesa}' ORDER BY kodeSLS ASC`;
+    r = await sqlite.each(sql, [], function (row) {
+      var selected = "";
+      if (lastArea) {
+        if (row.kodeSLS == lastArea.kodeSLS) selected = "selected";
+      } else if (row.kodeSLS == dlKodeSLS) selected = "selected";
+      $('#selDusun').append(`<option value='${row.kodeSLS}' ${selected}>${row.kodeSLS} - ${row.namaSLS}</option>`);
+    });
+    viewSamasta3();
+  }
+
+  async function areaFilter() {
+    // membuat string areaFilter untuk fetching data selanjutnya
+    var sProv = document.getElementById("selProvinsi");
+    var sKab = document.getElementById("selKabupaten");
+    var sKec = document.getElementById("selKecamatan");
+    var sDesa = document.getElementById("selDesa");
+    var sDusun = document.getElementById("selDusun");
+
+    strAreaFilter = ` WHERE a.kodeProv = '${sProv.value}'`;
+    if (sKab.value != "00") {
+      strAreaFilter += ` AND a.kodeKab = '${sKab.value}'`;
+      if (sKec.value != "000") {
+        strAreaFilter += ` AND a.kodeKec = '${sKec.value}'`;
+        if (sDesa.value != "000") {
+          strAreaFilter += ` AND a.kodeDesa = '${sDesa.value}'`;
+          if (sDusun.value != "00") {
+            strAreaFilter += ` AND a.kodeSLS = '${sDusun.value}'`;
+          }
+        }
+      }
+    }
+    return strAreaFilter;
+  }
+</script>
+
+<!-- populate: fungsi untuk populate filter wilayah -->
+<script>
+  async function populate(s1, s2, level) {
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    s2.innerHTML = "";
+
+    function splitOption(optionArray) {
+      for (var option in optionArray) {
+        var pair = optionArray[option].split("|");
+        var newOption = document.createElement("option");
+        newOption.value = pair[0];
+        newOption.innerHTML = pair[0] + " - " + pair[1];
+        s2.options.add(newOption);
+      }
+    }
+
+    if (level == "prov2kab") {
+      var optionArray = ["00|SEMUA KABUPATEN"];
+      sql = `SELECT * FROM m_kab WHERE kodeProv='${s1.value}'`;
+      r = await sqlite.each(sql, [], function (wil) {
+        optionArray.push(`${wil.kodeKab}|${wil.namaKab}`);
+      });
+      splitOption(optionArray);
+
+      document.getElementById("selKecamatan").innerHTML = "";
+      document.getElementById("selDesa").innerHTML = "";
+      document.getElementById("selDusun").innerHTML = "";
+    }
+
+    if (level == "kab2kec") {
+      var optionArray = ["000|SEMUA KECAMATAN"];
+      var sProv = document.getElementById("selProvinsi");
+      sql = `SELECT * FROM m_kec WHERE kodeProv='${sProv.value}' AND kodeKab='${s1.value}'`;
+      r = await sqlite.each(sql, [], function (wil) {
+        optionArray.push(`${wil.kodeKec}|${wil.namaKec}`);
+      });
+      splitOption(optionArray);
+
+      document.getElementById("selDesa").innerHTML = "";
+      $('#selDesa').append(`<option value='000'>000 - SEMUA DESA/KELURAHAN</option>`);
+      document.getElementById("selDusun").innerHTML = "";
+      $('#selDusun').append(`<option value='00'>00 - SEMUA DUSUN/LINGKUNGAN</option>`);
+    }
+
+    if (level == "kec2desa") {
+      var optionArray = ["000|SEMUA DESA/KELURAHAN"];
+      var sProv = document.getElementById("selProvinsi");
+      var sKab = document.getElementById("selKabupaten");
+      sql = `SELECT * FROM m_desa WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${s1.value}'`;
+
+      r = await sqlite.each(sql, [], function (wil) {
+        optionArray.push(`${wil.kodeDesa}|${wil.namaDesa}`);
+      });
+      splitOption(optionArray);
+
+      document.getElementById("selDusun").innerHTML = "";
+      $('#selDusun').append(`<option value='00'>00 - SEMUA DUSUN/LINGKUNGAN</option>`);
+    }
+
+    if (level == "desa2dusun") {
+      var optionArray = ["00|SEMUA DUSUN/LINGKUNGAN"];
+      var sProv = document.getElementById("selProvinsi");
+      var sKab = document.getElementById("selKabupaten");
+      var sKec = document.getElementById("selKecamatan");
+      sql = `SELECT * FROM m_sls WHERE kodeProv='${sProv.value}' AND kodeKab='${sKab.value}' AND kodeKec='${sKec.value}' AND kodeDesa='${s1.value}'`;
+
+      r = await sqlite.each(sql, [], function (wil) {
+        optionArray.push(`${wil.kodeSLS}|${wil.namaSLS}`);
+      });
+      splitOption(optionArray);
+    }
+  }
+</script>
+
+<!-- TAMPIL _menampilkan ruta dengan mengklik tombol Tampil -->
+<script>
+  async function viewSamasta3() {
+    // menampilkan ruta dari database sesuai onload filter wilayah    
+    var aF = await areaFilter();
+    document.getElementById('tbodySamasta3').innerHTML = '';
+
+    sql = `SELECT a.*, IFNULL(b.b2r201,0) AS b2r201, IFNULL(b.b2r202,0) AS b2r202, IFNULL(b.b2r203,0) AS b2r203, IFNULL(b.b2r204,0) AS b2r204, IFNULL(b.b2r205,0) AS b2r205, IFNULL(b.b2r206,0) AS b2r206, IFNULL(b.statusDok,'B') AS statusDok FROM m_sls a
+            LEFT JOIN (SELECT * FROM t_samasta3 WHERE tahun = ${dlTahunSamasta3} AND bulan = ${dlBulanSamasta3}) b ON a.kodeProv = b.kodeProv AND a.kodeKab = b.kodeKab AND a.kodeKec = b.kodeKec AND a.kodeDesa = b.kodeDesa AND a.kodeSLS = b.kodeSLS
+            ${aF} ORDER BY a.kodeProv ASC, a.kodeKab ASC, a.kodeKec ASC, a.kodeDesa ASC, a.kodeSLS ASC`;
+
+    r = await sqlite.each(sql, [], function (row) {
+      idSamasta3 = '"' + row.kodeProv + '","' + row.kodeKab + '","' + row.kodeKec + '","' + row.kodeDesa + '","' + row.kodeSLS + '","' + row.statusDok + '"';
+      var addclass = '';
+      if (row.statusDok == 'E') addclass = 'text-danger';
+      if (row.statusDok == 'C') addclass = 'text-success';
+      if (row.statusDok == 'B') addclass = 'text-default';
+      $('#tbodySamasta3').append(`<tr class='${addclass}' ondblclick='editSamasta3(${idSamasta3})'><td class="text-center">`
+        + row.kodeProv + row.kodeKab + row.kodeKec + row.kodeDesa + row.kodeSLS + '</td><td>'
+        + row.namaSLS + '</td><td class="text-center">'
+        + row.b2r201 + '</td><td class="text-center">'
+        + row.b2r202 + '</td><td class="text-center">'
+        + row.b2r203 + '</td><td class="text-center">'
+        + row.b2r204 + '</td><td class="text-center">'
+        + row.b2r205 + '</td><td class="text-center">'
+        + row.b2r206 + '</td><td class="text-center">'
+        + row.statusDok + '</td><td class="text-center">'
+        + '<div class="btn-group btn-group-sm" role="group">'
+        + `<button type='button' class='btn btn-warning' onclick='editSamasta3(${idSamasta3})'><span class='nav-icon icon-pencil'></span></button>`
+        + `<button type='button' class='btn btn-danger' onclick='hapusSamasta3(${idSamasta3})'><span class='nav-icon icon-trash'></span></button>`
+        + '</div>'
+        + '</td></tr>');
+    });
+  }
+</script>
+
+<script>
+  async function editSamasta3(kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, statusDok) {
+    //document.getElementById("loader").style.display = "block";
+    $(".overlay").show();
+    document.getElementById("btn-sidebar").style.display = "none";
+    document.getElementById("btn-user-logout").style.pointerEvents = "none";
+    document.getElementById("sidebar").style.display = "none";
+    async function createEntriSession() {
+      var sProv = document.getElementById("selProvinsi");
+      var sKab = document.getElementById("selKabupaten");
+      var sKec = document.getElementById("selKecamatan");
+      var sDesa = document.getElementById("selDesa");
+      var sDusun = document.getElementById("selDusun");
+      lastArea = {
+        kodeProv: sProv.value, kodeKab: sKab.value, kodeKec: sKec.value, kodeDesa: sDesa.value, kodeSLS: sDusun.value
+      }
+
+      var namaFile = "samasta3_" + kodeProv + kodeKab + kodeKec + kodeDesa + kodeSLS;
+      var samasta3Page2 = [];
+      var samasta3SumBlok4 = [];
+
+      if (statusDok == 'B') { // berarti belum ada record di database
+        samasta3Page2.push({
+          'b4k1': '', 'b4k2': '', 'b4k3': '', 'b4k4': '', 'b4k5': '', 'b4k6': '', 'b4k7': '',
+          'b4k8': '', 'b4k9': '', 'b4k10': '', 'b4k11': '', 'b4k12': '', 'b4k13': '', 'b4k14': '',
+          'b4k15': '', 'b4k16': '', 'b4k17': '', 'b4k18': '', 'b4k19': '', 'b4k20': '', 'b4k21': ''
+        });
+        samasta3SumBlok4.push({
+          'sum_b4k4': '', 'sum_b4k5': '', 'sum_b4k6': '', 'sum_b4k7': '', 'sum_b4k8': '', 'sum_b4k9': '',
+          'sum_b4k10': '', 'sum_b4k11': '', 'sum_b4k12': '', 'sum_b4k13': '', 'sum_b4k14': '', 'sum_b4k15': '',
+          'sum_b4k16': '', 'sum_b4k17': '', 'sum_b4k18': '', 'sum_b4k19': '', 'sum_b4k20': '', 'sum_b4k21': ''
+        });
+
+        dataSamasta3 = {
+          kodeProv: kodeProv,
+          kodeKab: kodeKab,
+          kodeKec: kodeKec,
+          kodeDesa: kodeDesa,
+          kodeSLS: kodeSLS,
+          tahun: dlTahunSamasta3,
+          bulan: dlBulanSamasta3,
+          b2r201: '',
+          b2r202: '',
+          b2r203: '',
+          b2r204: '',
+          b2r205: '',
+          b2r206: '',
+          b3catatan: '',
+          kepalaSLS: '',
+          statusDok: 'E',
+          operatorCreated: dlNamaUser,
+          timeCreated: ambilTime(),
+          operatorLastMod: '',
+          timeLastMod: '',
+          lamaEntri: '',
+          samasta3Page2: samasta3Page2,
+          samasta3SumBlok4: samasta3SumBlok4
+        };
+      } else { // edit record C ataupun E                
+        let sql = `SELECT * FROM t_samasta3_blok4 
+            WHERE kodeProv = '${kodeProv}' AND kodeKab  = '${kodeKab}' AND kodeKec = '${kodeKec}' AND kodeDesa = '${kodeDesa}' AND kodeSLS = '${kodeSLS}' AND tahun='${dlTahunSamasta3}' AND bulan='${dlBulanSamasta3}'`;
+        
+        r = await sqlite.each(sql, [], function (row) {
+          samasta3Page2.push({
+            'b4k1': row.b4k1, 'b4k2': row.b4k2, 'b4k3': row.b4k3, 'b4k4': row.b4k4, 'b4k5': row.b4k5,
+            'b4k6': row.b4k6, 'b4k7': row.b4k7, 'b4k8': row.b4k8, 'b4k9': row.b4k9, 'b4k10': row.b4k10,
+            'b4k11': row.b4k11, 'b4k12': row.b4k12, 'b4k13': row.b4k13, 'b4k14': row.b4k14, 'b4k15': row.b4k15,
+            'b4k16': row.b4k16, 'b4k17': row.b4k17, 'b4k18': row.b4k18, 'b4k19': row.b4k19, 'b4k20': row.b4k20, 'b4k21': row.b4k21
+          });
+        });
+
+        sql = `SELECT * FROM t_samasta3  
+            WHERE kodeProv = '${kodeProv}' AND kodeKab  = '${kodeKab}' AND kodeKec = '${kodeKec}' AND kodeDesa = '${kodeDesa}' AND kodeSLS = '${kodeSLS}' AND tahun='${dlTahunSamasta3}' AND bulan='${dlBulanSamasta3}'`;
+        row = await sqlite.get(sql);
+        
+        samasta3SumBlok4.push({
+          'sum_b4k4': row.sum_b4k4, 'sum_b4k5': row.sum_b4k5, 'sum_b4k6': row.sum_b4k6, 'sum_b4k7': row.sum_b4k7, 'sum_b4k8': row.sum_b4k8, 'sum_b4k9': row.sum_b4k9,
+          'sum_b4k10': row.sum_b4k10, 'sum_b4k11': row.sum_b4k11, 'sum_b4k12': row.sum_b4k12, 'sum_b4k13': row.sum_b4k13, 'sum_b4k14': row.sum_b4k14, 'sum_b4k15': row.sum_b4k15,
+          'sum_b4k16': row.sum_b4k16, 'sum_b4k17': row.sum_b4k17, 'sum_b4k18': row.sum_b4k18, 'sum_b4k19': row.sum_b4k19, 'sum_b4k20': row.sum_b4k20, 'sum_b4k21': row.sum_b4k21
+        });
+
+        dataSamasta3 = {
+          kodeProv: row.kodeProv,
+          kodeKab: row.kodeKab,
+          kodeKec: row.kodeKec,
+          kodeDesa: row.kodeDesa,
+          kodeSLS: row.kodeSLS,
+          tahun: row.tahun,
+          bulan: row.bulan,
+          b2r201: row.b2r201,
+          b2r202: row.b2r202,
+          b2r203: row.b2r203,
+          b2r204: row.b2r204,
+          b2r205: row.b2r205,
+          b2r206: row.b2r206,
+          b3catatan: row.b3catatan,
+          kepalaSLS: row.kepalaSLS,
+          statusDok: row.statusDok,
+          operatorCreated: row.operatorCreated,
+          timeCreated: row.timeCreated,
+          operatorLastMod: row.operatorLastMod,
+          timeLastMod: row.timeLastMod,
+          lamaEntri: row.lamaEntri,
+          samasta3Page2: samasta3Page2,
+          samasta3SumBlok4: samasta3SumBlok4
+        };
+      }
+
+      async function createJsonDesa() {
+        const fs = require('fs');
+        let data = JSON.stringify(dataSamasta3);
+        fs.writeFileSync(dlPathData + `entriSamasta3/${namaFile}.json`, data);
+      }
+
+      async function createJsonEntriSession() {
+        const fs = require('fs');
+        let dataEntriSesion = {
+          namaFile: namaFile,
+          statusEntrian: 'edit'
+        };
+        let data = JSON.stringify(dataEntriSesion);
+        fs.writeFileSync(dlPathData + `entriSessionSamasta3.json`, data);
+      }
+
+      await createJsonDesa();
+      await createJsonEntriSession();
+    }
+    //create entri session
+    createEntriSession();
+    //redirect ke entri kuesioner    
+    setTimeout(function () { location.href = "#/samasta-3/1/"; }, 1000);
+  }
+</script>
+
+<!-- HAPUS -->
+<script>
+  function hapusSamasta3(kodeProv, kodeKab, kodeKec, kodeDesa, kodeSLS, statusDok) {
+    hapusKodeProv = kodeProv;
+    hapusKodeKab = kodeKab;
+    hapusKodeKec = kodeKec;
+    hapusKodeDesa = kodeDesa;
+    hapusKodeSLS = kodeSLS;
+    if (statusDok == 'B') {
+      alert("Dokumen dusun/lingkungan ini belum dientri");
+    } else {
+      $('#hapusModal').modal('show');
+    }
+  }
+
+  async function runHapusSamasta3(mode) {
+    if (mode == 'yes') {
+      // hapus blok4 dulu
+      sql = `DELETE FROM t_samasta3_blok4
+        WHERE kodeProv = '${hapusKodeProv}' AND kodeKab = '${hapusKodeKab}' AND kodeKec = '${hapusKodeKec}' AND kodeDesa = '${hapusKodeDesa}'  AND kodeSLS = '${hapusKodeSLS}' AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+      res = await sqlite.run(sql);
+
+      // baru hapus hal 1
+      sql = `DELETE FROM t_samasta3
+        WHERE kodeProv = '${hapusKodeProv}' AND kodeKab = '${hapusKodeKab}' AND kodeKec = '${hapusKodeKec}' AND kodeDesa = '${hapusKodeDesa}'  AND kodeSLS = '${hapusKodeSLS}' AND tahun = '${dlTahunSamasta3}' AND bulan = '${dlBulanSamasta3}'`;
+      res = await sqlite.run(sql);
+
+      if (res) {
+        // tampilkan di tabel
+        //// kosongkan dulu tabelnya
+        document.getElementById('tbodySamasta3').innerHTML = '';
+        viewSamasta3();
+      }
+    }
+  }
+</script>

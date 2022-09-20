@@ -1,0 +1,156 @@
+<script>
+  getLoginData();
+</script>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <!-- /.row-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Setting Aplikasi</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <h4><strong>Setting Periode Aktif</strong></h4>
+              </div>
+              <br><br>
+              <div class="col-md-1 form-group"></div>
+              <div class="col-md-6 form-group">
+                <label for="selSamasta1" class="control-label">
+                  <span style="font-size: 1.5rem; margin-bottom: .5rem!important; color: #212529">Samasta-1</span>
+                  <p><span style="margin-bottom: 0!important; color: #6c757d!important">Pilih tahun aktif periode data
+                      Kuesioner Samasta-1</span></p>
+                </label>
+              </div>
+              <div class="col-md-4 form-group">
+                <select class="form-control" id="selSamasta1">
+                </select>
+              </div>
+              <div class="col-md-1 form-group"></div>
+
+              <div class="col-md-1 form-group"></div>
+              <div class="col-md-6 form-group">
+                <label for="selSamasta2" class="control-label">
+                  <span style="font-size: 1.5rem; margin-bottom: .5rem!important; color: #212529">Samasta-2</span>
+                  <p><span style="margin-bottom: 0!important; color: #6c757d!important">Pilih tahun aktif periode data
+                      Kuesioner Samasta-2</span></p>
+                </label>
+              </div>
+              <div class="col-md-4 form-group">
+                <select class="form-control" id="selSamasta2">
+                </select>
+              </div>
+              <div class="col-md-1 form-group"></div>
+
+              <!-- <div class="col-md-1 form-group"></div>
+              <div class="col-md-6 form-group">
+                <label for="selSamasta3" class="control-label">
+                  <span style="font-size: 1.5rem; margin-bottom: .5rem!important; color: #212529">Samasta-3</span>
+                  <p><span style="margin-bottom: 0!important; color: #6c757d!important">Pilih bulan aktif periode data
+                      Kuesioner Samasta-3</span></p>
+                </label>
+              </div>
+              <div class="col-md-4 form-group">
+                <select class="form-control" id="selTahunSamasta3" style="margin-bottom: 5px">
+                </select>
+                <select class="form-control" id="selBulanSamasta3">
+                </select>
+              </div>
+              <div class="col-md-1 form-group"></div> -->
+
+              <div class="col-md-12">
+                <div class="alert alert-primary" role="alert" id="textTersimpan"
+                  style="display: none; position: fixed; left: 70%">Setting tersimpan</div>
+                <button class="btn btn-success pull-right ml-auto mr-5" onclick="simpanSetting()">Simpan</button>
+              </div>
+              <div class="col-md-1 form-group"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- onload value select box -->
+    <script>
+      startYear = 2019;
+      var d = new Date();
+      thisYear = d.getFullYear();
+
+      if (thisYear != startYear) {
+        selisih = thisYear - startYear;
+        var i;
+        var arrayTahun = [];
+        for (i = 0; i <= selisih; i++) {
+          arrayTahun.push(thisYear);
+          thisYear--;
+        }
+      } else {
+        arrayTahun = [thisYear];
+      }
+
+      arrayBulan = {
+        1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
+        7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+      };
+
+      db.serialize(function () {
+        let sql = "SELECT * FROM t_setting WHERE id=1";
+        db.get(sql, function (err, row) {
+          arrayTahun.forEach(function (tahun) {
+            var selected1 = '';
+            if (tahun == row.tahun_samasta1) { selected1 = 'selected'; }
+            $('#selSamasta1').append(`<option value='${tahun}' ${selected1}>${tahun}</option>`);
+          });
+
+          arrayTahun.forEach(function (tahun) {
+            var selected2 = '';
+            if (tahun == row.tahun_samasta1) { selected2 = 'selected'; }
+            $('#selSamasta2').append(`<option value='${tahun}' ${selected2}>${tahun}</option>`);
+          });
+
+          /* arrayTahun.forEach(function (tahun) {
+            var selected3 = '';
+            if (tahun == row.tahun_samasta1) { selected3 = 'selected'; }
+            $('#selTahunSamasta3').append(`<option value='${tahun}' ${selected3}>${tahun}</option>`);
+          });
+
+          for (var key in arrayBulan) {
+            var selected = '';
+            if (key == row.bulan_samasta3) { selected = 'selected'; }
+            $('#selBulanSamasta3').append(`<option value='${key}' ${selected}>${arrayBulan[key]}</option>`);
+          } */
+        });
+      });
+    </script>
+
+    <script>
+      function simpanSetting() {
+        tahunSamasta1 = document.getElementById('selSamasta1').value;
+        tahunSamasta2 = document.getElementById('selSamasta2').value;
+        /* tahunSamasta3 = document.getElementById('selTahunSamasta3').value;
+        bulanSamasta3 = document.getElementById('selBulanSamasta3').value; */
+
+        //sql = `UPDATE t_setting SET tahun_samasta1 = ${tahunSamasta1}, tahun_samasta2 = ${tahunSamasta2}, tahun_samasta3 = ${tahunSamasta3}, bulan_samasta3 = ${bulanSamasta3} WHERE id='1'`;
+        sql = `UPDATE t_setting SET tahun_samasta1 = ${tahunSamasta1}, tahun_samasta2 = ${tahunSamasta2} WHERE id='1'`;
+        db.run(sql);
+
+        // update data login json
+        const fs = require('fs');
+
+        let rawdata = fs.readFileSync(dlPathData + `loginData.json`);
+        let data = JSON.parse(rawdata);
+
+        data.slTahunSamasta1 = tahunSamasta1;
+        data.slTahunSamasta2 = tahunSamasta2;
+        /* data.slTahunSamasta3 = tahunSamasta3;
+        data.slBulanSamasta3 = bulanSamasta3; */
+
+        fs.writeFileSync(dlPathData + `loginData.json`, JSON.stringify(data));
+
+        document.getElementById('textTersimpan').style.display = "block";
+        setTimeout(function () {
+          document.getElementById('textTersimpan').style.display = 'none';
+        }, 1000);
+        getLoginData();
+      }
+    </script>
